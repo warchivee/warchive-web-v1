@@ -10,34 +10,104 @@
       content="Web site created using create-react-app"
     />
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
+
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.8.2/css/all.min.css" />
+    <link rel="stylesheet" href="%PUBLIC_URL%/stylesheet.css" />
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>React App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript" src="%PUBLIC_URL%/MatchScreen.js"></script>
+
+    <title>Warchive - 여성서사 아카이빙 사이트</title>
   </head>
+  <div class = "header">
+    <div class="header__header-column">
+        <div class="header__title">
+            <a href=".">
+                <img class="title__logo" src="https://i.ibb.co/WtWVG8r/logo.png" alt="warchive">
+            </a>
+        </div>
+        <span class="header__icon bookmark">
+                <i class="fas fa-star"></i>
+                <span class = "icon__label">즐겨찾기 목록</span>
+        </span>
+        <span class="header__icon email-popup">
+            <i class="fas fa-envelope"></i>
+            <span class = "icon__label">추천작 제보/문의</span>
+        </span>
+    </div>
+    <div class="header__header-column">
+        <span class="header__icon">
+            <i class="fas fa-question-circle"></i>
+        </span>
+    </div>
+</div>
+
+<div class="email">
+    <div class="email__popup">
+        <div class="popup__header">
+            <div class="header__colomn">
+                <i class="fas fa-envelope"></i>
+            <span class = "icon__label">추천작 제보 및 문의</span>
+            </div>
+            <div class="header__colomn">
+                <div class="close-button">
+                    <i class="fas fa-times"></i>
+                </div>
+            </div>
+        </div>
+        <div class="popup__body">
+            <form id="contact-form">
+                <input type="hidden" name="contact_number">
+                <div class="body__colomn">
+                    <label>메일 유형</label>
+                <select name="email_type">
+                    <option id="title" value="추천작 제보">추천작 제보</option>
+                    <option id="creator" value="문의">문의</option>
+                 </select>
+                </div>
+                <div class="body__colomn">
+                    <label>이름</label>
+                    <input type="text" name="user_name" value="익명">
+                </div>
+                <div class="body__colomn">
+                    <label>답신받을 이메일</label>
+                    <input type="email" name="user_email" value="noname@email.com">
+                </div>
+                <textarea name="message" rows="10"></textarea>
+                <input type="submit" value="Send">
+            </form>
+        </div>
+    </div>
+</div>
+
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
-
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
   </body>
+
+  <div class="footer">
+    <div class="footer__col">
+        <div class="footer-col__row">
+            <span class="footer-col-row__label">
+                추천작 제보, 문의
+            </span>
+            <span class="footer-col-row__text">
+                team.warchive@gmail.com
+            </span>
+        </div>
+        <div class="footer-col__row">
+            <span class="footer-col-row__label">
+                후원계좌
+            </span>
+            <span class="footer-col-row__text">
+                농협 333-3333-3333
+            </span>
+        </div>
+    </div>
+    <div class="footer__col">
+        <div class="footer-col__row footer_sns">
+            <i class="fab fa-twitter-square"></i>
+        </div>
+    </div>
+</div>
 </html>

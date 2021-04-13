@@ -1,0 +1,132 @@
+.wata {
+  display: flex;
+  flex-direction: column; /*세로*/
+
+  height: 200px;
+  width: 300px;
+  margin: 10px;
+
+  color: white;
+
+  border-radius: 10px;
+  box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.25);
+}
+
+.wata .wata__header {
+  display: flex;
+  flex-direction: column;
+
+  background-color: #170c1e;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  padding: 10px;
+}
+
+.wata__header .header__row {
+  display: flex;
+  flex-direction: row;
+  margin-top: 5px;
+}
+
+.header__titles {
+  justify-content: space-between;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.header__bookmark {
+  cursor: pointer;
+}
+
+.header__bookmark.checked {
+  color: #ffcd27;
+}
+
+.header__creator {
+  font-size: 14px;
+  color: white;
+  opacity: 0.6;
+}
+
+.header__categorys {
+  margin-left: auto;
+
+  font-size: 12px;
+  color: white;
+  opacity: 0.6;
+}
+
+.header__categorys .categorys__category {
+  margin-left: 10px;
+}
+
+.wata .wata__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+
+  height: 100%;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.wata__body:hover {
+  opacity: 1;
+}
+
+.wata__body .wata__platforms {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+  justify-content: center;
+}
+
+.wata__platforms .platforms__platform {
+  border: 2px solid white;
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: white;
+  opacity: 0.6;
+}
+
+.wata__body .wata__keywords {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  font-size: 12px;
+  color: white;
+  opacity: 0.6;
+}
+
+.wata__keywords .keywords__keyword {
+  margin-left: 10px;
+}
+
+.wata__footer {
+  margin-top: auto;
+
+  background-color: #170c1e;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.wata__footer .footer__cautions {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin: 10px;
+}
+
+.footer__cautions .cautions__caution {
+  margin-left: 5px;
+  font-size: 12px;
+  color: white;
+  opacity: 0.6;
+}
