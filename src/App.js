@@ -34,55 +34,7 @@ class App extends React.Component {
       selected_keywords: [],
     };
     this.handleValueChange = this.handleValueChange.bind(this);
-    //this.handleValueChange2 = this.handleValueChange2.bind(this);
   }
-
-  /*
-  // KeywordBar 에 props로 넘겨줄 handleChange 메소드 정의
-  handleValueChange2 = (type, value, action) => {
-    if (type == "category") {
-      if (action == "add") {
-        this.setState({
-          category: this.state.category(value),
-        });
-      } else if (action == "delete") {
-        this.setState({
-          category: this.state.category.filter((v) => v !== value),
-        });
-      }
-    } else if (type == "sub_category") {
-      if (action == "add") {
-        this.setState({
-          sub_category: this.state.sub_category(value),
-        });
-      } else if (action == "delete") {
-        this.setState({
-          sub_category: this.state.sub_category.filter((v) => v !== value),
-        });
-      }
-    } else if (type == "genre") {
-      if (action == "add") {
-        this.setState({
-          genre: this.state.genre(value),
-        });
-      } else if (action == "delete") {
-        this.setState({
-          genre: this.state.genre.filter((v) => v !== value),
-        });
-      }
-    } else if (type == "platform") {
-      if (action == "add") {
-        this.setState({
-          platform: this.state.platform(value),
-        });
-      } else if (action == "delete") {
-        this.setState({
-          platform: this.state.platform.filter((v) => v !== value),
-        });
-      }
-    }
-  };
-  */
 
   // SearchBar 에 props로 넘겨줄 handleChange 메소드 정의
   handleValueChange = (e) => {
@@ -140,7 +92,9 @@ class App extends React.Component {
   render() {
     const { isLoading, wata_list, keyword_list } = this.state; //es6. this.state.isLoading 이라고 해야하는데 축약하게 해줌.
 
-    let wata_result = wata_list.filter((c) => {
+    let wata_result = wata_list;
+
+    let wata_title_result = wata_list.filter((c) => {
       if (
         c.title.indexOf(this.state.searchKeyword) > -1 ||
         c.creator.indexOf(this.state.searchKeyword) > -1
@@ -148,6 +102,68 @@ class App extends React.Component {
         return c;
       }
     });
+
+    let result = [[], [], [], [], []];
+
+    this.state.selected_categorys.map((k) => {
+      let r = wata_list.filter((w) => {
+        if (w.category == k) return w;
+      });
+
+      result[0] = result[0].concat(r);
+    });
+
+    this.state.selected_sub_categorys.map((k) => {
+      let r = wata_list.filter((w) => {
+        if (w.sub_category == k) return w;
+      });
+
+      result[1] = result[1].concat(r);
+    });
+
+    this.state.selected_genres.map((k) => {
+      let r = wata_list.filter((w) => {
+        if (w.genre == k) return w;
+      });
+
+      result[2] = result[2].concat(r);
+    });
+
+    this.state.selected_platforms.map((k) => {
+      let r = [];
+      wata_list.filter((w) => {
+        w.platforms.map((p) => {
+          if (p.name == k) {
+            r.push(w);
+          }
+        });
+      });
+      result[3] = result[3].concat(r);
+    });
+
+    this.state.selected_keywords.map((k) => {
+      let r = wata_list.filter((w) => {
+        if (w.keywords.includes(k)) return w;
+      });
+
+      result[4] = result[4].concat(r);
+    });
+
+    console.log(result);
+
+    result = result.filter((r) => {
+      if (r.length > 0) return r;
+    });
+
+    if (result.length <= 0) {
+      result = wata_list;
+    } else {
+      result = result.reduce((a, arr) =>
+        a.filter((item) => arr.includes(item))
+      );
+      console.log("result : ");
+      console.log(result);
+    }
 
     return (
       <section className="container">
