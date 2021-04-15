@@ -83,9 +83,7 @@ export default class KeywordBar extends React.Component {
   }
 
   addSelectedBubble(e) {
-    this.setState({
-      keywords,
-    });
+    this.setState({});
   }
 
   render() {
