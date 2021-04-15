@@ -1,0 +1,46 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 0px 30px 0px;
+  background-color: #170c1e;
+  box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.25);
+}
+
+.header .header__header-column {
+  display: flex;
+  align-items: center;
+
+  flex: none;
+}
+
+.header .header__title {
+  margin-left: 20px;
+  margin-right: 20px;
+  color: white;
+  cursor: pointer;
+}
+
+.header__title .title__logo {
+  max-width: 150px;
+}
+
+.header .header__icon {
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 20px;
+  color: #783b99;
+  cursor: pointer;
+}
+
+.header__icon i {
+  font-size: 20px;
+}
+
+.header__icon .icon__label {
+  font-size: 14px;
+  margin-left: 5px;
+  margin-top: 20px;
+  color: white;
+  opacity: 0.6;
+}
