@@ -22,7 +22,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoading: false,
+      isLoading: true,
       wata_list: [],
       keyword_list: [],
 
@@ -122,7 +122,6 @@ class App extends React.Component {
 
     this.setState({
       wata_list,
-      isLoading: false,
       keyword_list: {
         category: Array.from(new Set(c)),
         sub_category: Array.from(new Set(s)),
@@ -130,6 +129,7 @@ class App extends React.Component {
         platform: Array.from(new Set(p)),
         keyword: Array.from(new Set(k)),
       },
+      isLoading: false,
     }); //wata_list(state) : wata_list(axios) 축약 표현
   };
 

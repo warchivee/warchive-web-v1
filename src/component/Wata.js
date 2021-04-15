@@ -77,15 +77,15 @@ function Wata({
 }
 
 Wata.propTypes = {
-  wata_id: PropTypes.string.isRequired,
+  wata_id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
   creator: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
   sub_category: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
-  keyword: PropTypes.arrayOf(PropTypes.string).isRequired,
-  caution: PropTypes.arrayOf(PropTypes.string).isRequired,
-  platform: PropTypes.arrayOf(PropTypes.object).isRequired,
+  keyword: PropTypes.arrayOf(PropTypes.string),
+  caution: PropTypes.arrayOf(PropTypes.string),
+  platform: PropTypes.arrayOf(PropTypes.object),
   thumnail: PropTypes.string,
 };
 

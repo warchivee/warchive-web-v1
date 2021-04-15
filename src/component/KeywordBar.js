@@ -14,7 +14,7 @@ function SelectedKeyword(props) {
 
 function Bubble(props) {
   return (
-    <div class="bubble-list__bubble">
+    <div className="bubble-list__bubble">
       <input
         type="checkbox"
         name={props.name}
@@ -53,31 +53,20 @@ export default class KeywordBar extends React.Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       keywordbar_state: false,
     };
 
-    if (
-      props.category &&
-      props.sub_category &&
-      props.genre &&
-      props.keyword &&
-      props.platform
-    ) {
+    console.log(this.props);
+
+    if (props.category) {
       this.state = {
         category: props.category,
         sub_category: props.sub_category,
         genre: props.genre,
         platform: props.platform,
         keyword: props.keyword,
-      };
-    } else {
-      this.state = {
-        category: [],
-        sub_category: [],
-        genre: [],
-        platform: [],
-        keyword: [],
       };
     }
   }
@@ -105,10 +94,10 @@ export default class KeywordBar extends React.Component {
     } = this.state;
 
     return (
-      <div class="keywordbar">
-        <div class="keywordbar__selected-bubble"></div>
+      <div className="keywordbar">
+        <div className="keywordbar__selected-bubble"></div>
         <div
-          class="keywordbar__container"
+          className="keywordbar__container"
           style={keywordbar_state ? flex_style : none_style}
         >
           <KeywordList name="category" header="카테고리" value={category} />
@@ -122,12 +111,12 @@ export default class KeywordBar extends React.Component {
           <KeywordList name="keyword" header="키워드" value={keyword} />
         </div>
         <div
-          class="keywordbar__button"
+          className="keywordbar__button"
           onClick={() => {
             this.setState({ keywordbar_state: !keywordbar_state });
           }}
         >
-          <span class="button__text">키워드로 찾기</span>
+          <span className="button__text">키워드로 찾기</span>
         </div>
       </div>
     );
