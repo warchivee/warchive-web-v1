@@ -1,7 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
-import SearchBar from "./SearchBar";
 
 /*
 리액트가 빠른 이유...

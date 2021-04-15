@@ -19,7 +19,10 @@
   background-color: #170c1e;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
-  padding: 10px;
+  padding-right: 10px;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 .wata__header .header__row {
@@ -66,13 +69,14 @@
   justify-content: center;
   text-align: center;
 
+  background-color: #170c1e;
   height: 100%;
   opacity: 0;
   transition: 0.5s;
 }
 
 .wata__body:hover {
-  opacity: 1;
+  opacity: 0.6;
 }
 
 .wata__body .wata__platforms {

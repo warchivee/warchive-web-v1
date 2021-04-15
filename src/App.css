@@ -6,11 +6,21 @@
   height: 960px;
 }
 
+.container__box {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex-direction: column;
+  height: 960px;
+  width: 100%;
+}
+
 .wata_list {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-
-  width: 960px;
+  height: 500px;
+  overflow-y: scroll;
+  width: 980px;
 }

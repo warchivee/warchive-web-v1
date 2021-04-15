@@ -7,7 +7,7 @@ class SearchBar extends React.Component {
         <input
           className="search__input"
           type="search"
-          placeholder="제목으로 검색"
+          placeholder="제목/작가/감독명으로 검색"
           onChange={this.props.handleValueChange}
         ></input>
       </div>

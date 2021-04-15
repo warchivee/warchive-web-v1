@@ -1,0 +1,113 @@
+.keywordbar {
+  display: flex;
+  flex-direction: column;
+  background-color: #590091;
+  box-shadow: 1px 1px 3px rgba(93, 50, 75, 0.541);
+  width: 100%;
+}
+
+.keywordbar .keywordbar__container {
+  display: flex;
+  justify-content: center;
+  align-content: space-between;
+  background-color: #9023d5;
+  box-shadow: 1px 1px 3px rgba(70, 50, 93, 0.87),
+    1px 0px 1px rgba(90, 59, 110, 0.952);
+  transition: 0.5s;
+  /*얘가 켜졌다 꺼졌다 해야됨*/
+}
+
+.keywordbar__selected-bubble {
+  padding: 30px 200px 30px 200px;
+  background-color: #590091;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-shadow: 1px 1px 3px rgba(93, 50, 75, 0.541),
+    1px 0px 1px rgba(106, 59, 110, 0.719);
+}
+
+.checked_bubble {
+  display: inline-block;
+  margin: 5px 10px 5px 10px;
+  border-radius: 20px;
+  border: 1px solid #ebdbf3;
+  color: #ebdbf3;
+  font-size: 12px;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.keywordbar__container .keywordbar__keyword-box {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.keywordbar__keyword-box .keyword-box__header {
+  font-size: 15px;
+  font-weight: 600;
+  color: #ebdbf3;
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+
+.keywordbar__keyword-box .keyword-box__bubble-list {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  height: 300px;
+  overflow-y: scroll;
+  justify-content: start;
+  border-left: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.keyword-box__bubble-list .bubble-list__bubble {
+  margin: 10px;
+  font-size: 12px;
+  color: #ebdbf3;
+  border-radius: 20px;
+  width: 130px;
+}
+
+.bubble-list__bubble label {
+  cursor: pointer;
+}
+
+.bubble-list__bubble input[type="checkbox"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.bubble-list__bubble input[type="checkbox"] + label {
+  border-radius: 20px;
+  padding: 2px 10px;
+}
+
+.bubble-list__bubble input[type="checkbox"]:checked + label {
+  background-color: white;
+  color: #9023d5;
+  border-radius: 20px;
+  padding: 2px 10px;
+}
+
+.keywordbar .keywordbar__button {
+  margin-top: auto;
+  background-color: #590091;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 1px 1px 3px rgba(93, 50, 75, 0.541),
+    1px 0px 1px rgba(106, 59, 110, 0.719);
+}
+
+.keywordbar__button:active {
+}

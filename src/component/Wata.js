@@ -9,13 +9,14 @@ function Wata({
   category,
   sub_category,
   genre,
-  keyword,
-  caution,
-  platform,
+  keywords,
+  cautions,
+  platforms,
   thumnail,
 }) {
   let thumnail_style = {
     backgroundImage: `url(${thumnail})`,
+    backgroundSize: "100%",
   };
 
   return (
@@ -43,7 +44,7 @@ function Wata({
       <div className="wata__body">
         <div className="body__column">
           <ul className="wata__platforms">
-            {platform.map((p, index) => (
+            {platforms.map((p, index) => (
               <li key={index} className="platforms__platform">
                 <a href={p.url}>
                   <span>{p.name}</span>
@@ -53,9 +54,9 @@ function Wata({
           </ul>
           <div className="body__column">
             <ul className="wata__keywords">
-              {keyword.map((k, index) => (
+              {keywords.map((k, index) => (
                 <li key={index} className="keywords__keyword">
-                  #{k}
+                  <span>#{k}</span>
                 </li>
               ))}
             </ul>
@@ -64,9 +65,9 @@ function Wata({
       </div>
       <div className="wata__footer">
         <ul className="footer__cautions">
-          {caution.map((c, index) => (
+          {cautions.map((c, index) => (
             <li key={index} className="cautions__caution">
-              #{c}
+              <span>#{c}</span>
             </li>
           ))}
         </ul>
