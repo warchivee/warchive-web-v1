@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/warchive-client/static/css/main.5020bfda.chunk.css",
-    "main.js": "/warchive-client/static/js/main.bb8826b5.chunk.js",
-    "main.js.map": "/warchive-client/static/js/main.bb8826b5.chunk.js.map",
+    "main.js": "/warchive-client/static/js/main.fff0de42.chunk.js",
+    "main.js.map": "/warchive-client/static/js/main.fff0de42.chunk.js.map",
     "runtime-main.js": "/warchive-client/static/js/runtime-main.c7a10f2e.js",
     "runtime-main.js.map": "/warchive-client/static/js/runtime-main.c7a10f2e.js.map",
     "static/js/2.269ff454.chunk.js": "/warchive-client/static/js/2.269ff454.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.c7a10f2e.js",
     "static/js/2.269ff454.chunk.js",
     "static/css/main.5020bfda.chunk.css",
-    "static/js/main.bb8826b5.chunk.js"
+    "static/js/main.fff0de42.chunk.js"
   ]
 }
