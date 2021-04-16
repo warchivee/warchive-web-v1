@@ -120,6 +120,9 @@ export default class KeywordBar extends React.Component {
   }
 
   delete(arr, name, value) {
+    console.log(arr);
+    console.log(name);
+    console.log(value);
     let r = arr.filter((v) => {
       if (!(v.name == name && v.value == value)) return v;
     });
@@ -155,6 +158,7 @@ export default class KeywordBar extends React.Component {
       selected_keyword,
     } = this.state;
 
+    console.log("selected_keyword: ");
     console.log(selected_keyword);
 
     return (

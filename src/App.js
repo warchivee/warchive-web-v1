@@ -34,6 +34,7 @@ class App extends React.Component {
       selected_keywords: [],
     };
     this.search_keywordbar = this.search_keywordbar.bind(this);
+    this.search_searchbar = this.search_searchbar.bind(this);
   }
 
   // SearchBar 에 props로 넘겨줄 handleChange 메소드 정의
@@ -45,77 +46,40 @@ class App extends React.Component {
 
   delete(arr, value) {
     return arr.filter((v) => {
-      if (v !== value) return v;
+      if (v != value) return v;
     });
   }
 
   search_keywordbar(type, action, value) {
+    this.setState({
+      searchKeyword: "",
+    });
+
+    const name = "selected_" + type + "s";
+    let d = [];
+
     if (type == "category") {
-      if (action == "add") {
-        if (!this.state.selected_categorys.includes(value)) {
-          this.setState({
-            selected_categorys: [...this.state.selected_categorys, value],
-          });
-        }
-      } else {
-        this.setState({
-          selected_categorys: this.delete(this.state.selected_categorys, value),
-        });
-      }
+      d = this.state.selected_categorys;
     } else if (type == "sub_category") {
-      if (!this.state.selected_sub_categorys.includes(value)) {
-        if (action == "add") {
-          this.setState({
-            selected_sub_categorys: [
-              ...this.state.selected_sub_categorys,
-              value,
-            ],
-          });
-        }
-      } else {
-        this.setState({
-          selected_sub_ategorys: this.delete(
-            this.state.selected_sub_categorys,
-            value
-          ),
-        });
-      }
+      d = this.state.selected_sub_categorys;
     } else if (type == "genre") {
-      if (action == "add") {
-        if (!this.state.selected_genres.includes(value)) {
-          this.setState({
-            selected_sub_genres: [...this.state.selected_genres, value],
-          });
-        }
-      } else {
-        this.setState({
-          selected_genres: this.delete(this.state.selected_genres, value),
-        });
-      }
+      d = this.state.selected_genres;
     } else if (type == "platform") {
-      if (action == "add") {
-        if (!this.state.selected_platforms.includes(value)) {
-          this.setState({
-            selected_platforms: [...this.state.selected_platforms, value],
-          });
-        }
-      } else {
-        this.setState({
-          selected_platforms: this.delete(this.state.selected_platforms, value),
-        });
-      }
+      d = this.state.selected_platforms;
     } else if (type == "keyword") {
-      if (action == "add") {
-        if (!this.state.selected_keywords.includes(value)) {
-          this.setState({
-            selected_keywords: [...this.state.selected_keywords, value],
-          });
-        }
-      } else {
+      d = this.state.selected_keywords;
+    }
+
+    if (action == "add") {
+      if (!d.includes(value)) {
         this.setState({
-          selected_keywords: this.delete(this.state.selected_keywords, value),
+          [name]: [...d, value],
         });
       }
+    } else {
+      this.setState({
+        [name]: this.delete(d, value),
+      });
     }
   }
 
@@ -161,17 +125,10 @@ class App extends React.Component {
   }
 
   render() {
-    const { isLoading, wata_list, keyword_list } = this.state; //es6. this.state.isLoading 이라고 해야하는데 축약하게 해줌.
+    const { isLoading, wata_list, keyword_list } = this.state;
 
-    let wata_result = wata_list;
+    //데이터 검색
     let result = [];
-
-    console.log(this.state.selected_categorys);
-    console.log(this.state.selected_genres);
-    console.log(this.selected_keywords);
-    console.log(this.selected_sub_categorys);
-    console.log(this.selected_platforms);
-
     if (this.state.searchKeyword !== "") {
       result = wata_list.filter((c) => {
         if (
@@ -247,6 +204,14 @@ class App extends React.Component {
         console.log(result);
       }
     }
+
+    console.log("search_keyword: ");
+    console.log(this.state.searchKeyword);
+    console.log(this.state.selected_categorys);
+    console.log(this.state.selected_sub_categorys);
+    console.log(this.state.selected_genres);
+    console.log(this.state.selected_platforms);
+    console.log(this.state.selected_keywords);
 
     return (
       <section className="container">
