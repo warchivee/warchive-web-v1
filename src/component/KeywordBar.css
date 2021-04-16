@@ -1,5 +1,7 @@
 .keywordbar {
   display: flex;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   background-color: #590091;
   box-shadow: 1px 1px 3px rgba(93, 50, 75, 0.541);
@@ -9,11 +11,12 @@
 .keywordbar .keywordbar__container {
   display: flex;
   justify-content: center;
-  align-content: space-between;
+  align-content: center;
   background-color: #9023d5;
   box-shadow: 1px 1px 3px rgba(70, 50, 93, 0.87),
     1px 0px 1px rgba(90, 59, 110, 0.952);
   transition: 0.5s;
+  width: 100%;
   /*얘가 켜졌다 꺼졌다 해야됨*/
 }
 
@@ -54,12 +57,11 @@
 
 .keywordbar__keyword-box .keyword-box__bubble-list {
   display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-  height: 300px;
+  flex-wrap: nowrap;
+  flex-direction: column;
+  width: 200px;
   overflow-y: scroll;
   justify-content: start;
-  border-left: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .keyword-box__bubble-list .bubble-list__bubble {
@@ -67,11 +69,12 @@
   font-size: 12px;
   color: #ebdbf3;
   border-radius: 20px;
-  width: 130px;
+  width: 100px;
 }
 
 .bubble-list__bubble label {
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .bubble-list__bubble input[type="checkbox"] {
@@ -107,10 +110,14 @@
   cursor: pointer;
   box-shadow: 1px 1px 3px rgba(93, 50, 75, 0.541),
     1px 0px 1px rgba(106, 59, 110, 0.719);
+
+  width: 100%;
 }
 
 .keywordbar__selected-bubble-box {
   min-height: 20px;
+  width: 960px;
+  margin: 5px;
 }
 
 .selected-keyword-list__bubble {
@@ -123,4 +130,18 @@
   padding: 5px 10px 5px 10px;
   cursor: pointer;
   text-align: center;
+}
+
+.keyword-box__bubble-list {
+  width: 250px;
+  overflow: auto;
+}
+.keyword-box__bubble-list::-webkit-scrollbar {
+  width: 10px;
+}
+.keyword-box__bubble-list::-webkit-scrollbar-thumb {
+  background-color: rgba(93, 50, 75, 0.541);
+  border-radius: 10px;
+  background-clip: padding-box;
+  border: 2px solid transparent;
 }

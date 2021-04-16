@@ -3,7 +3,6 @@
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  height: 960px;
 }
 
 .container__box {
@@ -11,7 +10,10 @@
   justify-content: start;
   align-items: center;
   flex-direction: column;
-  height: 960px;
+  width: 100%;
+}
+
+.serachbar {
   width: 100%;
 }
 
@@ -23,4 +25,53 @@
   height: 500px;
   overflow-y: scroll;
   width: 980px;
+}
+
+.bookmark-share__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 50px;
+  text-align: center;
+
+  width: 100%;
+}
+
+.bookmark-share__container .bookmark_caution {
+  font-size: 12px;
+  color: balck;
+  opacity: 0.6;
+}
+
+.bookmark-share__container .share_button__container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.share_button__container .share_label {
+  font-size: 14px;
+  margin: 20px;
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.share_button__container .share_button {
+  display: table;
+  height: 30px;
+  width: 30px;
+  border-radius: 80%;
+  background-color: black;
+  cursor: pointer;
+  margin: 20px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.25);
+  padding: 10px;
+}
+
+.share_button i {
+  color: #bf5ef3;
+  display: table-cell;
+  vertical-align: middle;
 }

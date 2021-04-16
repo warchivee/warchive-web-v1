@@ -1,6 +1,4 @@
-import { nominalTypeHack } from "prop-types";
 import React from "react";
-import { isCompositeComponent } from "react-dom/test-utils";
 import "./KeywordBar.css";
 
 function SelectedBubble(props) {
@@ -145,7 +143,7 @@ export default class KeywordBar extends React.Component {
     };
 
     let flex_style = {
-      height: "200px",
+      height: "400px",
     };
 
     const {
