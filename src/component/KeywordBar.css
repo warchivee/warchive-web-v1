@@ -109,5 +109,18 @@
     1px 0px 1px rgba(106, 59, 110, 0.719);
 }
 
-.keywordbar__button:active {
+.keywordbar__selected-bubble-box {
+  min-height: 20px;
+}
+
+.selected-keyword-list__bubble {
+  display: inline-block;
+  margin: 5px 10px 5px 10px;
+  border-radius: 20px;
+  border: 1px solid #ebdbf3;
+  color: #ebdbf3;
+  font-size: 12px;
+  padding: 5px 10px 5px 10px;
+  cursor: pointer;
+  text-align: center;
 }

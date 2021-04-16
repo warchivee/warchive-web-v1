@@ -33,20 +33,91 @@ class App extends React.Component {
       selected_platforms: [],
       selected_keywords: [],
     };
-    this.handleValueChange = this.handleValueChange.bind(this);
+    this.search_keywordbar = this.search_keywordbar.bind(this);
   }
 
   // SearchBar 에 props로 넘겨줄 handleChange 메소드 정의
-  handleValueChange = (e) => {
+  search_searchbar = (e) => {
     this.setState({
       searchKeyword: e.target.value,
-      selected_categorys: [],
-      selected_sub_categorys: [],
-      selected_genres: [],
-      selected_platforms: [],
-      selected_keywords: [],
     });
   };
+
+  delete(arr, value) {
+    return arr.filter((v) => {
+      if (v !== value) return v;
+    });
+  }
+
+  search_keywordbar(type, action, value) {
+    if (type == "category") {
+      if (action == "add") {
+        if (!this.state.selected_categorys.includes(value)) {
+          this.setState({
+            selected_categorys: [...this.state.selected_categorys, value],
+          });
+        }
+      } else {
+        this.setState({
+          selected_categorys: this.delete(this.state.selected_categorys, value),
+        });
+      }
+    } else if (type == "sub_category") {
+      if (!this.state.selected_sub_categorys.includes(value)) {
+        if (action == "add") {
+          this.setState({
+            selected_sub_categorys: [
+              ...this.state.selected_sub_categorys,
+              value,
+            ],
+          });
+        }
+      } else {
+        this.setState({
+          selected_sub_ategorys: this.delete(
+            this.state.selected_sub_categorys,
+            value
+          ),
+        });
+      }
+    } else if (type == "genre") {
+      if (action == "add") {
+        if (!this.state.selected_genres.includes(value)) {
+          this.setState({
+            selected_sub_genres: [...this.state.selected_genres, value],
+          });
+        }
+      } else {
+        this.setState({
+          selected_genres: this.delete(this.state.selected_genres, value),
+        });
+      }
+    } else if (type == "platform") {
+      if (action == "add") {
+        if (!this.state.selected_platforms.includes(value)) {
+          this.setState({
+            selected_platforms: [...this.state.selected_platforms, value],
+          });
+        }
+      } else {
+        this.setState({
+          selected_platforms: this.delete(this.state.selected_platforms, value),
+        });
+      }
+    } else if (type == "keyword") {
+      if (action == "add") {
+        if (!this.state.selected_keywords.includes(value)) {
+          this.setState({
+            selected_keywords: [...this.state.selected_keywords, value],
+          });
+        }
+      } else {
+        this.setState({
+          selected_keywords: this.delete(this.state.selected_keywords, value),
+        });
+      }
+    }
+  }
 
   getWataList = async () => {
     const {
@@ -93,76 +164,88 @@ class App extends React.Component {
     const { isLoading, wata_list, keyword_list } = this.state; //es6. this.state.isLoading 이라고 해야하는데 축약하게 해줌.
 
     let wata_result = wata_list;
+    let result = [];
 
-    let wata_title_result = wata_list.filter((c) => {
-      if (
-        c.title.indexOf(this.state.searchKeyword) > -1 ||
-        c.creator.indexOf(this.state.searchKeyword) > -1
-      ) {
-        return c;
-      }
-    });
+    console.log(this.state.selected_categorys);
+    console.log(this.state.selected_genres);
+    console.log(this.selected_keywords);
+    console.log(this.selected_sub_categorys);
+    console.log(this.selected_platforms);
 
-    let result = [[], [], [], [], []];
-
-    this.state.selected_categorys.map((k) => {
-      let r = wata_list.filter((w) => {
-        if (w.category == k) return w;
+    if (this.state.searchKeyword !== "") {
+      result = wata_list.filter((c) => {
+        if (
+          c.title.indexOf(this.state.searchKeyword) > -1 ||
+          c.creator.indexOf(this.state.searchKeyword) > -1
+        ) {
+          return c;
+        }
       });
-
-      result[0] = result[0].concat(r);
-    });
-
-    this.state.selected_sub_categorys.map((k) => {
-      let r = wata_list.filter((w) => {
-        if (w.sub_category == k) return w;
-      });
-
-      result[1] = result[1].concat(r);
-    });
-
-    this.state.selected_genres.map((k) => {
-      let r = wata_list.filter((w) => {
-        if (w.genre == k) return w;
-      });
-
-      result[2] = result[2].concat(r);
-    });
-
-    this.state.selected_platforms.map((k) => {
-      let r = [];
-      wata_list.filter((w) => {
-        w.platforms.map((p) => {
-          if (p.name == k) {
-            r.push(w);
-          }
-        });
-      });
-      result[3] = result[3].concat(r);
-    });
-
-    this.state.selected_keywords.map((k) => {
-      let r = wata_list.filter((w) => {
-        if (w.keywords.includes(k)) return w;
-      });
-
-      result[4] = result[4].concat(r);
-    });
-
-    console.log(result);
-
-    result = result.filter((r) => {
-      if (r.length > 0) return r;
-    });
-
-    if (result.length <= 0) {
-      result = wata_list;
     } else {
-      result = result.reduce((a, arr) =>
-        a.filter((item) => arr.includes(item))
-      );
-      console.log("result : ");
+      result = [[], [], [], [], []];
+
+      //같은 카테고리 검색 시 합집합.
+      this.state.selected_categorys.map((k) => {
+        let r = wata_list.filter((w) => {
+          if (w.category == k) return w;
+        });
+
+        result[0] = result[0].concat(r);
+      });
+
+      this.state.selected_sub_categorys.map((k) => {
+        let r = wata_list.filter((w) => {
+          if (w.sub_category == k) return w;
+        });
+
+        result[1] = result[1].concat(r);
+      });
+
+      this.state.selected_genres.map((k) => {
+        let r = wata_list.filter((w) => {
+          if (w.genre == k) return w;
+        });
+
+        result[2] = result[2].concat(r);
+      });
+
+      this.state.selected_platforms.map((k) => {
+        let r = [];
+        wata_list.filter((w) => {
+          w.platforms.map((p) => {
+            if (p.name == k) {
+              r.push(w);
+            }
+          });
+        });
+        result[3] = result[3].concat(r);
+      });
+
+      this.state.selected_keywords.map((k) => {
+        let r = wata_list.filter((w) => {
+          if (w.keywords.includes(k)) return w;
+        });
+
+        result[4] = result[4].concat(r);
+      });
+
       console.log(result);
+
+      //reduce 가 길이 0인 배열 있으면 오류나서 길이 0인 배열 없애줌
+      result = result.filter((r) => {
+        if (r.length > 0) return r;
+      });
+
+      //다른 카테고리들은 교집합
+      if (result.length <= 0) {
+        result = wata_list;
+      } else {
+        result = result.reduce((a, arr) =>
+          a.filter((item) => arr.includes(item))
+        );
+        console.log("result : ");
+        console.log(result);
+      }
     }
 
     return (
@@ -179,10 +262,11 @@ class App extends React.Component {
               genre={keyword_list.genre}
               platform={keyword_list.platform}
               keyword={keyword_list.keyword}
+              search_keywordbar={this.search_keywordbar}
             />
-            <SearchBar handleValueChange={this.handleValueChange} />
+            <SearchBar search_searchbar={this.search_searchbar} />
             <div className="wata_list">
-              {wata_result.map((w) => {
+              {result.map((w) => {
                 if (w.isDelete != "Y") {
                   return (
                     <Wata
