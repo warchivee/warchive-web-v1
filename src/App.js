@@ -23,6 +23,9 @@ class App extends React.Component {
     selected_keywords: [], //선택한 키워드
 
     bookmark_list: [1, 2, 3],
+
+    currentPage: 1,
+    watasPerPage: 12,
   };
 
   constructor(props) {
@@ -42,6 +45,9 @@ class App extends React.Component {
       selected_keywords: [],
 
       bookmark_list: [1, 2, 3],
+
+      currentPage: 1,
+      watasPerPage: 12,
     };
     this.search_keywordbar = this.search_keywordbar.bind(this);
     this.search_searchbar = this.search_searchbar.bind(this);
@@ -158,6 +164,21 @@ class App extends React.Component {
     this.getWataList();
   }
 
+  currentWatas(tmp, first, last) {
+    let currentWatas = 0;
+    currentWatas = tmp.slice(first, last);
+
+    return currentWatas;
+  }
+
+  makePageNumbers() {
+    let pageNumbers = [];
+
+    for (let i = 1; i <= Math.ceil(totalWatas / this.state.watasPerPage); i++) {
+      pageNumbers.push(i);
+    }
+  }
+
   render() {
     const { isLoading, wata_list, keyword_list } = this.state;
 
@@ -258,6 +279,11 @@ class App extends React.Component {
     console.log(this.state.selected_platforms);
     console.log(this.state.selected_keywords);
     */
+
+    const indexOfLast = this.state.currentPage * this.state.watasPerPage;
+    const indexOfFirst = indexOfLast - this.state.watasPerPage;
+
+    result = this.currentWatas(result, indexOfFirst);
 
     return (
       <div className="root_container">
