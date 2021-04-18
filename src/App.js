@@ -6,6 +6,8 @@ import SearchBar from "./component/SearchBar";
 import KeywordBar from "./component/KeywordBar";
 import Header from "./component/Header";
 import Mail from "./component/Mail";
+import Pagination from "./component/Pagination";
+import Footer from "./component/Footer";
 
 class App extends React.Component {
   state = {
@@ -26,6 +28,9 @@ class App extends React.Component {
 
     currentPage: 1,
     watasPerPage: 12,
+    pageStart: 1,
+    pageEnd: 5,
+    pageLimit: 5,
   };
 
   constructor(props) {
@@ -48,12 +53,16 @@ class App extends React.Component {
 
       currentPage: 1,
       watasPerPage: 12,
+      pageStart: 1,
+      pageEnd: 5,
+      pageLimit: 5,
     };
     this.search_keywordbar = this.search_keywordbar.bind(this);
     this.search_searchbar = this.search_searchbar.bind(this);
     this.open_bookmark = this.open_bookmark.bind(this);
     this.open_mail = this.open_mail.bind(this);
     this.close_mail = this.close_mail.bind(this);
+    this.paginate = this.paginate.bind(this);
   }
 
   open_bookmark() {
@@ -81,6 +90,10 @@ class App extends React.Component {
   search_searchbar = (e) => {
     this.setState({
       searchKeyword: e.target.value,
+      currentPage: 1,
+      pageStart: 1,
+      pageEnd: 5,
+      pageLimit: 5,
     });
   };
 
@@ -93,6 +106,10 @@ class App extends React.Component {
   search_keywordbar(type, action, value) {
     this.setState({
       searchKeyword: "",
+      currentPage: 1,
+      pageStart: 1,
+      pageEnd: 5,
+      pageLimit: 5,
     });
 
     const name = "selected_" + type + "s";
@@ -160,23 +177,51 @@ class App extends React.Component {
     }); //wata_list(state) : wata_list(axios) 축약 표현
   };
 
-  componentDidMount() {
-    this.getWataList();
-  }
-
   currentWatas(tmp, first, last) {
-    let currentWatas = 0;
+    let currentWatas = [];
     currentWatas = tmp.slice(first, last);
 
     return currentWatas;
   }
 
-  makePageNumbers() {
+  makePageNumbers(totalWatas) {
     let pageNumbers = [];
 
+    /*
     for (let i = 1; i <= Math.ceil(totalWatas / this.state.watasPerPage); i++) {
       pageNumbers.push(i);
     }
+    */
+
+    let last = this.state.pageStart + this.state.pageLimit;
+    let max = Math.ceil(totalWatas / this.state.watasPerPage);
+    if(last >= max) last = max;
+
+    this.state.pageEnd = last;
+
+    for(let i = this.state.pageStart; i<last; i++) {
+      pageNumbers.push(i);
+    }
+
+    return pageNumbers;
+  }
+
+  paginate(currentPageNumber) {
+    console.log(currentPageNumber + "," + this.state.pageStart + "/" + this.state.pageEnd);
+    if(currentPageNumber == this.state.pageEnd-1) {
+      this.setState({
+        pageStart: this.state.pageEnd-1,
+        currentPage: currentPageNumber,
+      });
+    } else {
+      this.setState({
+        currentPage: currentPageNumber,
+      });
+    }
+  }
+
+  componentDidMount() {
+    this.getWataList();
   }
 
   render() {
@@ -184,55 +229,64 @@ class App extends React.Component {
 
     //데이터 검색
     let result = [];
+    let big_result = wata_list;
+
     if (this.state.isBookmark) {
-      wata_list.filter((c) => {
+      let r = [];
+      this.state.wata_list.filter((c) => {
         this.state.bookmark_list.map((b) => {
           if (c.wata_id == b) {
-            result.push(c);
+            r.push(c);
           }
         });
       });
+
+      big_result = r;
+    }
+
+    if (this.state.searchKeyword !== "") {
+      result = big_result.filter((c) => {
+        if (
+          c.title.indexOf(this.state.searchKeyword) > -1 ||
+          c.creator.indexOf(this.state.searchKeyword) > -1
+        ) {
+          return c;
+        }
+      });
     } else {
-      if (this.state.searchKeyword !== "") {
-        result = wata_list.filter((c) => {
-          if (
-            c.title.indexOf(this.state.searchKeyword) > -1 ||
-            c.creator.indexOf(this.state.searchKeyword) > -1
-          ) {
-            return c;
-          }
-        });
+      if(this.state.selected_categorys.length==0 && this.state.selected_sub_categorys.length==0 && this.state.selected_genres.length==0 && this.state.selected_platforms.length==0 && this.state.selected_keywords.length==0) {
+      result = big_result;
       } else {
         result = [[], [], [], [], []];
 
         //같은 카테고리 검색 시 합집합.
         this.state.selected_categorys.map((k) => {
-          let r = wata_list.filter((w) => {
+          let r = big_result.filter((w) => {
             if (w.category == k) return w;
           });
-
+  
           result[0] = result[0].concat(r);
         });
-
+  
         this.state.selected_sub_categorys.map((k) => {
-          let r = wata_list.filter((w) => {
+          let r = big_result.filter((w) => {
             if (w.sub_category == k) return w;
           });
-
+  
           result[1] = result[1].concat(r);
         });
-
+  
         this.state.selected_genres.map((k) => {
-          let r = wata_list.filter((w) => {
+          let r = big_result.filter((w) => {
             if (w.genre == k) return w;
           });
-
+  
           result[2] = result[2].concat(r);
         });
-
+  
         this.state.selected_platforms.map((k) => {
           let r = [];
-          wata_list.filter((w) => {
+          big_result.filter((w) => {
             w.platforms.map((p) => {
               if (p.name == k) {
                 r.push(w);
@@ -241,36 +295,30 @@ class App extends React.Component {
           });
           result[3] = result[3].concat(r);
         });
-
+  
         this.state.selected_keywords.map((k) => {
-          let r = wata_list.filter((w) => {
+          let r = big_result.filter((w) => {
             if (w.keywords.includes(k)) return w;
           });
-
+  
           result[4] = result[4].concat(r);
         });
-
-        console.log(result);
-
+  
         //reduce 가 길이 0인 배열 있으면 오류나서 길이 0인 배열 없애줌
         result = result.filter((r) => {
           if (r.length > 0) return r;
         });
-
+  
         //다른 카테고리들은 교집합
-        if (result.length <= 0) {
-          result = wata_list;
-        } else {
+        if (!result.length == 0) {
           result = result.reduce((a, arr) =>
             a.filter((item) => arr.includes(item))
           );
-          console.log("result : ");
-          console.log(result);
         }
       }
     }
-
-    /*
+     
+    
     console.log("search_keyword: ");
     console.log(this.state.searchKeyword);
     console.log(this.state.selected_categorys);
@@ -278,12 +326,15 @@ class App extends React.Component {
     console.log(this.state.selected_genres);
     console.log(this.state.selected_platforms);
     console.log(this.state.selected_keywords);
-    */
+    
 
     const indexOfLast = this.state.currentPage * this.state.watasPerPage;
     const indexOfFirst = indexOfLast - this.state.watasPerPage;
 
-    result = this.currentWatas(result, indexOfFirst);
+    let resultLength = result.length;
+    result = this.currentWatas(result, indexOfFirst, indexOfLast);
+
+    console.log(indexOfFirst + "," + indexOfLast + "," + resultLength + "," + this.makePageNumbers(resultLength));
 
     return (
       <div className="root_container">
@@ -296,9 +347,7 @@ class App extends React.Component {
             </div>
           ) : (
             <div className="container__box">
-              {this.state.isBookmark ? (
-                <div></div>
-              ) : (
+              
                 <div className="serachbar">
                   <KeywordBar
                     category={keyword_list.category}
@@ -311,7 +360,8 @@ class App extends React.Component {
                   />
                   <SearchBar search_searchbar={this.search_searchbar} />
                 </div>
-              )}
+
+              <div className="result_title">검색 결과는 총 {resultLength} 개 입니다.</div>
 
               <div className="wata_list">
                 {result.map((w) => {
@@ -333,9 +383,12 @@ class App extends React.Component {
                     );
                   }
                 })}
-              </div>
+                </div>
             </div>
           )}
+
+          <Pagination watasPerPage={this.state.watasPerPage} pageNumbers = {this.makePageNumbers(resultLength)} paginate = {this.paginate} />
+              
 
           {this.state.isBookmark ? (
             <div className="bookmark-share__container">
@@ -356,6 +409,7 @@ class App extends React.Component {
             <div></div>
           )}
         </section>
+        <Footer />
       </div>
     );
   }

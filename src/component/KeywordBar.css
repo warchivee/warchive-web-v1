@@ -56,12 +56,11 @@
 }
 
 .keywordbar__keyword-box .keyword-box__bubble-list {
+  width: 170px;
   display: flex;
-  flex-wrap: nowrap;
-  flex-direction: column;
-  width: 200px;
+  flex-flow: row wrap;
   overflow-y: scroll;
-  justify-content: start;
+  position: relative;
 }
 
 .keyword-box__bubble-list .bubble-list__bubble {
@@ -132,10 +131,6 @@
   text-align: center;
 }
 
-.keyword-box__bubble-list {
-  width: 250px;
-  overflow: auto;
-}
 .keyword-box__bubble-list::-webkit-scrollbar {
   width: 10px;
 }
