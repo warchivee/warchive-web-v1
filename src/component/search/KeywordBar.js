@@ -8,7 +8,6 @@ function SelectedBubble(props) {
       onClick={() => {
         props.addSelectedBubble(props.name, "delete", props.value);
         props.delete(props.list, props.name, props.value);
-        console.log(props.list);
       }}
     >
       {props.value}
@@ -21,7 +20,7 @@ function Bubble(props) {
     <div className="bubble-list__bubble">
       <input type="checkbox" name={props.name} value={props.value}></input>
       <label
-        for={props.name}
+        htmlFor={props.name}
         onClick={() => {
           props.addSelectedBubble(props.name, "add", props.value);
           props.select(props.name, props.value);
@@ -41,6 +40,7 @@ function SelectedKeywordList(props) {
           props.selected_keyword.map((i) => {
             return (
               <SelectedBubble
+                key={i.value}
                 list={props.selected_keyword}
                 name={i.name}
                 value={i.value}
@@ -65,6 +65,7 @@ function KeywordList(props) {
         {props.value.map((i) => {
           return (
             <Bubble
+              key={i}
               name={props.name}
               value={i}
               addSelectedBubble={props.addSelectedBubble}
@@ -125,9 +126,6 @@ export default class KeywordBar extends React.Component {
   }
 
   delete(arr, name, value) {
-    console.log(arr);
-    console.log(name);
-    console.log(value);
     let r = arr.filter((v) => {
       if (!(v.name == name && v.value == value)) return v;
     });
@@ -171,10 +169,6 @@ export default class KeywordBar extends React.Component {
       selected_keyword,
     } = this.state;
 
-    console.log("selected_keyword: ");
-    console.log(selected_keyword);
-
-    console.log("bookmark : " + this.state.keywordbar_state);
     if (this.props.isBookmark && !this.state.bookmark) {
       this.init();
     }

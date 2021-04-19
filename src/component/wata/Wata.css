@@ -98,7 +98,6 @@
   margin-bottom: 10px;
   font-size: 12px;
   color: white;
-  opacity: 0.6;
 }
 
 .wata__body .wata__keywords {
@@ -108,7 +107,7 @@
 
   font-size: 12px;
   color: white;
-  opacity: 0.6;
+  opacity: 0.8;
 }
 
 .wata__keywords .keywords__keyword {
@@ -121,13 +120,13 @@
   background-color: #170c1e;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
+  opacity: 0.6;
 }
 
 .wata__footer .footer__cautions {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin: 10px;
 }
 
 .footer__cautions .cautions__caution {
@@ -135,4 +134,8 @@
   font-size: 12px;
   color: white;
   opacity: 0.6;
+}
+
+.cautions__caution .caution {
+  padding: 10px;
 }

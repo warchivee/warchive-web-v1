@@ -58,9 +58,13 @@ function Wata({
           <ul className="wata__platforms">
             {platforms.map((p, index) => (
               <li key={index} className="platforms__platform">
-                <a href={p.url}>
-                  <span>{p.name}</span>
-                </a>
+                {p.name.length > 0 ? (
+                  <a href={p.url}>
+                    <span>{p.name}</span>
+                  </a>
+                ) : (
+                  <span></span>
+                )}
               </li>
             ))}
           </ul>
@@ -68,7 +72,11 @@ function Wata({
             <ul className="wata__keywords">
               {keywords.map((k, index) => (
                 <li key={index} className="keywords__keyword">
-                  <span>#{k}</span>
+                  {k.length > 0 ? (
+                    <span className="keyword">#{k}</span>
+                  ) : (
+                    <span></span>
+                  )}
                 </li>
               ))}
             </ul>
@@ -79,7 +87,11 @@ function Wata({
         <ul className="footer__cautions">
           {cautions.map((c, index) => (
             <li key={index} className="cautions__caution">
-              <span>#{c}</span>
+              {c.length > 0 ? (
+                <div className="caution">#{c}</div>
+              ) : (
+                <span></span>
+              )}
             </li>
           ))}
         </ul>

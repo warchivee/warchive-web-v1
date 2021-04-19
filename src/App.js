@@ -92,8 +92,6 @@ class App extends React.Component {
     this.setState({
       isMail: false,
     });
-
-    console.log("close");
   }
 
   // SearchBar 에 props로 넘겨줄 handleChange 메소드 정의
@@ -213,9 +211,6 @@ class App extends React.Component {
       pageNumbers.push(i);
     }
 
-    console.log(start + "////" + last);
-    console.log(pageNumbers);
-
     return pageNumbers;
   }
 
@@ -257,20 +252,39 @@ class App extends React.Component {
 
   delete_bookmark(id) {
     let lb = this.load_bookmarks();
-    console.log("gelete" + id);
-    console.log(lb);
     let b = lb.filter((w) => {
       if (w != id) {
         return w;
       }
     });
 
-    console.log(b);
-
     this.save_localstorage(b);
     this.setState({ temp: 2 });
 
     alert("북마크에서 삭제했습니다.");
+  }
+
+  share_bookmark(button) {
+    var sharename = "여성서사 추천리스트 공유하기";
+    var sharetext = "여성서사 추천리스트";
+    //var shareurl =window.location.host + "/main/sharebookmark" + "?id=" + this.load_bookmarks;
+
+    var shareurl = "temp";
+    var option =
+      "width = 500, height = 500, top = 100, left = 200, location = no";
+    var url = "";
+
+    if (button == "twitter") {
+      url =
+        "https://twitter.com/intent/tweet?text=" +
+        sharetext +
+        "&url=" +
+        shareurl;
+    } else if (button == "facebook") {
+      url = "http://www.facebook.com/sharer/sharer.php?u=" + shareurl;
+    }
+
+    window.open(url, sharename, option);
   }
 
   componentDidMount() {
@@ -376,29 +390,11 @@ class App extends React.Component {
       }
     }
 
-    console.log("search_keyword: ");
-    console.log(this.state.searchKeyword);
-    console.log(this.state.selected_categorys);
-    console.log(this.state.selected_sub_categorys);
-    console.log(this.state.selected_genres);
-    console.log(this.state.selected_platforms);
-    console.log(this.state.selected_keywords);
-
     const indexOfLast = this.state.currentPage * this.state.watasPerPage;
     const indexOfFirst = indexOfLast - this.state.watasPerPage;
 
     let resultLength = result.length;
     result = this.currentWatas(result, indexOfFirst, indexOfLast);
-
-    console.log(
-      indexOfFirst +
-        "," +
-        indexOfLast +
-        "," +
-        resultLength +
-        "," +
-        this.makePageNumbers(resultLength)
-    );
 
     return (
       <div className="root_container">
@@ -473,16 +469,22 @@ class App extends React.Component {
 
           {this.state.isBookmark ? (
             <div className="bookmark-share__container">
-              <span class="bookmark_caution">
+              <span className="bookmark_caution">
                 인터넷 기록,쿠키 등을 삭제하시면 즐겨찾기 목록이 초기화됩니다.
               </span>
-              <div class="share_button__container">
-                <span class="share_label">리스트 공유하기</span>
-                <div class="share_button twitter">
-                  <i class="fab fa-twitter"></i>
+              <div className="share_button__container">
+                <span className="share_label">리스트 공유하기</span>
+                <div
+                  className="share_button"
+                  onClick={() => this.share_bookmark("twitter")}
+                >
+                  <i className="fab fa-twitter"></i>
                 </div>
-                <div class="share_button facebook">
-                  <i class="fab fa-facebook-f"></i>
+                <div
+                  className="share_button facebook"
+                  onClick={() => this.share_bookmark("facebook")}
+                >
+                  <i className="fab fa-facebook-f"></i>
                 </div>
               </div>
             </div>
