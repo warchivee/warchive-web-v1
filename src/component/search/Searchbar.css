@@ -22,3 +22,7 @@
   backface-visibility: hidden;
   transform-style: preserve-3d;
 }
+
+.search__input:focus {
+  outline: none;
+}
