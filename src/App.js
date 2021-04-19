@@ -28,9 +28,7 @@ class App extends React.Component {
 
     currentPage: 1,
     watasPerPage: 12,
-    pageStart: 1,
-    pageEnd: 5,
-    pageLimit: 5,
+    pageLimit: 3,
   };
 
   constructor(props) {
@@ -53,9 +51,7 @@ class App extends React.Component {
 
       currentPage: 1,
       watasPerPage: 12,
-      pageStart: 1,
-      pageEnd: 5,
-      pageLimit: 5,
+      pageLimit: 3,
     };
     this.search_keywordbar = this.search_keywordbar.bind(this);
     this.search_searchbar = this.search_searchbar.bind(this);
@@ -187,37 +183,32 @@ class App extends React.Component {
   makePageNumbers(totalWatas) {
     let pageNumbers = [];
 
-    /*
-    for (let i = 1; i <= Math.ceil(totalWatas / this.state.watasPerPage); i++) {
-      pageNumbers.push(i);
-    }
-    */
+    let start = this.state.currentPage - this.state.pageLimit;
+    let last = this.state.currentPage + this.state.pageLimit;
 
-    let last = this.state.pageStart + this.state.pageLimit;
+    if (last < this.state.pageLimit * 2 + 1) {
+      last = this.state.pageLimit * 2 + 1;
+      start = 1;
+    }
+
+    if (start < 1) start = 1;
     let max = Math.ceil(totalWatas / this.state.watasPerPage);
-    if(last >= max) last = max;
+    if (last >= max) last = max;
 
-    this.state.pageEnd = last;
-
-    for(let i = this.state.pageStart; i<last; i++) {
+    for (let i = start; i <= last; i++) {
       pageNumbers.push(i);
     }
+
+    console.log(start + "////" + last);
+    console.log(pageNumbers);
 
     return pageNumbers;
   }
 
   paginate(currentPageNumber) {
-    console.log(currentPageNumber + "," + this.state.pageStart + "/" + this.state.pageEnd);
-    if(currentPageNumber == this.state.pageEnd-1) {
-      this.setState({
-        pageStart: this.state.pageEnd-1,
-        currentPage: currentPageNumber,
-      });
-    } else {
-      this.setState({
-        currentPage: currentPageNumber,
-      });
-    }
+    this.setState({
+      currentPage: currentPageNumber,
+    });
   }
 
   componentDidMount() {
@@ -254,8 +245,14 @@ class App extends React.Component {
         }
       });
     } else {
-      if(this.state.selected_categorys.length==0 && this.state.selected_sub_categorys.length==0 && this.state.selected_genres.length==0 && this.state.selected_platforms.length==0 && this.state.selected_keywords.length==0) {
-      result = big_result;
+      if (
+        this.state.selected_categorys.length == 0 &&
+        this.state.selected_sub_categorys.length == 0 &&
+        this.state.selected_genres.length == 0 &&
+        this.state.selected_platforms.length == 0 &&
+        this.state.selected_keywords.length == 0
+      ) {
+        result = big_result;
       } else {
         result = [[], [], [], [], []];
 
@@ -264,26 +261,26 @@ class App extends React.Component {
           let r = big_result.filter((w) => {
             if (w.category == k) return w;
           });
-  
+
           result[0] = result[0].concat(r);
         });
-  
+
         this.state.selected_sub_categorys.map((k) => {
           let r = big_result.filter((w) => {
             if (w.sub_category == k) return w;
           });
-  
+
           result[1] = result[1].concat(r);
         });
-  
+
         this.state.selected_genres.map((k) => {
           let r = big_result.filter((w) => {
             if (w.genre == k) return w;
           });
-  
+
           result[2] = result[2].concat(r);
         });
-  
+
         this.state.selected_platforms.map((k) => {
           let r = [];
           big_result.filter((w) => {
@@ -295,20 +292,20 @@ class App extends React.Component {
           });
           result[3] = result[3].concat(r);
         });
-  
+
         this.state.selected_keywords.map((k) => {
           let r = big_result.filter((w) => {
             if (w.keywords.includes(k)) return w;
           });
-  
+
           result[4] = result[4].concat(r);
         });
-  
+
         //reduce 가 길이 0인 배열 있으면 오류나서 길이 0인 배열 없애줌
         result = result.filter((r) => {
           if (r.length > 0) return r;
         });
-  
+
         //다른 카테고리들은 교집합
         if (!result.length == 0) {
           result = result.reduce((a, arr) =>
@@ -317,8 +314,7 @@ class App extends React.Component {
         }
       }
     }
-     
-    
+
     console.log("search_keyword: ");
     console.log(this.state.searchKeyword);
     console.log(this.state.selected_categorys);
@@ -326,7 +322,6 @@ class App extends React.Component {
     console.log(this.state.selected_genres);
     console.log(this.state.selected_platforms);
     console.log(this.state.selected_keywords);
-    
 
     const indexOfLast = this.state.currentPage * this.state.watasPerPage;
     const indexOfFirst = indexOfLast - this.state.watasPerPage;
@@ -334,7 +329,15 @@ class App extends React.Component {
     let resultLength = result.length;
     result = this.currentWatas(result, indexOfFirst, indexOfLast);
 
-    console.log(indexOfFirst + "," + indexOfLast + "," + resultLength + "," + this.makePageNumbers(resultLength));
+    console.log(
+      indexOfFirst +
+        "," +
+        indexOfLast +
+        "," +
+        resultLength +
+        "," +
+        this.makePageNumbers(resultLength)
+    );
 
     return (
       <div className="root_container">
@@ -347,21 +350,22 @@ class App extends React.Component {
             </div>
           ) : (
             <div className="container__box">
-              
-                <div className="serachbar">
-                  <KeywordBar
-                    category={keyword_list.category}
-                    sub_category={keyword_list.sub_category}
-                    genre={keyword_list.genre}
-                    platform={keyword_list.platform}
-                    keyword={keyword_list.keyword}
-                    search_keywordbar={this.search_keywordbar}
-                    isBookmark={this.state.isBookmark}
-                  />
-                  <SearchBar search_searchbar={this.search_searchbar} />
-                </div>
+              <div className="serachbar">
+                <KeywordBar
+                  category={keyword_list.category}
+                  sub_category={keyword_list.sub_category}
+                  genre={keyword_list.genre}
+                  platform={keyword_list.platform}
+                  keyword={keyword_list.keyword}
+                  search_keywordbar={this.search_keywordbar}
+                  isBookmark={this.state.isBookmark}
+                />
+                <SearchBar search_searchbar={this.search_searchbar} />
+              </div>
 
-              <div className="result_title">검색 결과는 총 {resultLength} 개 입니다.</div>
+              <div className="result_title">
+                검색 결과는 총 {resultLength} 개 입니다.
+              </div>
 
               <div className="wata_list">
                 {result.map((w) => {
@@ -383,12 +387,15 @@ class App extends React.Component {
                     );
                   }
                 })}
-                </div>
+              </div>
             </div>
           )}
 
-          <Pagination watasPerPage={this.state.watasPerPage} pageNumbers = {this.makePageNumbers(resultLength)} paginate = {this.paginate} />
-              
+          <Pagination
+            watasPerPage={this.state.watasPerPage}
+            pageNumbers={this.makePageNumbers(resultLength)}
+            paginate={this.paginate}
+          />
 
           {this.state.isBookmark ? (
             <div className="bookmark-share__container">
