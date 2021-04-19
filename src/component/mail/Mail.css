@@ -1,5 +1,5 @@
 .email {
-  position: absolute;
+  position: fixed; /*absolute 하면 스크롤 시 세로가 확장 안됨*/
   top: 0px;
   left: 0px;
   width: 100%;

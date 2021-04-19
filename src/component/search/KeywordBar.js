@@ -87,10 +87,13 @@ export default class KeywordBar extends React.Component {
     genre: [],
     platform: [],
     keyword: [],
+
+    bookmark: false,
   };
 
   constructor(props) {
     super(props);
+
     if (props.category) {
       this.state = {
         keywordbar_state: false,
@@ -100,6 +103,8 @@ export default class KeywordBar extends React.Component {
         genre: props.genre,
         platform: props.platform,
         keyword: props.keyword,
+
+        bookmark: false,
       };
     } else {
       this.state = {
@@ -110,6 +115,8 @@ export default class KeywordBar extends React.Component {
         genre: [],
         platform: [],
         keyword: [],
+
+        bookmark: false,
       };
     }
 
@@ -137,6 +144,14 @@ export default class KeywordBar extends React.Component {
     });
   }
 
+  init() {
+    this.setState({
+      keywordbar_state: false,
+      selected_keyword: [],
+      bookmark: true,
+    });
+  }
+
   render() {
     let none_style = {
       height: "0px",
@@ -158,6 +173,11 @@ export default class KeywordBar extends React.Component {
 
     console.log("selected_keyword: ");
     console.log(selected_keyword);
+
+    console.log("bookmark : " + this.state.keywordbar_state);
+    if (this.props.isBookmark && !this.state.bookmark) {
+      this.init();
+    }
 
     return (
       <div className="keywordbar">

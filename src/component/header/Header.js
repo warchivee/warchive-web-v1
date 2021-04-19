@@ -15,7 +15,14 @@ export default function Header(props) {
               />
             </a>
           </div>
-          <span className="header__icon bookmark" onClick={props.open_bookmark}>
+          <span
+            className={
+              props.isBookmark
+                ? "header__icon bookmark open_bookmark"
+                : "header__icon bookmark"
+            }
+            onClick={props.open_bookmark}
+          >
             <i className="fas fa-star"></i>
             <span className="icon__label">즐겨찾기 목록</span>
           </span>

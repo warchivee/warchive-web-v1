@@ -51,3 +51,11 @@
   color: white;
   opacity: 0.6;
 }
+
+.header__header-column .open_bookmark {
+  color: yellow;
+}
+
+.header__header-column .open_bookmark .icon__label {
+  opacity: 1;
+}

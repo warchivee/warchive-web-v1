@@ -21,8 +21,8 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  align-items: center;
-  width: 980px;
+  align-items: flex-start;
+  width: 960px;
   min-height: 300px;
 }
 
@@ -74,6 +74,6 @@
   vertical-align: middle;
 }
 
-.result_title{
+.result_title {
   margin: 30px;
 }

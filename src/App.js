@@ -1,13 +1,14 @@
 import React from "react";
 import axios from "axios"; //비동기통신 fetch 대신 axios 사용. yarn add axios
-import Wata from "./component/Wata";
+import Wata from "./component/wata/Wata";
 import "./App.css";
-import SearchBar from "./component/SearchBar";
-import KeywordBar from "./component/KeywordBar";
-import Header from "./component/Header";
-import Mail from "./component/Mail";
-import Pagination from "./component/Pagination";
-import Footer from "./component/Footer";
+import SearchBar from "./component/search/SearchBar";
+import KeywordBar from "./component/search/KeywordBar";
+import Header from "./component/header/Header";
+import Mail from "./component/mail/Mail";
+import Pagination from "./component/pagination/Pagination";
+import Footer from "./component/footer/Footer";
+import Loader from "./component/loader/Loader";
 
 class App extends React.Component {
   state = {
@@ -24,15 +25,18 @@ class App extends React.Component {
     selected_platforms: [], //선택한 플랫폼
     selected_keywords: [], //선택한 키워드
 
-    bookmark_list: [1, 2, 3],
-
     currentPage: 1,
     watasPerPage: 12,
     pageLimit: 3,
+
+    first_start: false,
+
+    temp: 0,
   };
 
   constructor(props) {
     super(props);
+
     this.state = {
       isBookmark: false,
       isMail: false,
@@ -47,24 +51,34 @@ class App extends React.Component {
       selected_platforms: [],
       selected_keywords: [],
 
-      bookmark_list: [1, 2, 3],
-
       currentPage: 1,
       watasPerPage: 12,
       pageLimit: 3,
+
+      first_start: false,
     };
+
     this.search_keywordbar = this.search_keywordbar.bind(this);
     this.search_searchbar = this.search_searchbar.bind(this);
     this.open_bookmark = this.open_bookmark.bind(this);
     this.open_mail = this.open_mail.bind(this);
     this.close_mail = this.close_mail.bind(this);
     this.paginate = this.paginate.bind(this);
+    this.delete_bookmark = this.delete_bookmark.bind(this);
+    this.add_bookmark = this.add_bookmark.bind(this);
   }
 
   open_bookmark() {
     this.setState({
       isBookmark: true,
       isMail: false,
+      searchKeyword: "",
+      selected_categorys: [],
+      selected_sub_categorys: [],
+      selected_genres: [],
+      selected_platforms: [],
+      selected_keywords: [],
+      currentPage: 1,
     });
   }
 
@@ -211,13 +225,60 @@ class App extends React.Component {
     });
   }
 
+  load_bookmarks() {
+    const loadedBookmarks = localStorage.getItem("bookmarks");
+
+    if (loadedBookmarks !== null) {
+      return JSON.parse(loadedBookmarks);
+    } else {
+      return [];
+    }
+  }
+
+  save_localstorage(b) {
+    localStorage.setItem("bookmarks", JSON.stringify(b));
+  }
+
+  add_bookmark(id) {
+    /*
+    this.setState({
+      bookmark_list: [...this.state.bookmark_list, id],
+    });
+    */
+
+    let lb = this.load_bookmarks();
+    let b = [...lb, id];
+
+    this.save_localstorage(b);
+    this.setState({ temp: 1 });
+
+    alert("북마크에 추가했습니다.");
+  }
+
+  delete_bookmark(id) {
+    let lb = this.load_bookmarks();
+    console.log("gelete" + id);
+    console.log(lb);
+    let b = lb.filter((w) => {
+      if (w != id) {
+        return w;
+      }
+    });
+
+    console.log(b);
+
+    this.save_localstorage(b);
+    this.setState({ temp: 2 });
+
+    alert("북마크에서 삭제했습니다.");
+  }
+
   componentDidMount() {
     this.getWataList();
   }
 
   render() {
     const { isLoading, wata_list, keyword_list } = this.state;
-
     //데이터 검색
     let result = [];
     let big_result = wata_list;
@@ -225,7 +286,7 @@ class App extends React.Component {
     if (this.state.isBookmark) {
       let r = [];
       this.state.wata_list.filter((c) => {
-        this.state.bookmark_list.map((b) => {
+        this.load_bookmarks().map((b) => {
           if (c.wata_id == b) {
             r.push(c);
           }
@@ -341,13 +402,15 @@ class App extends React.Component {
 
     return (
       <div className="root_container">
-        <Header open_bookmark={this.open_bookmark} open_mail={this.open_mail} />
+        <Header
+          open_bookmark={this.open_bookmark}
+          open_mail={this.open_mail}
+          isBookmark={this.state.isBookmark}
+        />
         <Mail close_mail={this.close_mail} open_mail_flag={this.state.isMail} />
         <section className="container">
           {isLoading ? (
-            <div className="loader">
-              <span className="loader__text">Loading...</span>
-            </div>
+            <Loader />
           ) : (
             <div className="container__box">
               <div className="serachbar">
@@ -370,6 +433,13 @@ class App extends React.Component {
               <div className="wata_list">
                 {result.map((w) => {
                   if (w.isDelete != "Y") {
+                    let bookmark = false;
+                    this.load_bookmarks().map((i) => {
+                      if (w.wata_id == i) {
+                        bookmark = true;
+                      }
+                    });
+
                     return (
                       <Wata
                         key={w.wata_id}
@@ -383,6 +453,9 @@ class App extends React.Component {
                         cautions={w.cautions}
                         platforms={w.platforms}
                         thumnail={w.thumnail}
+                        bookmark={bookmark}
+                        add_bookmark={this.add_bookmark}
+                        delete_bookmark={this.delete_bookmark}
                       />
                     );
                   }
@@ -395,6 +468,7 @@ class App extends React.Component {
             watasPerPage={this.state.watasPerPage}
             pageNumbers={this.makePageNumbers(resultLength)}
             paginate={this.paginate}
+            currentPageNumber={this.state.currentPage}
           />
 
           {this.state.isBookmark ? (

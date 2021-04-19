@@ -13,6 +13,9 @@ function Wata({
   cautions,
   platforms,
   thumnail,
+  bookmark,
+  add_bookmark,
+  delete_bookmark,
 }) {
   let thumnail_style = {
     backgroundImage: `url(${thumnail})`,
@@ -24,7 +27,16 @@ function Wata({
       <div className="wata__header">
         <div className="header__row header__titles">
           <h3 className="header__title">{title}</h3>
-          <span className="header__bookmark" id={wata_id}>
+          <span
+            className={
+              bookmark ? "header__bookmark bookmark" : "header__bookmark"
+            }
+            onClick={
+              bookmark
+                ? () => delete_bookmark(wata_id)
+                : () => add_bookmark(wata_id)
+            }
+          >
             <i className="fas fa-star"></i>
           </span>
         </div>
