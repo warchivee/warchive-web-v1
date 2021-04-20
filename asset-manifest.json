@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/warchive-client/static/css/main.00ff17a8.chunk.css",
+    "main.css": "/warchive-client/static/css/main.89674b6b.chunk.css",
     "main.js": "/warchive-client/static/js/main.9a29a56b.chunk.js",
     "main.js.map": "/warchive-client/static/js/main.9a29a56b.chunk.js.map",
     "runtime-main.js": "/warchive-client/static/js/runtime-main.c7a10f2e.js",
@@ -8,13 +8,13 @@
     "static/js/2.fb7ec68c.chunk.js": "/warchive-client/static/js/2.fb7ec68c.chunk.js",
     "static/js/2.fb7ec68c.chunk.js.map": "/warchive-client/static/js/2.fb7ec68c.chunk.js.map",
     "index.html": "/warchive-client/index.html",
-    "static/css/main.00ff17a8.chunk.css.map": "/warchive-client/static/css/main.00ff17a8.chunk.css.map",
+    "static/css/main.89674b6b.chunk.css.map": "/warchive-client/static/css/main.89674b6b.chunk.css.map",
     "static/js/2.fb7ec68c.chunk.js.LICENSE.txt": "/warchive-client/static/js/2.fb7ec68c.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.c7a10f2e.js",
     "static/js/2.fb7ec68c.chunk.js",
-    "static/css/main.00ff17a8.chunk.css",
+    "static/css/main.89674b6b.chunk.css",
     "static/js/main.9a29a56b.chunk.js"
   ]
 }
