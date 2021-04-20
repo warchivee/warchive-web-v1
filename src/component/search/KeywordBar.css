@@ -52,6 +52,7 @@
   color: #ebdbf3;
   margin-left: 10px;
   margin-bottom: 20px;
+  transition: 0.5s;
 }
 
 .keywordbar__keyword-box .keyword-box__bubble-list {
@@ -113,7 +114,7 @@
 }
 
 .keywordbar__selected-bubble-box {
-  width: 960px;
+  width: 860px;
 }
 
 .selected-keyword-list__bubble {

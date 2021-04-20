@@ -33,9 +33,20 @@ function Bubble(props) {
 }
 
 function SelectedKeywordList(props) {
+  let none_style = {
+    height: "0px",
+  };
+
+  let flex_style = {
+    height: "35px",
+  };
+
   return (
     <div>
-      <div className="keywordbar__selected-keyword-list">
+      <div
+        className="keywordbar__selected-keyword-list"
+        style={props.state ? flex_style : none_style}
+      >
         {props.selected_keyword ? (
           props.selected_keyword.map((i) => {
             return (
@@ -46,6 +57,7 @@ function SelectedKeywordList(props) {
                 value={i.value}
                 addSelectedBubble={props.addSelectedBubble}
                 delete={props.delete}
+                state={props.state}
               />
             );
           })
@@ -159,6 +171,14 @@ export default class KeywordBar extends React.Component {
       height: "400px",
     };
 
+    let no_style = {
+      padding: "0px",
+    };
+
+    let pa_style = {
+      padding: "5px",
+    };
+
     const {
       keywordbar_state,
       category,
@@ -175,6 +195,17 @@ export default class KeywordBar extends React.Component {
 
     return (
       <div className="keywordbar">
+        <div
+          className="keywordbar__selected-bubble-box"
+          style={keywordbar_state ? pa_style : no_style}
+        >
+          <SelectedKeywordList
+            selected_keyword={selected_keyword}
+            addSelectedBubble={this.props.search_keywordbar}
+            delete={this.delete}
+            state={keywordbar_state}
+          />
+        </div>
         <div
           className="keywordbar__container"
           style={keywordbar_state ? flex_style : none_style}
@@ -222,13 +253,6 @@ export default class KeywordBar extends React.Component {
           }}
         >
           <span className="button__text">키워드로 찾기</span>
-        </div>
-        <div className="keywordbar__selected-bubble-box">
-          <SelectedKeywordList
-            selected_keyword={selected_keyword}
-            addSelectedBubble={this.props.search_keywordbar}
-            delete={this.delete}
-          />
         </div>
       </div>
     );

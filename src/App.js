@@ -27,7 +27,7 @@ class App extends React.Component {
 
     currentPage: 1,
     watasPerPage: 12,
-    pageLimit: 3,
+    pageLimit: 2,
 
     first_start: false,
 
@@ -53,7 +53,7 @@ class App extends React.Component {
 
       currentPage: 1,
       watasPerPage: 12,
-      pageLimit: 3,
+      pageLimit: 2,
 
       first_start: false,
     };
@@ -422,9 +422,18 @@ class App extends React.Component {
                 <SearchBar search_searchbar={this.search_searchbar} />
               </div>
 
-              <div className="result_title">
-                검색 결과는 총 {resultLength} 개 입니다.
-              </div>
+              {this.state.searchKeyword == "" &&
+              this.state.selected_categorys.length == 0 &&
+              this.state.selected_sub_categorys.length == 0 &&
+              this.state.selected_genres.length == 0 &&
+              this.state.selected_platforms.length == 0 &&
+              this.state.selected_keywords.length == 0 ? (
+                <div className="result_title"></div>
+              ) : (
+                <div className="result_title">
+                  검색 결과는 총 {resultLength} 개 입니다.
+                </div>
+              )}
 
               <div className="wata_list">
                 {result.map((w) => {

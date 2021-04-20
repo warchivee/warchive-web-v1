@@ -55,8 +55,8 @@
 
 .share_button__container .share_button {
   display: table;
-  height: 30px;
-  width: 30px;
+  height: 40px;
+  width: 40px;
   border-radius: 80%;
   background-color: black;
   cursor: pointer;

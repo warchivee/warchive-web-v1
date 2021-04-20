@@ -162,6 +162,7 @@ textarea {
 
 .header__colomn .close-button {
   cursor: pointer;
+  font-size: 25px;
 }
 
 input[type="submit"] {
