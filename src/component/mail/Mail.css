@@ -46,21 +46,129 @@
 .popup__body form {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .popup__body form .body__colomn {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  align-items: flex-start;
   margin: 20px;
 }
 
+.colomn__header {
+  margin-bottom: 20px;
+  color: #9023d5;
+}
+
+.colomn-body__colomn {
+  display: flex;
+  margin: 10px;
+}
+
+.colomn-body__colomn label {
+  display: flex;
+  width: 100px;
+  align-items: flex-start;
+  font-size: 14px;
+  margin-right: 20px;
+  padding-top: 7px;
+}
+
+input[type="email"],
+input[type="text"] {
+  padding: 5px 7px 5px 7px;
+  font-size: 14px;
+  line-height: 18px;
+  width: 400px;
+
+  border-radius: 50px;
+  border: 1.5px solid #9023d5;
+
+  border-radius: 50px;
+}
+
+input[type="email"]:focus,
+input[type="text"]:focus {
+  outline: none;
+}
+
+.radio-container {
+  display: inline-block;
+  overflow: hidden;
+}
+.radio-box {
+  display: inline-block;
+  float: left;
+  width: 200px;
+  height: 30px;
+}
+.radio-container input[type="radio"] {
+  display: none;
+}
+.radio-container label {
+  display: inline-block;
+  cursor: pointer;
+  padding: 0px 15px;
+  line-height: 27px;
+  border: 1.5px solid #9023d5;
+  border-right: none;
+  user-select: none;
+  font-size: 14px;
+}
+
+.radio-container .radio-box:first-child label {
+  border-radius: 6px 0 0 6px;
+
+  width: 200px;
+  height: 30px;
+}
+.radio-container .radio-box:last-child label {
+  border-radius: 0 6px 6px 0;
+  border-right: 1.5px solid #9023d5;
+
+  width: 200px;
+  height: 30px;
+}
+
+/* Checked */
+.radio-container input[type="radio"]:checked + label {
+  background: #9023d5;
+  color: white;
+}
+
+/* Hover */
+.radio-container label:hover {
+  color: #666;
+}
+
+/* Disabled */
+.radio-container input[type="radio"]:disabled + label {
+  background: #efefef;
+  color: #666;
+}
+
 textarea {
+  width: 400px;
+  height: 200px;
   resize: none;
-  font-size: 15px;
+  font-size: 12px;
   padding: 10px;
+  border-radius: 10px;
+  border: 1.5px solid #9023d5;
   font-family: "Noto Sans KR", sans-serif;
 }
 
 .header__colomn .close-button {
   cursor: pointer;
+}
+
+input[type="submit"] {
+  border-radius: 7px;
+  border: 1.5px solid #9023d5;
+  background: #9023d5;
+  color: white;
+  height: 30px;
+  width: 500px;
 }

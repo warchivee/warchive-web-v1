@@ -44,30 +44,57 @@ export default function Mail(props) {
             </div>
           </div>
         </div>
+
         <div className="popup__body">
           <form id="contact-form" onSubmit={sendEmail}>
             <input type="hidden" name="contact_number" />
             <div className="body__colomn">
-              <label>메일 유형</label>
-              <select name="email_type">
-                <option id="title" value="추천작 제보">
-                  추천작 제보
-                </option>
-                <option id="creator" value="문의">
-                  문의
-                </option>
-              </select>
+              <div className="colomn__header">문의자 정보</div>
+              <div claaName="colomn__body">
+                <div className="colomn-body__colomn">
+                  <label>이름</label>
+                  <input type="text" name="user_name" />
+                </div>
+                <div className="colomn-body__colomn">
+                  <label>답신받을 이메일</label>
+                  <input type="email" name="user_email" />
+                </div>
+              </div>
             </div>
+
             <div className="body__colomn">
-              <label>이름</label>
-              <input type="text" name="user_name" />
+              <div className="colomn__header">문의내용</div>
+              <div claaName="colomn__body">
+                <div className="colomn-body__colomn">
+                  <label>메일 유형</label>
+                  <div className="radio-container">
+                    <div className="radio-box">
+                      <input
+                        type="radio"
+                        name="email_type"
+                        value="추천작 제보"
+                        id="rec"
+                      />
+                      <label htmlFor="rec">추천작 제보</label>
+                    </div>
+                    <div className="radio-box">
+                      <input
+                        id="etc"
+                        type="radio"
+                        name="email_type"
+                        value="기타 문의"
+                      />
+                      <label htmlFor="etc">기타 문의</label>
+                    </div>
+                  </div>
+                </div>
+                <div className="colomn-body__colomn">
+                  <label>내용</label>
+                  <textarea name="message" rows="10"></textarea>
+                </div>
+              </div>
             </div>
-            <div className="body__colomn">
-              <label>답신받을 이메일</label>
-              <input type="email" name="user_email" />
-            </div>
-            <textarea name="message" rows="10"></textarea>
-            <input type="submit" value="Send" />
+            <input type="submit" value="보내기" />
           </form>
         </div>
       </div>
