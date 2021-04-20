@@ -107,7 +107,7 @@
 
 .wata__platforms .platforms__platform:hover {
   background-color: white;
-  color: rgba(0, 0, 0, 1);
+  color: black;
 }
 
 .wata__body .wata__keywords {
