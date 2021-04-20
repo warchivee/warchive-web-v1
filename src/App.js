@@ -129,6 +129,8 @@ class App extends React.Component {
       d = this.state.selected_platforms;
     } else if (type == "keyword") {
       d = this.state.selected_keywords;
+    } else if (type == "none") {
+      d = this.state.selected_categorys;
     }
 
     if (action == "add") {
@@ -137,9 +139,17 @@ class App extends React.Component {
           [name]: [...d, value],
         });
       }
-    } else {
+    } else if (action == "delete") {
       this.setState({
         [name]: this.delete(d, value),
+      });
+    } else if (action == "init") {
+      this.setState({
+        selected_categorys: [],
+        selected_sub_categorys: [],
+        selected_genres: [],
+        selected_platforms: [],
+        selected_keywords: [],
       });
     }
   }

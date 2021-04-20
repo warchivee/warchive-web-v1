@@ -22,21 +22,8 @@
 
 .keywordbar__selected-bubble {
   background-color: #590091;
-  padding-top: 10px;
-  padding-bottom: 10px;
   box-shadow: 1px 1px 3px rgba(93, 50, 75, 0.541),
     1px 0px 1px rgba(106, 59, 110, 0.719);
-}
-
-.checked_bubble {
-  display: inline-block;
-  margin: 5px 10px 5px 10px;
-  border-radius: 20px;
-  border: 1px solid #ebdbf3;
-  color: #ebdbf3;
-  font-size: 12px;
-  padding: 5px;
-  cursor: pointer;
 }
 
 .keywordbar__container .keywordbar__keyword-box {
@@ -115,6 +102,7 @@
 .keywordbar__selected-keyword-list {
   width: 860px;
   padding: 5px;
+  transition: 0.5s;
 }
 
 .selected-keyword-list__bubble {
@@ -129,6 +117,10 @@
   text-align: center;
 }
 
+.selected-keyword-list__bubble span {
+  margin-right: 5px;
+}
+
 .keyword-box__bubble-list::-webkit-scrollbar {
   width: 10px;
 }
@@ -137,4 +129,26 @@
   border-radius: 10px;
   background-clip: padding-box;
   border: 2px solid transparent;
+}
+
+.selected-keyword-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 5px;
+  transition: 0.5s;
+}
+
+.init-keyword-button {
+  display: flex;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #ebdbf3;
+  background-color: #ebdbf3;
+  font-size: 12px;
+  padding: 5px 10px 5px 10px;
+  cursor: pointer;
+  border-radius: 20px;
 }

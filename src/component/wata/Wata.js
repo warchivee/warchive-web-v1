@@ -59,7 +59,7 @@ function Wata({
             {platforms.map((p, index) => (
               <li key={index} className="platforms__platform">
                 {p.name.length > 0 ? (
-                  <a href={p.url}>
+                  <a href={p.url} target="_blank">
                     <span>{p.name}</span>
                   </a>
                 ) : (
