@@ -93,7 +93,6 @@
 .bubble-list__bubble input[type="checkbox"]:checked + label {
   background-color: white;
   color: #9023d5;
-  border-radius: 20px;
   padding: 2px 10px;
 }
 
@@ -113,8 +112,9 @@
   width: 100%;
 }
 
-.keywordbar__selected-bubble-box {
+.keywordbar__selected-keyword-list {
   width: 860px;
+  padding: 5px;
 }
 
 .selected-keyword-list__bubble {

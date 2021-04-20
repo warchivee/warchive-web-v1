@@ -4,6 +4,7 @@ import "./KeywordBar.css";
 function SelectedBubble(props) {
   return (
     <div
+      id={props.id}
       className="selected-keyword-list__bubble"
       onClick={() => {
         props.addSelectedBubble(props.name, "delete", props.value);
@@ -18,9 +19,14 @@ function SelectedBubble(props) {
 function Bubble(props) {
   return (
     <div className="bubble-list__bubble">
-      <input type="checkbox" name={props.name} value={props.value}></input>
+      <input
+        type="checkbox"
+        id={props.id}
+        name={props.name}
+        value={props.value}
+      ></input>
       <label
-        htmlFor={props.name}
+        htmlFor={props.id}
         onClick={() => {
           props.addSelectedBubble(props.name, "add", props.value);
           props.select(props.name, props.value);
@@ -38,8 +44,10 @@ function SelectedKeywordList(props) {
   };
 
   let flex_style = {
-    height: "35px",
+    minHeight: "35px",
   };
+
+  let num = 0;
 
   return (
     <div>
@@ -51,7 +59,8 @@ function SelectedKeywordList(props) {
           props.selected_keyword.map((i) => {
             return (
               <SelectedBubble
-                key={i.value}
+                key={i.name + "selectbubble" + num++}
+                id={i.name + "selectbubble" + num++}
                 list={props.selected_keyword}
                 name={i.name}
                 value={i.value}
@@ -70,6 +79,7 @@ function SelectedKeywordList(props) {
 }
 
 function KeywordList(props) {
+  let num = 0;
   return (
     <div className="keywordbar__keyword-box">
       <h3 className="keyword-box__header">{props.header}</h3>
@@ -77,7 +87,8 @@ function KeywordList(props) {
         {props.value.map((i) => {
           return (
             <Bubble
-              key={i}
+              key={num++}
+              id={props.name + "bubble" + num++}
               name={props.name}
               value={i}
               addSelectedBubble={props.addSelectedBubble}
@@ -144,14 +155,27 @@ export default class KeywordBar extends React.Component {
 
     this.setState({ selected_keyword: r });
   }
+  include(arr, target) {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].name == target.name && arr[i].value == target.value) {
+        return true;
+      }
+    }
+
+    return false;
+  }
 
   select(name, value) {
-    this.setState({
-      selected_keyword: [
-        ...this.state.selected_keyword,
-        { name: name, value: value },
-      ],
-    });
+    if (
+      !this.include(this.state.selected_keyword, { name: name, value: value })
+    ) {
+      this.setState({
+        selected_keyword: [
+          ...this.state.selected_keyword,
+          { name: name, value: value },
+        ],
+      });
+    }
   }
 
   init() {
@@ -171,14 +195,6 @@ export default class KeywordBar extends React.Component {
       height: "400px",
     };
 
-    let no_style = {
-      padding: "0px",
-    };
-
-    let pa_style = {
-      padding: "5px",
-    };
-
     const {
       keywordbar_state,
       category,
@@ -195,17 +211,12 @@ export default class KeywordBar extends React.Component {
 
     return (
       <div className="keywordbar">
-        <div
-          className="keywordbar__selected-bubble-box"
-          style={keywordbar_state ? pa_style : no_style}
-        >
-          <SelectedKeywordList
-            selected_keyword={selected_keyword}
-            addSelectedBubble={this.props.search_keywordbar}
-            delete={this.delete}
-            state={keywordbar_state}
-          />
-        </div>
+        <SelectedKeywordList
+          selected_keyword={selected_keyword}
+          addSelectedBubble={this.props.search_keywordbar}
+          delete={this.delete}
+          state={keywordbar_state}
+        />
         <div
           className="keywordbar__container"
           style={keywordbar_state ? flex_style : none_style}

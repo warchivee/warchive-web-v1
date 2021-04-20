@@ -99,9 +99,7 @@ class App extends React.Component {
     this.setState({
       searchKeyword: e.target.value,
       currentPage: 1,
-      pageStart: 1,
-      pageEnd: 5,
-      pageLimit: 5,
+      pageLimit: 2,
     });
   };
 
@@ -115,9 +113,7 @@ class App extends React.Component {
     this.setState({
       searchKeyword: "",
       currentPage: 1,
-      pageStart: 1,
-      pageEnd: 5,
-      pageLimit: 5,
+      pageLimit: 2,
     });
 
     const name = "selected_" + type + "s";
@@ -136,7 +132,7 @@ class App extends React.Component {
     }
 
     if (action == "add") {
-      if (!d.includes(value)) {
+      if (d.includes(value) != true) {
         this.setState({
           [name]: [...d, value],
         });

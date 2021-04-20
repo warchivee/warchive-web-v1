@@ -13,9 +13,11 @@
 
 .pagination ul li {
   cursor: pointer;
+  width: 30px;
+  height: 30px;
 }
 
-.pagination ul li span:hover {
+.pagination ul li:hover {
   opacity: 0.5;
 }
 

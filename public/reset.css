@@ -129,7 +129,6 @@ table {
 }
 
 a {
-  color: #fff;
   text-decoration: none;
   outline: none;
 }
@@ -137,5 +136,4 @@ a {
 a:hover,
 a:active {
   text-decoration: none;
-  color: #fff;
 }

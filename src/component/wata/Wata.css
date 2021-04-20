@@ -36,8 +36,11 @@
   justify-content: space-between;
   font-size: 18px;
   font-weight: 600;
-  margin-right: 5px;
   margin-bottom: 2px;
+}
+
+.header__titles .header__title {
+  margin-right: 5px;
 }
 
 .header__bookmark {
@@ -57,7 +60,7 @@
 
 .header__categorys {
   margin-left: auto;
-
+  margin-bottom: 5px;
   font-size: 12px;
   color: white;
   opacity: 0.6;
@@ -80,7 +83,7 @@
 }
 
 .wata__body:hover {
-  opacity: 0.6;
+  opacity: 0.7;
 }
 
 .wata__body .wata__platforms {
@@ -102,6 +105,11 @@
   color: white;
 }
 
+.wata__platforms .platforms__platform:hover {
+  background-color: white;
+  color: rgba(0, 0, 0, 1);
+}
+
 .wata__body .wata__keywords {
   display: flex;
   flex-direction: row;
@@ -114,6 +122,7 @@
 
 .wata__keywords .keywords__keyword {
   margin-left: 10px;
+  margin-right: 10px;
 }
 
 .wata__footer {
@@ -130,10 +139,9 @@
 }
 
 .footer__cautions .cautions__caution {
-  margin-left: 5px;
   font-size: 12px;
-  color: white;
-  opacity: 0.6;
+  color: rgba(255, 255, 255, 1);
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 .cautions__caution .caution {
