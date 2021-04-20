@@ -21,7 +21,6 @@
 }
 
 .keywordbar__selected-bubble {
-  padding: 30px 200px 30px 200px;
   background-color: #590091;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -114,9 +113,7 @@
 }
 
 .keywordbar__selected-bubble-box {
-  min-height: 20px;
   width: 960px;
-  margin: 5px;
 }
 
 .selected-keyword-list__bubble {

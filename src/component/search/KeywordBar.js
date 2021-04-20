@@ -175,13 +175,6 @@ export default class KeywordBar extends React.Component {
 
     return (
       <div className="keywordbar">
-        <div className="keywordbar__selected-bubble-box">
-          <SelectedKeywordList
-            selected_keyword={selected_keyword}
-            addSelectedBubble={this.props.search_keywordbar}
-            delete={this.delete}
-          />
-        </div>
         <div
           className="keywordbar__container"
           style={keywordbar_state ? flex_style : none_style}
@@ -229,6 +222,13 @@ export default class KeywordBar extends React.Component {
           }}
         >
           <span className="button__text">키워드로 찾기</span>
+        </div>
+        <div className="keywordbar__selected-bubble-box">
+          <SelectedKeywordList
+            selected_keyword={selected_keyword}
+            addSelectedBubble={this.props.search_keywordbar}
+            delete={this.delete}
+          />
         </div>
       </div>
     );
