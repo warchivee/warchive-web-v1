@@ -1,5 +1,5 @@
 .pagination {
-  width: 960px;
+  width: 500px;
   margin-top: 50px;
   margin-bottom: 20px;
 }
@@ -15,10 +15,11 @@
   cursor: pointer;
 }
 
-.pagination ul li:hover {
-  background-color: gray;
+.pagination ul li span:hover {
+  opacity: 0.5;
 }
 
 .current_page {
-  background-color: red;
+  border-bottom: 2px solid #9023d5;
+  color: #9023d5;
 }
