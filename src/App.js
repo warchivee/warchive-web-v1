@@ -382,7 +382,7 @@ class App extends React.Component {
           result[4] = result[4].concat(r);
         });
 
-        //reduce 가 길이 0인 배열 있으면 오류나서 길이 0인 배열 없애줌
+        //reduce 가 길이 0인 배열 있으면 오류나서 길이 0인 배열 없애줌a
         result = result.filter((r) => {
           if (r.length > 0) return r;
         });
