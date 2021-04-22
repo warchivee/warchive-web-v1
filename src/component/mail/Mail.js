@@ -10,9 +10,9 @@ export default function Mail(props) {
   const [email, setEmail] = useState("");
 
   const recoTem = `제목:
-키워드:
-플랫폼:
-간단소개:`;
+키워드: 
+플랫폼: 
+간단소개: `;
   const errTem = ``;
 
   const [recoContents, setRecoContents] = useState(recoTem);
