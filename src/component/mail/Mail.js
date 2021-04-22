@@ -170,7 +170,7 @@ export default function Mail(props) {
                       name="message"
                       rows="10"
                       onChange={handleErrContents}
-                      placeholder="에러제보/문의사항을 적어주세요."
+                      placeholder="오류 제보 및 기타 문의사항을 적어주세요."
                     >
                       {errContents}
                     </textarea>
