@@ -8,7 +8,15 @@ export default function Mail(props) {
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [contents, setContents] = useState();
+
+  const recoTem = `제목:
+키워드:
+플랫폼:
+간단소개:`;
+  const errTem = ``;
+
+  const [recoContents, setRecoContents] = useState(recoTem);
+  const [errContents, setErrContents] = useState(errTem);
 
   const handleName = (e) => {
     setName(e.target.value);
@@ -18,8 +26,12 @@ export default function Mail(props) {
     setEmail(e.target.value);
   };
 
-  const handleContents = (e) => {
-    setContents(e.target.value);
+  const handleRecoContents = (e) => {
+    setRecoContents(e.target.value);
+  };
+
+  const handleErrContents = (e) => {
+    setErrContents(e.target.value);
   };
 
   let style = {
@@ -45,7 +57,12 @@ export default function Mail(props) {
 
     e.preventDefault();
 
-    if (name == "" || email == "" || contents == "") {
+    if (
+      name == "" ||
+      email == "" ||
+      (tap == true && recoContents == "") ||
+      (tap == false && errContents == "")
+    ) {
       alert("빈칸을 기입해주세요.");
     } else {
       if (confirm("보내시겠습니까?")) {
@@ -63,6 +80,8 @@ export default function Mail(props) {
       }
     }
   }
+
+  function varidation(str) {}
 
   return (
     <div className="email" style={props.open_mail_flag ? style : style_close}>
@@ -137,20 +156,23 @@ export default function Mail(props) {
                 <div className="colomn-body__colomn">
                   <label>내용</label>
                   {tap ? (
-                    <textarea
-                      name="message"
-                      rows="10"
-                      onChange={handleContents}
-                    >
-                      {contents}
-                    </textarea>
+                    <div>
+                      <textarea
+                        name="message"
+                        rows="10"
+                        onChange={handleRecoContents}
+                      >
+                        {recoContents}
+                      </textarea>
+                    </div>
                   ) : (
                     <textarea
                       name="message"
                       rows="10"
-                      onChange={handleContents}
+                      onChange={handleErrContents}
+                      placeholder="에러제보/문의사항을 적어주세요."
                     >
-                      {contents}
+                      {errContents}
                     </textarea>
                   )}
                 </div>
