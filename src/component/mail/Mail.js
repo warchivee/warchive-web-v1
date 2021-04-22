@@ -92,7 +92,10 @@ export default function Mail(props) {
             <span className="icon__label">추천작 제보 및 문의</span>
           </div>
           <div className="header__colomn">
-            <div className="close-button" onClick={props.close_mail}>
+            <div
+              className="close-button"
+              onClick={() => props.close_mail(false)}
+            >
               <i className="fas fa-times"></i>
             </div>
           </div>

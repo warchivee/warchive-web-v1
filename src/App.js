@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios"; //비동기통신 fetch 대신 axios 사용. yarn add axios
 import Wata from "./component/wata/Wata";
 import "./App.css";
@@ -10,207 +10,140 @@ import Pagination from "./component/pagination/Pagination";
 import Footer from "./component/footer/Footer";
 import Loader from "./component/loader/Loader";
 
-class App extends React.Component {
-  state = {
-    isBookmark: false,
-    isMail: false,
-    isLoading: true,
-    wata_list: [],
-    keyword_list: [], //전체 키워드 리스트
+function App() {
+  const [isBookmark, setIsBookmark] = useState(false);
+  const [isMail, setIsMail] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLander, setIsLander] = useState(true);
 
-    searchKeyword: "", //검색 입력
-    selected_categorys: [], //선택한 카테고리
-    selected_sub_categorys: [], //선택한 중분류
-    selected_genres: [], //선택한 장르
-    selected_platforms: [], //선택한 플랫폼
-    selected_keywords: [], //선택한 키워드
+  const [watas, setWatas] = useState([]);
+  const [searchResult, setSearchResult] = useState([]);
+  const [allSearchResultLength, setAllSearchResultLength] = useState([]);
+  const [allKeywords, setAllKeywords] = useState({
+    category: [],
+    sub_category: [],
+    genre: [],
+    platform: [],
+    keyword: [],
+  });
 
+  const [searchInput, setSearchInput] = useState("");
+
+  const [searchKeywords, setsearchKeywords] = useState({
+    category: [],
+    sub_category: [],
+    genre: [],
+    platform: [],
+    keyword: [],
+  });
+
+  const [pageInfo, setPageInfo] = useState({
     currentPage: 1,
     watasPerPage: 12,
     pageLimit: 2,
+  });
 
-    first_start: false,
-
-    temp: 0,
+  const openBookmark = () => {
+    setIsBookmark(true);
+    setSearchInput("");
+    setsearchKeywords({
+      category: [],
+      sub_category: [],
+      genre: [],
+      platform: [],
+      keyword: [],
+    });
+    setPageInfo({
+      ...pageInfo,
+      currentPage: 1,
+    });
   };
 
-  constructor(props) {
-    super(props);
+  const setMail = (isOpen) => {
+    setIsMail(isOpen);
+  };
 
-    this.state = {
-      isBookmark: false,
-      isMail: false,
-      isLoading: true,
-      wata_list: [],
-      keyword_list: [],
-
-      searchKeyword: "",
-      selected_categorys: [],
-      selected_sub_categorys: [],
-      selected_genres: [],
-      selected_platforms: [],
-      selected_keywords: [],
-
-      currentPage: 1,
-      watasPerPage: 12,
-      pageLimit: 2,
-
-      first_start: false,
-    };
-
-    this.search_keywordbar = this.search_keywordbar.bind(this);
-    this.search_searchbar = this.search_searchbar.bind(this);
-    this.open_bookmark = this.open_bookmark.bind(this);
-    this.open_mail = this.open_mail.bind(this);
-    this.close_mail = this.close_mail.bind(this);
-    this.paginate = this.paginate.bind(this);
-    this.delete_bookmark = this.delete_bookmark.bind(this);
-    this.add_bookmark = this.add_bookmark.bind(this);
-  }
-
-  open_bookmark() {
-    this.setState({
-      isBookmark: true,
-      isMail: false,
-      searchKeyword: "",
-      selected_categorys: [],
-      selected_sub_categorys: [],
-      selected_genres: [],
-      selected_platforms: [],
-      selected_keywords: [],
-      currentPage: 1,
-    });
-  }
-
-  open_mail() {
-    this.setState({
-      isMail: true,
-    });
-  }
-
-  close_mail() {
-    this.setState({
-      isMail: false,
-    });
-  }
-
-  // SearchBar 에 props로 넘겨줄 handleChange 메소드 정의
-  search_searchbar = (e) => {
-    this.setState({
-      searchKeyword: e.target.value,
+  const searchSearchbar = (e) => {
+    setSearchInput(e.target.value);
+    setPageInfo({
+      ...pageInfo,
       currentPage: 1,
       pageLimit: 2,
     });
   };
 
-  delete(arr, value) {
+  const deleteItem = (arr, value) => {
     return arr.filter((v) => {
       if (v != value) return v;
     });
-  }
+  };
 
-  search_keywordbar(type, action, value) {
-    this.setState({
-      searchKeyword: "",
+  const searchKeywordbar = (type, action, value) => {
+    setSearchInput("");
+    setPageInfo({
+      ...pageInfo,
       currentPage: 1,
       pageLimit: 2,
     });
 
-    const name = "selected_" + type + "s";
     let d = [];
 
     if (type == "category") {
-      d = this.state.selected_categorys;
+      d = searchKeywords.category;
     } else if (type == "sub_category") {
-      d = this.state.selected_sub_categorys;
+      d = searchKeywords.sub_category;
     } else if (type == "genre") {
-      d = this.state.selected_genres;
+      d = searchKeywords.genre;
     } else if (type == "platform") {
-      d = this.state.selected_platforms;
+      d = searchKeywords.platform;
     } else if (type == "keyword") {
-      d = this.state.selected_keywords;
+      d = searchKeywords.keyword;
     } else if (type == "none") {
-      d = this.state.selected_categorys;
+      d = [];
     }
 
     if (action == "add") {
       if (d.includes(value) != true) {
-        this.setState({
-          [name]: [...d, value],
+        setsearchKeywords({
+          ...searchKeywords,
+          [type]: [...d, value],
         });
       }
     } else if (action == "delete") {
-      this.setState({
-        [name]: this.delete(d, value),
+      setsearchKeywords({
+        ...searchKeywords,
+        [type]: deleteItem(d, value),
       });
     } else if (action == "init") {
-      this.setState({
-        selected_categorys: [],
-        selected_sub_categorys: [],
-        selected_genres: [],
-        selected_platforms: [],
-        selected_keywords: [],
+      setsearchKeywords({
+        category: [],
+        sub_category: [],
+        genre: [],
+        platform: [],
+        keyword: [],
       });
     }
-  }
-
-  getWataList = async () => {
-    const {
-      data: { wata_list },
-    } = await axios.get("http://warchive.pythonanywhere.com/api/?type=data");
-
-    let c = [];
-    let s = [];
-    let g = [];
-    let p = [];
-    let k = [];
-    wata_list.map((v) => {
-      c.push(v.category);
-      s.push(v.sub_category);
-      g.push(v.genre);
-      v.platforms.map((e) => {
-        if (e.name != "") p.push(e.name);
-      });
-      v.keywords.map((e) => {
-        if (e != "") k.push(e);
-      });
-
-      return 0;
-    });
-
-    this.setState({
-      wata_list,
-      keyword_list: {
-        category: Array.from(new Set(c)),
-        sub_category: Array.from(new Set(s)),
-        genre: Array.from(new Set(g)),
-        platform: Array.from(new Set(p)),
-        keyword: Array.from(new Set(k)),
-      },
-      isLoading: false,
-    }); //wata_list(state) : wata_list(axios) 축약 표현
   };
 
-  currentWatas(tmp, first, last) {
+  const currentWatas = (tmp, first, last) => {
     let currentWatas = [];
     currentWatas = tmp.slice(first, last);
-
     return currentWatas;
-  }
+  };
 
-  makePageNumbers(totalWatas) {
+  const makePageNumbers = (totalWatas) => {
     let pageNumbers = [];
 
-    let start = this.state.currentPage - this.state.pageLimit;
-    let last = this.state.currentPage + this.state.pageLimit;
+    let start = pageInfo.currentPage - pageInfo.pageLimit;
+    let last = pageInfo.currentPage + pageInfo.pageLimit;
 
-    if (last < this.state.pageLimit * 2 + 1) {
-      last = this.state.pageLimit * 2 + 1;
+    if (last < pageInfo.pageLimit * 2 + 1) {
+      last = pageInfo.pageLimit * 2 + 1;
       start = 1;
     }
 
     if (start < 1) start = 1;
-    let max = Math.ceil(totalWatas / this.state.watasPerPage);
+    let max = Math.ceil(totalWatas / pageInfo.watasPerPage);
     if (last >= max) last = max;
 
     for (let i = start; i <= last; i++) {
@@ -218,15 +151,16 @@ class App extends React.Component {
     }
 
     return pageNumbers;
-  }
+  };
 
-  paginate(currentPageNumber) {
-    this.setState({
+  const paginate = (currentPageNumber) => {
+    setPageInfo({
+      ...pageInfo,
       currentPage: currentPageNumber,
     });
-  }
+  };
 
-  load_bookmarks() {
+  const loadBookmarks = () => {
     const loadedBookmarks = localStorage.getItem("bookmarks");
 
     if (loadedBookmarks !== null) {
@@ -234,43 +168,37 @@ class App extends React.Component {
     } else {
       return [];
     }
-  }
+  };
 
-  save_localstorage(b) {
+  const saveLocalstorage = (b) => {
     localStorage.setItem("bookmarks", JSON.stringify(b));
-  }
+  };
 
-  add_bookmark(id) {
-    /*
-    this.setState({
-      bookmark_list: [...this.state.bookmark_list, id],
-    });
-    */
-
-    let lb = this.load_bookmarks();
+  const addBookmark = (id) => {
+    let lb = loadBookmarks();
     let b = [...lb, id];
 
-    this.save_localstorage(b);
-    this.setState({ temp: 1 });
+    saveLocalstorage(b);
+    //this.setState({ temp: 1 });
 
     alert("북마크에 추가했습니다.");
-  }
+  };
 
-  delete_bookmark(id) {
-    let lb = this.load_bookmarks();
+  const deleteBookmark = (id) => {
+    let lb = loadBookmarks();
     let b = lb.filter((w) => {
       if (w != id) {
         return w;
       }
     });
 
-    this.save_localstorage(b);
-    this.setState({ temp: 2 });
+    saveLocalstorage(b);
+    //this.setState({ temp: 2 });
 
     alert("북마크에서 삭제했습니다.");
-  }
+  };
 
-  share_bookmark(button) {
+  const shareBookmark = (button) => {
     var sharename = "여성서사 추천리스트 공유하기";
     var sharetext = "여성서사 추천리스트";
     //var shareurl =window.location.host + "/main/sharebookmark" + "?id=" + this.load_bookmarks;
@@ -291,22 +219,17 @@ class App extends React.Component {
     }
 
     window.open(url, sharename, option);
-  }
+  };
 
-  componentDidMount() {
-    this.getWataList();
-  }
-
-  render() {
-    const { isLoading, wata_list, keyword_list } = this.state;
+  const dataFiltering = () => {
     //데이터 검색
     let result = [];
-    let big_result = wata_list;
+    let big_result = watas;
 
-    if (this.state.isBookmark) {
+    if (isBookmark) {
       let r = [];
-      this.state.wata_list.filter((c) => {
-        this.load_bookmarks().map((b) => {
+      watas.filter((c) => {
+        loadBookmarks().map((b) => {
           if (c.wata_id == b) {
             r.push(c);
           }
@@ -316,29 +239,29 @@ class App extends React.Component {
       big_result = r;
     }
 
-    if (this.state.searchKeyword !== "") {
+    if (searchInput !== "") {
       result = big_result.filter((c) => {
         if (
-          c.title.indexOf(this.state.searchKeyword) > -1 ||
-          c.creator.indexOf(this.state.searchKeyword) > -1
+          c.title.indexOf(searchInput) > -1 ||
+          c.creator.indexOf(searchInput) > -1
         ) {
           return c;
         }
       });
     } else {
       if (
-        this.state.selected_categorys.length == 0 &&
-        this.state.selected_sub_categorys.length == 0 &&
-        this.state.selected_genres.length == 0 &&
-        this.state.selected_platforms.length == 0 &&
-        this.state.selected_keywords.length == 0
+        searchKeywords.category.length == 0 &&
+        searchKeywords.sub_category.length == 0 &&
+        searchKeywords.genre.length == 0 &&
+        searchKeywords.platform.length == 0 &&
+        searchKeywords.keyword.length == 0
       ) {
         result = big_result;
       } else {
         result = [[], [], [], [], []];
 
         //같은 카테고리 검색 시 합집합.
-        this.state.selected_categorys.map((k) => {
+        searchKeywords.category.map((k) => {
           let r = big_result.filter((w) => {
             if (w.category == k) return w;
           });
@@ -346,7 +269,7 @@ class App extends React.Component {
           result[0] = result[0].concat(r);
         });
 
-        this.state.selected_sub_categorys.map((k) => {
+        searchKeywords.sub_category.map((k) => {
           let r = big_result.filter((w) => {
             if (w.sub_category == k) return w;
           });
@@ -354,7 +277,7 @@ class App extends React.Component {
           result[1] = result[1].concat(r);
         });
 
-        this.state.selected_genres.map((k) => {
+        searchKeywords.genre.map((k) => {
           let r = big_result.filter((w) => {
             if (w.genre == k) return w;
           });
@@ -362,7 +285,7 @@ class App extends React.Component {
           result[2] = result[2].concat(r);
         });
 
-        this.state.selected_platforms.map((k) => {
+        searchKeywords.platform.map((k) => {
           let r = [];
           big_result.filter((w) => {
             w.platforms.map((p) => {
@@ -374,7 +297,7 @@ class App extends React.Component {
           result[3] = result[3].concat(r);
         });
 
-        this.state.selected_keywords.map((k) => {
+        searchKeywords.keyword.map((k) => {
           let r = big_result.filter((w) => {
             if (w.keywords.includes(k)) return w;
           });
@@ -396,121 +319,183 @@ class App extends React.Component {
       }
     }
 
-    const indexOfLast = this.state.currentPage * this.state.watasPerPage;
-    const indexOfFirst = indexOfLast - this.state.watasPerPage;
+    const indexOfLast = pageInfo.currentPage * pageInfo.watasPerPage;
+    const indexOfFirst = indexOfLast - pageInfo.watasPerPage;
 
-    let resultLength = result.length;
-    result = this.currentWatas(result, indexOfFirst, indexOfLast);
+    setAllSearchResultLength(result.length);
+    setSearchResult(currentWatas(result, indexOfFirst, indexOfLast));
 
-    return (
-      <div className="root_container">
-        <Header
-          open_bookmark={this.open_bookmark}
-          open_mail={this.open_mail}
-          isBookmark={this.state.isBookmark}
+    console.log(searchResult);
+  };
+
+  useEffect(() => {
+    let isLoding = false;
+
+    async function get() {
+      const { data: result } = await axios.get(
+        "http://warchive.pythonanywhere.com/api/?type=data"
+      );
+
+      let axios_watas = result.wata_list;
+
+      if (typeof axios_watas != "undefined" || axios_watas != null) {
+        let c = [];
+        let s = [];
+        let g = [];
+        let p = [];
+        let k = [];
+
+        axios_watas.map((v) => {
+          c.push(v.category);
+          s.push(v.sub_category);
+          g.push(v.genre);
+          v.platforms.map((e) => {
+            if (e.name != "") p.push(e.name);
+          });
+          v.keywords.map((e) => {
+            if (e != "") k.push(e);
+          });
+
+          return 0;
+        });
+
+        setWatas(axios_watas);
+        setAllKeywords({
+          category: Array.from(new Set(c)),
+          sub_category: Array.from(new Set(s)),
+          genre: Array.from(new Set(g)),
+          platform: Array.from(new Set(p)),
+          keyword: Array.from(new Set(k)),
+        });
+        setIsLoading(false);
+
+        if (isLoding == false) {
+          setWatas(axios_watas);
+        }
+      }
+    }
+
+    get();
+
+    return () => {
+      isLoding = true;
+      setIsLoading(false);
+    };
+  }, [isLander]);
+
+  useEffect(() => {
+    dataFiltering();
+  }, [watas, searchKeywords, searchInput, pageInfo, isBookmark]);
+
+  return (
+    <div className="root_container">
+      <Header
+        open_bookmark={openBookmark}
+        open_mail={setMail}
+        isBookmark={isBookmark}
+      />
+      <Mail close_mail={setMail} open_mail_flag={isMail} />
+      <section className="container">
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <div className="container__box">
+            <div className="serachbar">
+              <KeywordBar
+                category={allKeywords.category}
+                sub_category={allKeywords.sub_category}
+                genre={allKeywords.genre}
+                platform={allKeywords.platform}
+                keyword={allKeywords.keyword}
+                search_keywordbar={searchKeywordbar}
+                isBookmark={isBookmark}
+              />
+              <SearchBar search_searchbar={searchSearchbar} />
+            </div>
+
+            {searchInput == "" &&
+            searchKeywords.category.length == 0 &&
+            searchKeywords.sub_category.length == 0 &&
+            searchKeywords.genre.length == 0 &&
+            searchKeywords.platform.length == 0 &&
+            searchKeywords.keyword.length == 0 ? (
+              <div className="result_title"></div>
+            ) : (
+              <div className="result_title">
+                검색 결과는 총 {allSearchResultLength} 개 입니다.
+              </div>
+            )}
+
+            <div className="wata_list">
+              {searchResult.map((w) => {
+                if (w.isDelete != "Y") {
+                  let bookmark = false;
+                  //북마크인 것 노란 마크 하기 위해...
+                  loadBookmarks().map((i) => {
+                    if (w.wata_id == i) {
+                      bookmark = true;
+                    }
+                  });
+
+                  return (
+                    <Wata
+                      key={w.wata_id}
+                      wata_id={w.wata_id}
+                      title={w.title}
+                      creator={w.creator}
+                      category={w.category}
+                      sub_category={w.sub_category}
+                      genre={w.genre}
+                      keywords={w.keywords}
+                      cautions={w.cautions}
+                      platforms={w.platforms}
+                      thumnail={w.thumnail}
+                      bookmark={bookmark}
+                      add_bookmark={addBookmark}
+                      delete_bookmark={deleteBookmark}
+                    />
+                  );
+                }
+              })}
+            </div>
+          </div>
+        )}
+
+        <Pagination
+          watasPerPage={pageInfo.watasPerPage}
+          pageNumbers={makePageNumbers(allSearchResultLength)}
+          paginate={paginate}
+          currentPageNumber={pageInfo.currentPage}
         />
-        <Mail close_mail={this.close_mail} open_mail_flag={this.state.isMail} />
-        <section className="container">
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <div className="container__box">
-              <div className="serachbar">
-                <KeywordBar
-                  category={keyword_list.category}
-                  sub_category={keyword_list.sub_category}
-                  genre={keyword_list.genre}
-                  platform={keyword_list.platform}
-                  keyword={keyword_list.keyword}
-                  search_keywordbar={this.search_keywordbar}
-                  isBookmark={this.state.isBookmark}
-                />
-                <SearchBar search_searchbar={this.search_searchbar} />
+
+        {isBookmark ? (
+          <div className="bookmark-share__container">
+            <span className="bookmark_caution">
+              인터넷 기록,쿠키 등을 삭제하시면 즐겨찾기 목록이 초기화됩니다.
+            </span>
+            <div className="share_button__container">
+              <span className="share_label">리스트 공유하기</span>
+              <div
+                className="share_button"
+                onClick={() => shareBookmark("twitter")}
+              >
+                <i className="fab fa-twitter"></i>
               </div>
-
-              {this.state.searchKeyword == "" &&
-              this.state.selected_categorys.length == 0 &&
-              this.state.selected_sub_categorys.length == 0 &&
-              this.state.selected_genres.length == 0 &&
-              this.state.selected_platforms.length == 0 &&
-              this.state.selected_keywords.length == 0 ? (
-                <div className="result_title"></div>
-              ) : (
-                <div className="result_title">
-                  검색 결과는 총 {resultLength} 개 입니다.
-                </div>
-              )}
-
-              <div className="wata_list">
-                {result.map((w) => {
-                  if (w.isDelete != "Y") {
-                    let bookmark = false;
-                    this.load_bookmarks().map((i) => {
-                      if (w.wata_id == i) {
-                        bookmark = true;
-                      }
-                    });
-
-                    return (
-                      <Wata
-                        key={w.wata_id}
-                        wata_id={w.wata_id}
-                        title={w.title}
-                        creator={w.creator}
-                        category={w.category}
-                        sub_category={w.sub_category}
-                        genre={w.genre}
-                        keywords={w.keywords}
-                        cautions={w.cautions}
-                        platforms={w.platforms}
-                        thumnail={w.thumnail}
-                        bookmark={bookmark}
-                        add_bookmark={this.add_bookmark}
-                        delete_bookmark={this.delete_bookmark}
-                      />
-                    );
-                  }
-                })}
+              <div
+                className="share_button facebook"
+                onClick={() => shareBookmark("facebook")}
+              >
+                <i className="fab fa-facebook-f"></i>
               </div>
             </div>
-          )}
-
-          <Pagination
-            watasPerPage={this.state.watasPerPage}
-            pageNumbers={this.makePageNumbers(resultLength)}
-            paginate={this.paginate}
-            currentPageNumber={this.state.currentPage}
-          />
-
-          {this.state.isBookmark ? (
-            <div className="bookmark-share__container">
-              <span className="bookmark_caution">
-                인터넷 기록,쿠키 등을 삭제하시면 즐겨찾기 목록이 초기화됩니다.
-              </span>
-              <div className="share_button__container">
-                <span className="share_label">리스트 공유하기</span>
-                <div
-                  className="share_button"
-                  onClick={() => this.share_bookmark("twitter")}
-                >
-                  <i className="fab fa-twitter"></i>
-                </div>
-                <div
-                  className="share_button facebook"
-                  onClick={() => this.share_bookmark("facebook")}
-                >
-                  <i className="fab fa-facebook-f"></i>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div></div>
-          )}
-        </section>
-        <Footer />
-      </div>
-    );
-  }
+          </div>
+        ) : (
+          <div></div>
+        )}
+      </section>
+      <Footer />
+    </div>
+  );
 }
 
 export default App; //App 을 사용할 수 있도록 export 해줌.
