@@ -1,4 +1,4 @@
-.email {
+.email-popup-overlay {
   position: fixed; /*absolute 하면 스크롤 시 세로가 확장 안됨*/
   top: 0px;
   left: 0px;
@@ -9,7 +9,7 @@
   transition: 0.5s;
 }
 
-.email .email__popup {
+.email-popup-container {
   z-index: 2;
   position: fixed;
   text-align: center;

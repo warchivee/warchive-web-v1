@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Mail.css";
+import "./Mailpopup.css";
 import { init } from "emailjs-com";
 import emailjs from "emailjs-com";
 
@@ -84,9 +84,12 @@ export default function Mail(props) {
   function varidation(str) {}
 
   return (
-    <div className="email" style={props.open_mail_flag ? style : style_close}>
-      <div className="email__popup">
-        <div className="popup__header">
+    <div
+      className="email-popup-overlay"
+      style={props.open_mail_flag ? style : style_close}
+    >
+      <div className="email-popup-container">
+        <div className="email-popup-container__header">
           <div className="header__colomn">
             <i className="fas fa-envelope"></i>
             <span className="icon__label">추천작 제보 및 문의</span>

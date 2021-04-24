@@ -5,7 +5,7 @@ import "./App.css";
 import SearchBar from "./component/search/SearchBar";
 import KeywordBar from "./component/search/KeywordBar";
 import Header from "./component/header/Header";
-import Mail from "./component/mail/Mail";
+import Mail from "./component/mail/Mailpopup";
 import Pagination from "./component/pagination/Pagination";
 import Footer from "./component/footer/Footer";
 import Loader from "./component/loader/Loader";
@@ -17,6 +17,7 @@ function App() {
   const [isLander, setIsLander] = useState(true);
 
   const [watas, setWatas] = useState([]);
+  const [bookmarks, setBookmarks] = useState([]);
   const [searchResult, setSearchResult] = useState([]);
   const [allSearchResultLength, setAllSearchResultLength] = useState([]);
   const [allKeywords, setAllKeywords] = useState({
@@ -176,12 +177,13 @@ function App() {
 
   const addBookmark = (id) => {
     let lb = loadBookmarks();
-    let b = [...lb, id];
 
-    saveLocalstorage(b);
-    //this.setState({ temp: 1 });
-
-    alert("북마크에 추가했습니다.");
+    if (!lb.includes(id)) {
+      let b = [...lb, id];
+      alert("북마크에 추가했습니다.");
+      saveLocalstorage(b);
+      setBookmarks(b);
+    }
   };
 
   const deleteBookmark = (id) => {
@@ -191,9 +193,8 @@ function App() {
         return w;
       }
     });
-
+    setBookmarks(b);
     saveLocalstorage(b);
-    //this.setState({ temp: 2 });
 
     alert("북마크에서 삭제했습니다.");
   };
@@ -385,7 +386,7 @@ function App() {
 
   useEffect(() => {
     dataFiltering();
-  }, [watas, searchKeywords, searchInput, pageInfo, isBookmark]);
+  }, [watas, searchKeywords, searchInput, pageInfo, isBookmark, bookmarks]);
 
   return (
     <div className="root_container">
