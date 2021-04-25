@@ -330,8 +330,6 @@ function App() {
 
     setAllSearchResultLength(result.length);
     setSearchResult(currentWatas(result, indexOfFirst, indexOfLast));
-
-    console.log(searchResult);
   };
 
   useEffect(() => {
