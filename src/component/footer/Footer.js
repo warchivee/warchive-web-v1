@@ -12,13 +12,17 @@ export default function Footer() {
           </div>
           <div className="footer-contents-col__row">
             <span className="account-label">후원계좌</span>
-            <span className="account">농협 333-3333-3333</span>
+            <span className="account">우리 1002 343 024735 ㅇㅈㅇ</span>
           </div>
         </div>
         <div className="footer-contents__col">
-          <div className="footer-contents-col__row sns-logo">
+          <a
+            className="footer-contents-col__row sns-logo"
+            href="https://twitter.com/Womynarchive"
+            target="_blank"
+          >
             <i className="fab fa-twitter-square"></i>
-          </div>
+          </a>
         </div>
       </div>
     </div>

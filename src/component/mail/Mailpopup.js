@@ -109,7 +109,7 @@ export default function Mail(props) {
             <input type="hidden" name="contact_number" />
             <div className="body__colomn">
               <div className="colomn__header">문의자 정보</div>
-              <div claaName="colomn__body">
+              <div className="colomn__body">
                 <div className="colomn-body__colomn">
                   <label>이름</label>
                   <input
@@ -133,7 +133,7 @@ export default function Mail(props) {
 
             <div className="body__colomn">
               <div className="colomn__header">문의내용</div>
-              <div claaName="colomn__body">
+              <div className="colomn__body">
                 <div className="colomn-body__colomn">
                   <label>메일 유형</label>
                   <div className="radio-container">
@@ -144,6 +144,7 @@ export default function Mail(props) {
                         value="추천작 제보"
                         id="rec"
                         checked={tap}
+                        readOnly
                       />
                       <label htmlFor="rec">추천작 제보</label>
                     </div>
@@ -154,6 +155,7 @@ export default function Mail(props) {
                         name="email_type"
                         value="기타 문의"
                         checked={!tap}
+                        readOnly
                       />
                       <label htmlFor="etc">기타 문의</label>
                     </div>
@@ -167,9 +169,8 @@ export default function Mail(props) {
                         name="message"
                         rows="10"
                         onChange={handleRecoContents}
-                      >
-                        {recoContents}
-                      </textarea>
+                        value={recoContents}
+                      ></textarea>
                     </div>
                   ) : (
                     <textarea
@@ -177,9 +178,8 @@ export default function Mail(props) {
                       rows="10"
                       onChange={handleErrContents}
                       placeholder="오류 제보 및 기타 문의사항을 적어주세요."
-                    >
-                      {errContents}
-                    </textarea>
+                      value={errContents}
+                    ></textarea>
                   )}
                 </div>
               </div>

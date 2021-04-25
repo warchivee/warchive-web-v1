@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; //비동기통신 fetch 대신 axios 사용. yarn add axios
+import axios from "axios";
 import Wata from "./component/wata/Wata";
 import "./App.css";
 import SearchBar from "./component/search/SearchBar";
@@ -11,6 +11,11 @@ import Footer from "./component/footer/Footer";
 import Loader from "./component/loader/Loader";
 
 function App() {
+  const CURRENT_VERSION_WATAS = "watas1";
+  const PAST_VIRSION_WATAS = "watas0";
+
+  const BOOKMARK_LIST = "bookmarks";
+
   const [isBookmark, setIsBookmark] = useState(false);
   const [isMail, setIsMail] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -161,8 +166,8 @@ function App() {
     });
   };
 
-  const loadBookmarks = () => {
-    const loadedBookmarks = localStorage.getItem("bookmarks");
+  const loadLocalStorage = (name) => {
+    const loadedBookmarks = localStorage.getItem(name);
 
     if (loadedBookmarks !== null) {
       return JSON.parse(loadedBookmarks);
@@ -171,12 +176,12 @@ function App() {
     }
   };
 
-  const saveLocalstorage = (b) => {
-    localStorage.setItem("bookmarks", JSON.stringify(b));
+  const saveLocalstorage = (name, b) => {
+    localStorage.setItem(name, JSON.stringify(b));
   };
 
   const addBookmark = (id) => {
-    let lb = loadBookmarks();
+    let lb = loadLocalStorage(BOOKMARK_LIST);
 
     if (!lb.includes(id)) {
       let b = [...lb, id];
@@ -187,7 +192,7 @@ function App() {
   };
 
   const deleteBookmark = (id) => {
-    let lb = loadBookmarks();
+    let lb = loadLocalStorage(BOOKMARK_LIST);
     let b = lb.filter((w) => {
       if (w != id) {
         return w;
@@ -230,7 +235,7 @@ function App() {
     if (isBookmark) {
       let r = [];
       watas.filter((c) => {
-        loadBookmarks().map((b) => {
+        loadLocalStorage(BOOKMARK_LIST).map((b) => {
           if (c.wata_id == b) {
             r.push(c);
           }
@@ -331,15 +336,31 @@ function App() {
 
   useEffect(() => {
     let isLoding = false;
+    const current_version_watas = loadLocalStorage(CURRENT_VERSION_WATAS);
 
     async function get() {
-      const { data: result } = await axios.get(
-        "http://warchive.pythonanywhere.com/api/?type=data"
-      );
+      let axios_watas = [];
 
-      let axios_watas = result.wata_list;
+      if (
+        typeof current_version_watas == "undefined" ||
+        current_version_watas == null ||
+        current_version_watas.length == 0
+      ) {
+        localStorage.removeItem(PAST_VIRSION_WATAS);
+        const { data: result } = await axios.get(
+          "http://warchive.pythonanywhere.com/api/?type=data"
+        );
 
-      if (typeof axios_watas != "undefined" || axios_watas != null) {
+        axios_watas = result.wata_list;
+      } else {
+        axios_watas = current_version_watas;
+      }
+
+      if (
+        typeof axios_watas != "undefined" &&
+        axios_watas != null &&
+        axios_watas.length != 0
+      ) {
         let c = [];
         let s = [];
         let g = [];
@@ -371,6 +392,7 @@ function App() {
         setIsLoading(false);
 
         if (isLoding == false) {
+          saveLocalstorage(CURRENT_VERSION_WATAS, axios_watas);
           setWatas(axios_watas);
         }
       }
@@ -432,7 +454,7 @@ function App() {
                 if (w.isDelete != "Y") {
                   let bookmark = false;
                   //북마크인 것 노란 마크 하기 위해...
-                  loadBookmarks().map((i) => {
+                  loadLocalStorage(BOOKMARK_LIST).map((i) => {
                     if (w.wata_id == i) {
                       bookmark = true;
                     }
