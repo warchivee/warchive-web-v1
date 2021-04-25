@@ -14,7 +14,7 @@ function App() {
   const [isBookmark, setIsBookmark] = useState(false);
   const [isMail, setIsMail] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [isLander, setIsLander] = useState(true);
+  const [isLander, setIsLander] = useState(false);
 
   const [watas, setWatas] = useState([]);
   const [bookmarks, setBookmarks] = useState([]);

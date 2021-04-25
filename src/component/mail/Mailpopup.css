@@ -26,19 +26,19 @@
   padding: 50px;
 }
 
-.email__popup .popup__header {
+.email-popup-container__header {
   display: flex;
   justify-content: space-between;
   font-size: 20px;
   margin-bottom: 20px;
 }
 
-.popup__header .header__colomn {
+.email-popup-container__header .header__colomn {
   display: flex;
   align-items: center;
 }
 
-.popup__header .header__colomn i {
+.email-popup-container__header .header__colomn i {
   color: #9023d5;
   margin: 10px;
 }

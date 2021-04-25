@@ -1,37 +1,44 @@
 .footer-container {
   margin-top: 50px;
   background-color: #170c1e;
-  padding: 30px 200px;
   color: rgba(255, 255, 255, 0.6);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
 }
 
-.footer-container__col {
+.footer-contents {
+  width: 960px;
+  padding: 30px 0px 30px 0px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-contents__col {
   display: flex;
   flex-direction: column;
 }
 
-.footer-container-col__row {
+.footer-contents-col__row {
   display: flex;
   flex-direction: column;
   margin-top: 10px;
 }
 
-.footer-container-col__row .email-label,
-.footer-container-col__row .account-label {
+.footer-contents-col__row .email-label,
+.footer-contents-col__row .account-label {
   font-size: 12px;
   margin: 5px;
 }
 
-.footer-container-col__row .email,
-.footer-container-col__row .account {
+.footer-contents-col__row .email,
+.footer-contents-col__row .account {
   font-size: 16px;
   margin: 5px;
 }
 
-.footer-container__col .sns-logo {
+.footer-contents__col .sns-logo {
   font-size: 30px;
   color: #1da1f2;
   margin: 10px;

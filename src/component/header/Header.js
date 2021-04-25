@@ -3,10 +3,10 @@ import "./Header.css";
 
 export default function Header(props) {
   return (
-    <div className="header__container">
-      <div className="header">
-        <div className="header__header-column">
-          <div className="header__title">
+    <div className="header-container">
+      <div className="header-contents">
+        <div className="header-contents__col">
+          <div className="header-contents-col__title">
             <a href=".">
               <img
                 className="title__logo"
@@ -18,21 +18,21 @@ export default function Header(props) {
           <span
             className={
               props.isBookmark
-                ? "header__icon bookmark open_bookmark"
-                : "header__icon bookmark"
+                ? "header-contents-col__icon open_bookmark"
+                : "header-contents-col__icon"
             }
             onClick={props.open_bookmark}
           >
             <i className="fas fa-star"></i>
             <span className="icon__label">즐겨찾기 목록</span>
           </span>
-          <span className="header__icon email-popup" onClick={props.open_mail}>
+          <span className="header-contents-col__icon" onClick={props.open_mail}>
             <i className="fas fa-envelope"></i>
             <span className="icon__label">추천작 제보/문의</span>
           </span>
         </div>
-        <div className="header__header-column">
-          <span className="header__icon">
+        <div className="header-contents__col">
+          <span className="header-contents-col__icon">
             <i className="fas fa-question-circle"></i>
           </span>
         </div>
