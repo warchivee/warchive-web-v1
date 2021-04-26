@@ -273,7 +273,7 @@ function App() {
             if (w.genre == k) return w;
           });
 
-          result[2] = result[2].concat(r);
+          result[1] = result[1].concat(r);
         });
 
         searchKeywords.platform.map((k) => {
@@ -285,7 +285,7 @@ function App() {
               }
             });
           });
-          result[3] = result[3].concat(r);
+          result[2] = result[2].concat(r);
         });
 
         searchKeywords.keyword.map((k) => {
@@ -293,7 +293,7 @@ function App() {
             if (w.keywords.includes(k)) return w;
           });
 
-          result[4] = result[4].concat(r);
+          result[3] = result[3].concat(r);
         });
 
         //reduce 가 길이 0인 배열 있으면 오류나서 길이 0인 배열 없애줌a

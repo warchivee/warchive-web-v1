@@ -112,8 +112,11 @@
 
 .wata__body .wata__keywords {
   display: flex;
+  display: flex;
+  flex-wrap: wrap;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
 
   font-size: 12px;
   color: white;
@@ -121,8 +124,7 @@
 }
 
 .wata__keywords .keywords__keyword {
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 5px;
 }
 
 .wata__footer {
