@@ -7,7 +7,6 @@ function Wata({
   title,
   creator,
   category,
-  sub_category,
   genre,
   keywords,
   cautions,
@@ -46,9 +45,6 @@ function Wata({
         <div className="header__row header__categorys">
           <span className="categorys__category wata__category">
             #{category}
-          </span>
-          <span className="categorys__category wata__sub-category">
-            #{sub_category}
           </span>
           <span className="categorys__category wata__genre">#{genre}</span>
         </div>
@@ -105,7 +101,6 @@ Wata.propTypes = {
   title: PropTypes.string.isRequired,
   creator: PropTypes.string.isRequired,
   category: PropTypes.string.isRequired,
-  sub_category: PropTypes.string.isRequired,
   genre: PropTypes.string.isRequired,
   keyword: PropTypes.arrayOf(PropTypes.string),
   caution: PropTypes.arrayOf(PropTypes.string),

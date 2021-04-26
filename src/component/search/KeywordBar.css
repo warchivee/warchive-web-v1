@@ -43,7 +43,7 @@
 }
 
 .keywordbar__keyword-box .keyword-box__bubble-list {
-  width: 170px;
+  width: 200px;
   display: flex;
   flex-flow: row wrap;
   overflow-y: scroll;

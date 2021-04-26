@@ -198,13 +198,7 @@ export default function KeywordBar(props) {
           select={checkSelectedKeywords}
           isChecked={isIncludeSelectedKeyword}
         />
-        <KeywordList
-          name="sub_category"
-          header="서브카테고리"
-          value={props.sub_category}
-          select={checkSelectedKeywords}
-          isChecked={isIncludeSelectedKeyword}
-        />
+
         <KeywordList
           name="genre"
           header="장르"

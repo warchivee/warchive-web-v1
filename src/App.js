@@ -11,8 +11,8 @@ import Footer from "./component/footer/Footer";
 import Loader from "./component/loader/Loader";
 
 function App() {
-  const CURRENT_VERSION_WATAS = "watas1";
-  const PAST_VIRSION_WATAS = "watas0";
+  const CURRENT_VERSION_WATAS = "watas2";
+  const PAST_VIRSION_WATAS = "watas1";
 
   const BOOKMARK_LIST = "bookmarks";
 
@@ -27,7 +27,6 @@ function App() {
   const [allSearchResultLength, setAllSearchResultLength] = useState([]);
   const [allKeywords, setAllKeywords] = useState({
     category: [],
-    sub_category: [],
     genre: [],
     platform: [],
     keyword: [],
@@ -37,7 +36,6 @@ function App() {
 
   const [searchKeywords, setsearchKeywords] = useState({
     category: [],
-    sub_category: [],
     genre: [],
     platform: [],
     keyword: [],
@@ -54,7 +52,6 @@ function App() {
     setSearchInput("");
     setsearchKeywords({
       category: [],
-      sub_category: [],
       genre: [],
       platform: [],
       keyword: [],
@@ -96,8 +93,6 @@ function App() {
 
     if (type == "category") {
       d = searchKeywords.category;
-    } else if (type == "sub_category") {
-      d = searchKeywords.sub_category;
     } else if (type == "genre") {
       d = searchKeywords.genre;
     } else if (type == "platform") {
@@ -123,7 +118,6 @@ function App() {
     } else if (action == "init") {
       setsearchKeywords({
         category: [],
-        sub_category: [],
         genre: [],
         platform: [],
         keyword: [],
@@ -257,14 +251,13 @@ function App() {
     } else {
       if (
         searchKeywords.category.length == 0 &&
-        searchKeywords.sub_category.length == 0 &&
         searchKeywords.genre.length == 0 &&
         searchKeywords.platform.length == 0 &&
         searchKeywords.keyword.length == 0
       ) {
         result = big_result;
       } else {
-        result = [[], [], [], [], []];
+        result = [[], [], [], []];
 
         //같은 카테고리 검색 시 합집합.
         searchKeywords.category.map((k) => {
@@ -273,14 +266,6 @@ function App() {
           });
 
           result[0] = result[0].concat(r);
-        });
-
-        searchKeywords.sub_category.map((k) => {
-          let r = big_result.filter((w) => {
-            if (w.sub_category == k) return w;
-          });
-
-          result[1] = result[1].concat(r);
         });
 
         searchKeywords.genre.map((k) => {
@@ -360,14 +345,12 @@ function App() {
         axios_watas.length != 0
       ) {
         let c = [];
-        let s = [];
         let g = [];
         let p = [];
         let k = [];
 
         axios_watas.map((v) => {
           c.push(v.category);
-          s.push(v.sub_category);
           g.push(v.genre);
           v.platforms.map((e) => {
             if (e.name != "") p.push(e.name);
@@ -382,7 +365,6 @@ function App() {
         setWatas(axios_watas);
         setAllKeywords({
           category: Array.from(new Set(c)),
-          sub_category: Array.from(new Set(s)),
           genre: Array.from(new Set(g)),
           platform: Array.from(new Set(p)),
           keyword: Array.from(new Set(k)),
@@ -424,7 +406,6 @@ function App() {
             <div className="serachbar">
               <KeywordBar
                 category={allKeywords.category}
-                sub_category={allKeywords.sub_category}
                 genre={allKeywords.genre}
                 platform={allKeywords.platform}
                 keyword={allKeywords.keyword}
@@ -436,7 +417,6 @@ function App() {
 
             {searchInput == "" &&
             searchKeywords.category.length == 0 &&
-            searchKeywords.sub_category.length == 0 &&
             searchKeywords.genre.length == 0 &&
             searchKeywords.platform.length == 0 &&
             searchKeywords.keyword.length == 0 ? (
@@ -465,7 +445,6 @@ function App() {
                       title={w.title}
                       creator={w.creator}
                       category={w.category}
-                      sub_category={w.sub_category}
                       genre={w.genre}
                       keywords={w.keywords}
                       cautions={w.cautions}
