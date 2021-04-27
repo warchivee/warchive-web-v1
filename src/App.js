@@ -13,18 +13,9 @@ import Loader from "./component/loader/Loader";
 import { useMediaQuery } from "react-responsive";
 import MoHeader from "./m-compenent/mHeader";
 import MoMenu from "./m-compenent/mMenu";
+import { init } from "emailjs-com";
 
 function App() {
-  const Desktop = ({ children }) => {
-    const isDesktop = useMediaQuery({ minWidth: 960 });
-    return isDesktop ? children : null;
-  };
-
-  const Mobile = ({ children }) => {
-    const isMobile = useMediaQuery({ maxWidth: 960 });
-    return isMobile ? children : null;
-  };
-
   const CURRENT_VERSION_WATAS = "watas2";
   const PAST_VIRSION_WATAS = "watas1";
 
@@ -60,6 +51,53 @@ function App() {
     watasPerPage: 12,
     pageLimit: 2,
   });
+
+  const [keywordbarState, setKeywordbarState] = useState(false);
+  const [selectedKeywords, setSelectedKeywords] = useState([]);
+  const [firstStart, setFirstStart] = useState(true);
+
+  const initSelectedKeyword = () => {
+    setSelectedKeywords([]);
+    searchKeywordbar("none", "init", 0);
+  };
+
+  const addSelectedKeyword = (keyword) => {
+    if (!isIncludeSelectedKeyword(keyword.name)) {
+      setSelectedKeywords([...selectedKeywords, keyword]);
+      searchKeywordbar(keyword.name, "add", keyword.value);
+    }
+  };
+
+  const deleteSelectedKeyword = (keyword) => {
+    if (isIncludeSelectedKeyword(keyword)) {
+      let d = selectedKeywords.filter((e) => {
+        if (!(e.name == keyword.name && e.value == keyword.value)) return e;
+      });
+
+      setSelectedKeywords(d);
+      searchKeywordbar(keyword.name, "delete", keyword.value);
+    }
+  };
+
+  const checkSelectedKeywords = (keyword) => {
+    if (isIncludeSelectedKeyword(keyword)) {
+      deleteSelectedKeyword(keyword);
+    } else {
+      addSelectedKeyword(keyword);
+    }
+  };
+
+  const isIncludeSelectedKeyword = (keyword) => {
+    for (let i = 0; i < selectedKeywords.length; i++) {
+      if (
+        selectedKeywords[i].name == keyword.name &&
+        selectedKeywords[i].value == keyword.value
+      )
+        return true;
+    }
+
+    return false;
+  };
 
   const openBookmark = () => {
     setIsBookmark(true);
@@ -175,10 +213,10 @@ function App() {
   };
 
   const loadLocalStorage = (name) => {
-    const loadedBookmarks = localStorage.getItem(name);
+    const loadData = localStorage.getItem(name);
 
-    if (loadedBookmarks !== null) {
-      return JSON.parse(loadedBookmarks);
+    if (loadData !== null) {
+      return JSON.parse(loadData);
     } else {
       return [];
     }
@@ -194,8 +232,10 @@ function App() {
     if (!lb.includes(id)) {
       let b = [...lb, id];
       alert("북마크에 추가했습니다.");
-      saveLocalstorage(b);
+      saveLocalstorage(BOOKMARK_LIST, b);
       setBookmarks(b);
+
+      console.log(bookmarks);
     }
   };
 
@@ -206,8 +246,8 @@ function App() {
         return w;
       }
     });
+    saveLocalstorage(BOOKMARK_LIST, b);
     setBookmarks(b);
-    saveLocalstorage(b);
 
     alert("북마크에서 삭제했습니다.");
   };
@@ -409,7 +449,7 @@ function App() {
   console.log(searchKeywords);
   console.log(searchResult);
 
-  return (
+  return useMediaQuery({ minWidth: 970 }) ? (
     <div className="root_container">
       <Header
         open_bookmark={openBookmark}
@@ -428,8 +468,18 @@ function App() {
                 genre={allKeywords.genre}
                 platform={allKeywords.platform}
                 keyword={allKeywords.keyword}
-                search_keywordbar={searchKeywordbar}
                 isBookmark={isBookmark}
+                initSelectedKeyword={initSelectedKeyword}
+                addSelectedKeyword={addSelectedKeyword}
+                deleteSelectedKeyword={deleteSelectedKeyword}
+                checkSelectedKeywords={checkSelectedKeywords}
+                isIncludeSelectedKeyword={isIncludeSelectedKeyword}
+                setKeywordbarState={setKeywordbarState}
+                setSelectedKeywords={setSelectedKeywords}
+                setFirstStart={setFirstStart}
+                keywordbarState={keywordbarState}
+                selectedKeywords={selectedKeywords}
+                firstStart={firstStart}
               />
               <SearchBar search_searchbar={searchSearchbar} />
             </div>
@@ -513,6 +563,10 @@ function App() {
         )}
       </section>
       <Footer />
+    </div>
+  ) : (
+    <div>
+      <MoHeader></MoHeader>
     </div>
   );
 }

@@ -117,53 +117,6 @@ function KeywordList(props) {
 }
 
 export default function KeywordBar(props) {
-  const [keywordbarState, setKeywordbarState] = useState(false);
-  const [selectedKeywords, setSelectedKeywords] = useState([]);
-  const [firstStart, setFirstStart] = useState(true);
-
-  const initSelectedKeyword = () => {
-    setSelectedKeywords([]);
-    props.search_keywordbar("none", "init", 0);
-  };
-
-  const addSelectedKeyword = (keyword) => {
-    if (!isIncludeSelectedKeyword(keyword.name)) {
-      setSelectedKeywords([...selectedKeywords, keyword]);
-      props.search_keywordbar(keyword.name, "add", keyword.value);
-    }
-  };
-
-  const deleteSelectedKeyword = (keyword) => {
-    if (isIncludeSelectedKeyword(keyword)) {
-      let d = selectedKeywords.filter((e) => {
-        if (!(e.name == keyword.name && e.value == keyword.value)) return e;
-      });
-
-      setSelectedKeywords(d);
-      props.search_keywordbar(keyword.name, "delete", keyword.value);
-    }
-  };
-
-  const checkSelectedKeywords = (keyword) => {
-    if (isIncludeSelectedKeyword(keyword)) {
-      deleteSelectedKeyword(keyword);
-    } else {
-      addSelectedKeyword(keyword);
-    }
-  };
-
-  const isIncludeSelectedKeyword = (keyword) => {
-    for (let i = 0; i < selectedKeywords.length; i++) {
-      if (
-        selectedKeywords[i].name == keyword.name &&
-        selectedKeywords[i].value == keyword.value
-      )
-        return true;
-    }
-
-    return false;
-  };
-
   let none_style = {
     height: "0px",
   };
@@ -173,58 +126,58 @@ export default function KeywordBar(props) {
   };
 
   //최초 한번만 실행 아니면 무한루프..
-  if (props.isBookmark && firstStart) {
-    setKeywordbarState(false);
-    setSelectedKeywords([]);
-    setFirstStart(false);
+  if (props.isBookmark && props.firstStart) {
+    props.setKeywordbarState(false);
+    props.setSelectedKeywords([]);
+    props.setFirstStart(false);
   }
 
   return (
     <div className="keywordbar">
       <SelectedKeywordList
-        selected_keyword={selectedKeywords}
-        delete={deleteSelectedKeyword}
-        init={initSelectedKeyword}
-        state={keywordbarState}
+        selected_keyword={props.selectedKeywords}
+        delete={props.deleteSelectedKeyword}
+        init={props.initSelectedKeyword}
+        state={props.keywordbarState}
       />
       <div
         className="keywordbar__container"
-        style={keywordbarState ? flex_style : none_style}
+        style={props.keywordbarState ? flex_style : none_style}
       >
         <KeywordList
           name="category"
           header="카테고리"
           value={props.category}
-          select={checkSelectedKeywords}
-          isChecked={isIncludeSelectedKeyword}
+          select={props.checkSelectedKeywords}
+          isChecked={props.isIncludeSelectedKeyword}
         />
 
         <KeywordList
           name="genre"
           header="장르"
           value={props.genre}
-          select={checkSelectedKeywords}
-          isChecked={isIncludeSelectedKeyword}
+          select={props.checkSelectedKeywords}
+          isChecked={props.isIncludeSelectedKeyword}
         />
         <KeywordList
           name="platform"
           header="플랫폼"
           value={props.platform}
-          select={checkSelectedKeywords}
-          isChecked={isIncludeSelectedKeyword}
+          select={props.checkSelectedKeywords}
+          isChecked={props.isIncludeSelectedKeyword}
         />
         <KeywordList
           name="keyword"
           header="키워드"
           value={props.keyword}
-          select={checkSelectedKeywords}
-          isChecked={isIncludeSelectedKeyword}
+          select={props.checkSelectedKeywords}
+          isChecked={props.isIncludeSelectedKeyword}
         />
       </div>
       <div
         className="keywordbar__button"
         onClick={() => {
-          setKeywordbarState(!keywordbarState);
+          props.setKeywordbarState(!props.keywordbarState);
         }}
       >
         <span className="button__text">키워드로 찾기</span>
