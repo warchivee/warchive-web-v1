@@ -10,7 +10,21 @@ import Pagination from "./component/pagination/Pagination";
 import Footer from "./component/footer/Footer";
 import Loader from "./component/loader/Loader";
 
+import { useMediaQuery } from "react-responsive";
+import MoHeader from "./m-compenent/mHeader";
+import MoMenu from "./m-compenent/mMenu";
+
 function App() {
+  const Desktop = ({ children }) => {
+    const isDesktop = useMediaQuery({ minWidth: 960 });
+    return isDesktop ? children : null;
+  };
+
+  const Mobile = ({ children }) => {
+    const isMobile = useMediaQuery({ maxWidth: 960 });
+    return isMobile ? children : null;
+  };
+
   const CURRENT_VERSION_WATAS = "watas2";
   const PAST_VIRSION_WATAS = "watas1";
 
@@ -310,6 +324,8 @@ function App() {
       }
     }
 
+    result = Array.from(new Set(result));
+
     const indexOfLast = pageInfo.currentPage * pageInfo.watasPerPage;
     const indexOfFirst = indexOfLast - pageInfo.watasPerPage;
 
@@ -389,6 +405,9 @@ function App() {
   useEffect(() => {
     dataFiltering();
   }, [watas, searchKeywords, searchInput, pageInfo, isBookmark, bookmarks]);
+
+  console.log(searchKeywords);
+  console.log(searchResult);
 
   return (
     <div className="root_container">

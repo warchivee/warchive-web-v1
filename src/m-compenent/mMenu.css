@@ -1,0 +1,115 @@
+.mMenu-overlay {
+  position: fixed; /*absolute 하면 스크롤 시 세로가 확장 안됨*/
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+  transition: 0.5s;
+}
+
+.mMenu-container {
+  z-index: 2;
+  position: fixed;
+  text-align: center;
+  width: 320px;
+  height: 100%;
+  min-height: 480px;
+  background-color: #170c1e;
+  display: flex;
+  flex-direction: column;
+}
+
+.mMenu-conatiner__closeBtn {
+  background-color: #9023d5;
+  color: white;
+  display: flex;
+  flex-direction: row-reverse;
+  font-size: 20px;
+}
+.mMenu-conatiner__closeBtn i {
+  margin: 10px 10px 0px 10px;
+}
+
+.mMenu-container__title {
+  height: 20%;
+  width: 100%;
+  background-color: #9023d5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+}
+
+.mMenu-container__title img {
+  width: 50px;
+  margin-bottom: 10px;
+}
+
+.mMenu-title__label {
+  color: white;
+  opacity: 0.6;
+  font-size: 14px;
+  margin: 10px;
+}
+
+.mMenu-title__title {
+  color: white;
+  opacity: 0.8;
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.mMenu-container__contents {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.mMenu-container__contents__row {
+  display: flex;
+  flex-direction: row;
+  margin: 15px;
+}
+
+.mMenu-container__contents__row span {
+  margin-left: 10px;
+}
+
+.mMenu-container__footer {
+  margin-top: auto;
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 12px;
+  padding: 20px;
+}
+
+.mMenu-container__footer__row {
+  display: flex;
+  margin: 10px;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.mMenu-container__footer__row span {
+  margin: 5px;
+}
+
+.one-bar {
+  width: 30px;
+  height: 2px;
+  margin: 15px;
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.mMenu-sns {
+  font-size: 25px;
+  color: skyblue;
+  margin: 15px;
+}
