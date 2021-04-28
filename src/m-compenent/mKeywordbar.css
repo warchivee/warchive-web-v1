@@ -119,7 +119,6 @@
   flex-direction: row;
   align-items: flex-start;
   flex-wrap: wrap;
-  overflow-x: scroll;
 
   position: relative;
 }
