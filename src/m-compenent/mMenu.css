@@ -5,12 +5,11 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1;
-  transition: 0.5s;
+  z-index: 2;
 }
 
 .mMenu-container {
-  z-index: 2;
+  z-index: 3;
   position: fixed;
   text-align: center;
   width: 320px;
@@ -19,6 +18,11 @@
   background-color: #170c1e;
   display: flex;
   flex-direction: column;
+}
+
+.mMenu-container__contents__row.mail .label {
+  cursor: pointer;
+  z-index: 3;
 }
 
 .mMenu-conatiner__closeBtn {
@@ -112,4 +116,10 @@
   font-size: 25px;
   color: skyblue;
   margin: 15px;
+}
+
+.mMenu-closeArea {
+  width: 100%;
+  height: 100%;
+  z-index: 2;
 }

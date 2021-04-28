@@ -23,6 +23,8 @@ function App() {
 
   const BOOKMARK_LIST = "bookmarks";
 
+  const [isMenu, setIsMenu] = useState(false);
+
   const [isBookmark, setIsBookmark] = useState(false);
   const [isMail, setIsMail] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -266,8 +268,6 @@ function App() {
       alert("북마크에 추가했습니다.");
       saveLocalstorage(BOOKMARK_LIST, b);
       setBookmarks(b);
-
-      console.log(bookmarks);
     }
   };
 
@@ -356,7 +356,10 @@ function App() {
 
         searchKeywords.genre.map((k) => {
           let r = big_result.filter((w) => {
-            if (w.genre == k) return w;
+            if (w.genre == k) {
+              console.log(w);
+              return w;
+            }
           });
 
           result[1] = result[1].concat(r);
@@ -478,9 +481,6 @@ function App() {
     dataFiltering();
   }, [watas, searchKeywords, searchInput, pageInfo, isBookmark, bookmarks]);
 
-  console.log(searchKeywords);
-  console.log(searchResult);
-
   return useMediaQuery({ minWidth: 600 }) ? (
     <div className="root_container">
       <Header
@@ -589,21 +589,6 @@ function App() {
             <span className="bookmark_caution">
               인터넷 기록,쿠키 등을 삭제하시면 즐겨찾기 목록이 초기화됩니다.
             </span>
-            <div className="share_button__container">
-              <span className="share_label">리스트 공유하기</span>
-              <div
-                className="share_button"
-                onClick={() => shareBookmark("twitter")}
-              >
-                <i className="fab fa-twitter"></i>
-              </div>
-              <div
-                className="share_button facebook"
-                onClick={() => shareBookmark("facebook")}
-              >
-                <i className="fab fa-facebook-f"></i>
-              </div>
-            </div>
           </div>
         ) : (
           <div></div>
@@ -613,7 +598,29 @@ function App() {
     </div>
   ) : (
     <div className="mRoot__container">
-      <MoHeader></MoHeader>
+      <MoHeader
+        setIsMenu={setIsMenu}
+        open_bookmark={openBookmark}
+        isBookmark={isBookmark}
+        search_searchbar={searchSearchbar}
+      />
+      <MoMenu isMenu={isMenu} setIsMenu={setIsMenu} open_mail={setMail} />
+      <Mail
+        close_mail={setMail}
+        open_mail_flag={isMail}
+        tap={tap}
+        name={name}
+        email={email}
+        recoTem={recoTem}
+        errTem={errTem}
+        recoContents={recoContents}
+        errContents={errContents}
+        handleName={handleName}
+        handleEmail={handleEmail}
+        handleRecoContents={handleRecoContents}
+        handleErrContents={handleErrContents}
+        setTap={setTap}
+      />
       <MoKeywordbar
         category={allKeywords.category}
         genre={allKeywords.genre}
@@ -684,6 +691,16 @@ function App() {
         paginate={paginate}
         currentPageNumber={pageInfo.currentPage}
       />
+
+      {isBookmark ? (
+        <div className="bookmark-share__container">
+          <span className="bookmark_caution">
+            인터넷 기록,쿠키 등을 삭제하시면 즐겨찾기 목록이 초기화됩니다.
+          </span>
+        </div>
+      ) : (
+        <div></div>
+      )}
     </div>
   );
 }

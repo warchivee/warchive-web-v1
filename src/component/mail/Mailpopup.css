@@ -5,23 +5,28 @@
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.8);
-  z-index: 1;
   transition: 0.5s;
 }
 
 .email-popup-container {
-  z-index: 2;
   position: fixed;
   text-align: center;
-  left: 50%;
-  top: 50%;
-  margin-left: -350px;
-  margin-top: -350px;
-  width: 700px;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  margin-top: 50px;
+  width: 80%;
+  height: 100%;
+  max-height: 700px;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-y: scroll;
+  max-width: 500px;
+  min-width: 300px;
   background-color: white;
   border-radius: 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   padding: 50px;
 }
@@ -30,7 +35,8 @@
   display: flex;
   justify-content: space-between;
   font-size: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
 .email-popup-container__header .header__colomn {
@@ -43,33 +49,44 @@
   margin: 10px;
 }
 
+.popup__body {
+  width: 100%;
+}
+
 .popup__body form {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 100%;
 }
 
 .popup__body form .body__colomn {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  margin: 20px;
+  margin: 10px;
+  width: 100%;
 }
 
 .colomn__header {
-  margin-bottom: 20px;
+  margin: 10px;
   color: #9023d5;
 }
 
 .colomn-body__colomn {
   display: flex;
   margin: 10px;
+  width: 100%;
+}
+
+.body__colomn .colomn__body {
+  width: 100%;
 }
 
 .colomn-body__colomn label {
   display: flex;
-  width: 100px;
+  width: 100%;
   align-items: flex-start;
   font-size: 14px;
   margin-right: 20px;
@@ -81,7 +98,7 @@ input[type="text"] {
   padding: 5px 7px 5px 7px;
   font-size: 14px;
   line-height: 18px;
-  width: 400px;
+  width: 100%;
 
   border-radius: 50px;
   border: 1.5px solid #9023d5;
@@ -99,10 +116,9 @@ input[type="text"]:focus {
   overflow: hidden;
 }
 .radio-box {
-  display: inline-block;
   float: left;
-  width: 200px;
   height: 30px;
+  width: 50%;
 }
 .radio-container input[type="radio"] {
   display: none;
@@ -120,15 +136,12 @@ input[type="text"]:focus {
 
 .radio-container .radio-box:first-child label {
   border-radius: 6px 0 0 6px;
-
-  width: 200px;
   height: 30px;
 }
 .radio-container .radio-box:last-child label {
   border-radius: 0 6px 6px 0;
   border-right: 1.5px solid #9023d5;
 
-  width: 200px;
   height: 30px;
 }
 
@@ -148,9 +161,12 @@ input[type="text"]:focus {
   background: #efefef;
   color: #666;
 }
+.colomn-body__colomn .textarea {
+  width: 100%;
+}
 
 textarea {
-  width: 400px;
+  width: 100%;
   height: 200px;
   resize: none;
   font-size: 12px;
@@ -171,5 +187,5 @@ input[type="submit"] {
   background: #9023d5;
   color: white;
   height: 30px;
-  width: 500px;
+  width: 100%;
 }

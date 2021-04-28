@@ -6,7 +6,7 @@ import emailjs from "emailjs-com";
 export default function Mail(props) {
   let style = {
     opacity: "1",
-    zIndex: "1",
+    zIndex: "4",
   };
 
   let style_close = {
@@ -79,21 +79,21 @@ export default function Mail(props) {
               <div className="colomn__header">문의자 정보</div>
               <div className="colomn__body">
                 <div className="colomn-body__colomn">
-                  <label>이름</label>
                   <input
                     type="text"
                     name="user_name"
                     value={props.name}
                     onChange={props.handleName}
+                    placeholder="이름"
                   />
                 </div>
                 <div className="colomn-body__colomn">
-                  <label>답신받을 이메일</label>
                   <input
                     type="email"
                     name="user_email"
                     value={props.email}
                     onChange={props.handleEmail}
+                    placeholder="이메일"
                   />
                 </div>
               </div>
@@ -103,7 +103,6 @@ export default function Mail(props) {
               <div className="colomn__header">문의내용</div>
               <div className="colomn__body">
                 <div className="colomn-body__colomn">
-                  <label>메일 유형</label>
                   <div className="radio-container">
                     <div
                       className="radio-box"
@@ -136,9 +135,8 @@ export default function Mail(props) {
                   </div>
                 </div>
                 <div className="colomn-body__colomn">
-                  <label>내용</label>
                   {props.tap ? (
-                    <div>
+                    <div className="textarea">
                       <textarea
                         name="message"
                         rows="10"

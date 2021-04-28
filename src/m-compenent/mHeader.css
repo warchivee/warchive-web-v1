@@ -58,6 +58,10 @@
   font-size: 20px;
 }
 
+.mheader-contents__title .open_bookmark i {
+  color: #ffcd27;
+}
+
 .mheader-contents__searchbar {
   display: flex;
   justify-content: center;
