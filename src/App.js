@@ -13,6 +13,8 @@ import Loader from "./component/loader/Loader";
 import { useMediaQuery } from "react-responsive";
 import MoHeader from "./m-compenent/mHeader";
 import MoMenu from "./m-compenent/mMenu";
+import MoWata from "./m-compenent/mWata";
+import MoKeywordbar from "./m-compenent/mKeywordbar";
 import { init } from "emailjs-com";
 
 function App() {
@@ -55,6 +57,36 @@ function App() {
   const [keywordbarState, setKeywordbarState] = useState(false);
   const [selectedKeywords, setSelectedKeywords] = useState([]);
   const [firstStart, setFirstStart] = useState(true);
+
+  const [tap, setTap] = useState(true); //t = 추천작제보, f = 문의
+
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+
+  const recoTem = `제목:
+키워드: 
+플랫폼: 
+간단소개: `;
+  const errTem = ``;
+
+  const [recoContents, setRecoContents] = useState(recoTem);
+  const [errContents, setErrContents] = useState(errTem);
+
+  const handleName = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleRecoContents = (e) => {
+    setRecoContents(e.target.value);
+  };
+
+  const handleErrContents = (e) => {
+    setErrContents(e.target.value);
+  };
 
   const initSelectedKeyword = () => {
     setSelectedKeywords([]);
@@ -449,14 +481,29 @@ function App() {
   console.log(searchKeywords);
   console.log(searchResult);
 
-  return useMediaQuery({ minWidth: 970 }) ? (
+  return useMediaQuery({ minWidth: 720 }) ? (
     <div className="root_container">
       <Header
         open_bookmark={openBookmark}
         open_mail={setMail}
         isBookmark={isBookmark}
       />
-      <Mail close_mail={setMail} open_mail_flag={isMail} />
+      <Mail
+        close_mail={setMail}
+        open_mail_flag={isMail}
+        tap={tap}
+        name={name}
+        email={email}
+        recoTem={recoTem}
+        errTem={errTem}
+        recoContents={recoContents}
+        errContents={errContents}
+        handleName={handleName}
+        handleEmail={handleEmail}
+        handleRecoContents={handleRecoContents}
+        handleErrContents={handleErrContents}
+        setTap={setTap}
+      />
       <section className="container">
         {isLoading ? (
           <Loader />
@@ -567,6 +614,70 @@ function App() {
   ) : (
     <div>
       <MoHeader></MoHeader>
+      <MoKeywordbar
+        category={allKeywords.category}
+        genre={allKeywords.genre}
+        platform={allKeywords.platform}
+        keyword={allKeywords.keyword}
+        isBookmark={isBookmark}
+        initSelectedKeyword={initSelectedKeyword}
+        addSelectedKeyword={addSelectedKeyword}
+        deleteSelectedKeyword={deleteSelectedKeyword}
+        checkSelectedKeywords={checkSelectedKeywords}
+        isIncludeSelectedKeyword={isIncludeSelectedKeyword}
+        setKeywordbarState={setKeywordbarState}
+        setSelectedKeywords={setSelectedKeywords}
+        setFirstStart={setFirstStart}
+        keywordbarState={keywordbarState}
+        selectedKeywords={selectedKeywords}
+        firstStart={firstStart}
+      />
+
+      <section className="mContainer">
+        {searchInput == "" &&
+        searchKeywords.category.length == 0 &&
+        searchKeywords.genre.length == 0 &&
+        searchKeywords.platform.length == 0 &&
+        searchKeywords.keyword.length == 0 ? (
+          <div className="result_title"></div>
+        ) : (
+          <div className="result_title">
+            검색 결과는 총 {allSearchResultLength} 개 입니다.
+          </div>
+        )}
+
+        <div className="mWata_list">
+          {searchResult.map((w) => {
+            if (w.isDelete != "Y") {
+              let bookmark = false;
+              //북마크인 것 노란 마크 하기 위해...
+              loadLocalStorage(BOOKMARK_LIST).map((i) => {
+                if (w.wata_id == i) {
+                  bookmark = true;
+                }
+              });
+
+              return (
+                <MoWata
+                  key={w.wata_id}
+                  wata_id={w.wata_id}
+                  title={w.title}
+                  creator={w.creator}
+                  category={w.category}
+                  genre={w.genre}
+                  keywords={w.keywords}
+                  cautions={w.cautions}
+                  platforms={w.platforms}
+                  thumnail={w.thumnail}
+                  bookmark={bookmark}
+                  add_bookmark={addBookmark}
+                  delete_bookmark={deleteBookmark}
+                />
+              );
+            }
+          })}
+        </div>
+      </section>
     </div>
   );
 }

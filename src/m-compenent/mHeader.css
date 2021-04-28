@@ -4,13 +4,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  min-width: 200px;
+  width: 100%;
 }
 
 .mheader-contents {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: 320px;
 }
 
 .mheader-contents__title {

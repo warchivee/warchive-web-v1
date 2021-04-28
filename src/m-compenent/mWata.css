@@ -1,0 +1,137 @@
+.mWata {
+  display: flex;
+  flex-direction: row;
+  width: 300px;
+  height: 100px;
+  position: relative;
+
+  color: white;
+
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  box-shadow: 0px 5px 12px rgba(0, 0, 0, 0.25);
+
+  margin: 20px 10px 20px 10px;
+}
+
+.mWata_list {
+  width: 320px;
+}
+
+.mWata-thumnail {
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+
+  border-top-left-radius: 10px;
+}
+
+.mWata-thumnail__cautions {
+  display: flex;
+  flex-direction: row;
+}
+
+.mWata-thumnail__cautions li {
+  margin-right: 5px;
+}
+
+.mWata-contents {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #170c1e;
+  border-top-right-radius: 10px;
+
+  padding: 10px;
+}
+
+.mWata-contents__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
+.mWata-contents__header .header__title {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.mWata-contents__header .header__bookmark {
+  z-index: 1;
+  cursor: pointer;
+}
+
+.mWata-contents__creator {
+  font-size: 13px;
+  opacity: 0.7;
+
+  margin-bottom: 5px;
+}
+
+.mWata-contents__keywords {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-bottom: 5px;
+}
+
+.mWata-contents__keywords,
+.mWata-thumnail__cautions {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.mWata-thumnail__cautions {
+  color: violet;
+}
+
+.mWata-contents__keywords li {
+  margin-right: 5px;
+}
+
+.mWata-overlay {
+  z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  background-color: #170c1e;
+  opacity: 0;
+  transition: 0.5s;
+
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.mWata-overlay:hover {
+  opacity: 0.9;
+}
+
+.mWata-overlay__platforms {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.mWata-overlay__platforms li {
+  border: 2px solid white;
+  border-radius: 20px;
+  padding: 5px 10px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-bottom: 10px;
+  font-size: 12px;
+  color: white;
+}
+
+.mWata-overlay__platforms li:hover {
+  background-color: white;
+  color: black;
+}

@@ -77,3 +77,9 @@
 .result_title {
   margin: 30px;
 }
+
+.mContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

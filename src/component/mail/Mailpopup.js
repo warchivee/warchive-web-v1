@@ -4,36 +4,6 @@ import { init } from "emailjs-com";
 import emailjs from "emailjs-com";
 
 export default function Mail(props) {
-  const [tap, setTap] = useState(true); //t = 추천작제보, f = 문의
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-
-  const recoTem = `제목:
-키워드: 
-플랫폼: 
-간단소개: `;
-  const errTem = ``;
-
-  const [recoContents, setRecoContents] = useState(recoTem);
-  const [errContents, setErrContents] = useState(errTem);
-
-  const handleName = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handleRecoContents = (e) => {
-    setRecoContents(e.target.value);
-  };
-
-  const handleErrContents = (e) => {
-    setErrContents(e.target.value);
-  };
-
   let style = {
     opacity: "1",
     zIndex: "1",
@@ -58,10 +28,10 @@ export default function Mail(props) {
     e.preventDefault();
 
     if (
-      name == "" ||
-      email == "" ||
-      (tap == true && recoContents == "") ||
-      (tap == false && errContents == "")
+      props.name == "" ||
+      props.email == "" ||
+      (props.tap == true && props.recoContents == "") ||
+      (props.tap == false && props.errContents == "")
     ) {
       alert("빈칸을 기입해주세요.");
     } else {
@@ -80,8 +50,6 @@ export default function Mail(props) {
       }
     }
   }
-
-  function varidation(str) {}
 
   return (
     <div
@@ -105,7 +73,7 @@ export default function Mail(props) {
         </div>
 
         <div className="popup__body">
-          <form id="contact-form" onSubmit={sendEmail}>
+          <form id="contact-form" onSubmit={props.sendEmail}>
             <input type="hidden" name="contact_number" />
             <div className="body__colomn">
               <div className="colomn__header">문의자 정보</div>
@@ -115,8 +83,8 @@ export default function Mail(props) {
                   <input
                     type="text"
                     name="user_name"
-                    value={name}
-                    onChange={handleName}
+                    value={props.name}
+                    onChange={props.handleName}
                   />
                 </div>
                 <div className="colomn-body__colomn">
@@ -124,8 +92,8 @@ export default function Mail(props) {
                   <input
                     type="email"
                     name="user_email"
-                    value={email}
-                    onChange={handleEmail}
+                    value={props.email}
+                    onChange={props.handleEmail}
                   />
                 </div>
               </div>
@@ -137,24 +105,30 @@ export default function Mail(props) {
                 <div className="colomn-body__colomn">
                   <label>메일 유형</label>
                   <div className="radio-container">
-                    <div className="radio-box" onClick={() => setTap(true)}>
+                    <div
+                      className="radio-box"
+                      onClick={() => props.setTap(true)}
+                    >
                       <input
                         type="radio"
                         name="email_type"
                         value="추천작 제보"
                         id="rec"
-                        checked={tap}
+                        checked={props.tap}
                         readOnly
                       />
                       <label htmlFor="rec">추천작 제보</label>
                     </div>
-                    <div className="radio-box" onClick={() => setTap(false)}>
+                    <div
+                      className="radio-box"
+                      onClick={() => props.setTap(false)}
+                    >
                       <input
                         id="etc"
                         type="radio"
                         name="email_type"
                         value="기타 문의"
-                        checked={!tap}
+                        checked={!props.tap}
                         readOnly
                       />
                       <label htmlFor="etc">기타 문의</label>
@@ -163,22 +137,22 @@ export default function Mail(props) {
                 </div>
                 <div className="colomn-body__colomn">
                   <label>내용</label>
-                  {tap ? (
+                  {props.tap ? (
                     <div>
                       <textarea
                         name="message"
                         rows="10"
-                        onChange={handleRecoContents}
-                        value={recoContents}
+                        onChange={props.handleRecoContents}
+                        value={props.recoContents}
                       ></textarea>
                     </div>
                   ) : (
                     <textarea
                       name="message"
                       rows="10"
-                      onChange={handleErrContents}
+                      onChange={props.handleErrContents}
                       placeholder="오류 제보 및 기타 문의사항을 적어주세요."
-                      value={errContents}
+                      value={props.errContents}
                     ></textarea>
                   )}
                 </div>
