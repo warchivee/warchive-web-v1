@@ -41,13 +41,15 @@ function Bubble(props) {
 
 function SelectedKeywordList(props) {
   let none_style = {
-    height: "0px",
-    padding: "0px",
+    display: "none",
   };
 
   let flex_style = {
-    minHeight: "35px",
-    padding: "5px",
+    display: "flex",
+  };
+
+  let block_style = {
+    display: "inline-block",
   };
 
   let num = 0;
@@ -59,7 +61,7 @@ function SelectedKeywordList(props) {
     >
       <div
         className="keywordbar__selected-keyword-list"
-        style={props.state ? flex_style : none_style}
+        style={props.state ? block_style : none_style}
       >
         {props.selected_keyword ? (
           props.selected_keyword.map((i) => {

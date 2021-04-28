@@ -481,7 +481,7 @@ function App() {
   console.log(searchKeywords);
   console.log(searchResult);
 
-  return useMediaQuery({ minWidth: 720 }) ? (
+  return useMediaQuery({ minWidth: 600 }) ? (
     <div className="root_container">
       <Header
         open_bookmark={openBookmark}
@@ -612,7 +612,7 @@ function App() {
       <Footer />
     </div>
   ) : (
-    <div>
+    <div className="mRoot__container">
       <MoHeader></MoHeader>
       <MoKeywordbar
         category={allKeywords.category}
@@ -678,6 +678,12 @@ function App() {
           })}
         </div>
       </section>
+      <Pagination
+        watasPerPage={pageInfo.watasPerPage}
+        pageNumbers={makePageNumbers(allSearchResultLength)}
+        paginate={paginate}
+        currentPageNumber={pageInfo.currentPage}
+      />
     </div>
   );
 }

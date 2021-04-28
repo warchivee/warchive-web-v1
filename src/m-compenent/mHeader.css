@@ -10,7 +10,8 @@
 .mheader-contents {
   display: flex;
   flex-direction: column;
-  width: 320px;
+  width: 80%;
+  min-width: 320px;
 }
 
 .mheader-contents__title {

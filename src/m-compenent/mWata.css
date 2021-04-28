@@ -1,7 +1,7 @@
 .mWata {
   display: flex;
   flex-direction: row;
-  width: 300px;
+  width: 100%;
   height: 100px;
   position: relative;
 
@@ -15,7 +15,12 @@
 }
 
 .mWata_list {
-  width: 320px;
+  width: 80%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .mWata-thumnail {

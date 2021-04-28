@@ -115,8 +115,10 @@
   width: 320px;
   padding: 5px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: flex-start;
+  flex-wrap: wrap;
+  overflow-x: scroll;
 
   position: relative;
 }
@@ -144,8 +146,8 @@
 .mKeyword-box__bubble-list::-webkit-scrollbar-thumb {
   border-radius: 10px;
   background-clip: padding-box;
-  border: 2px solid transparent;
-  background-color: rgba(93, 50, 75, 0.541);
+  border: 1px solid transparent;
+  background-color: rgba(255, 255, 255, 0.541);
 }
 
 .mSelected-keyword-container {
@@ -160,6 +162,7 @@
 .init-keyword-button {
   display: flex;
   height: 30px;
+  min-width: 100px;
   justify-content: center;
   align-items: center;
   border: 1px solid #ebdbf3;
