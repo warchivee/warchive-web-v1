@@ -20,7 +20,7 @@
   flex-direction: column;
 }
 
-.mMenu-container__contents__row.mail .label {
+.mMenu-container__contents__row .label {
   cursor: pointer;
   z-index: 3;
 }

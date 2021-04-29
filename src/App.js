@@ -11,17 +11,19 @@ import Footer from "./component/footer/Footer";
 import Loader from "./component/loader/Loader";
 
 import { useMediaQuery } from "react-responsive";
-import MoHeader from "./m-compenent/mHeader";
-import MoMenu from "./m-compenent/mMenu";
-import MoWata from "./m-compenent/mWata";
-import MoKeywordbar from "./m-compenent/mKeywordbar";
+import MoHeader from "./m-compenent/MoHeader";
+import MoMenu from "./m-compenent/MoMenu";
+import MoWata from "./m-compenent/MoWata";
+import MoKeywordbar from "./m-compenent/MoKeywordbar";
 import { init } from "emailjs-com";
 
 function App() {
-  const CURRENT_VERSION_WATAS = "watas2";
-  const PAST_VIRSION_WATAS = "watas1";
+  const CURRENT_VERSION_WATAS = "watas3";
+  const PAST_VIRSION_WATAS = "watas2";
 
   const BOOKMARK_LIST = "bookmarks";
+
+  const [overlayInfo, setOverlayInfo] = useState({ id: "", state: false });
 
   const [isMenu, setIsMenu] = useState(false);
 
@@ -73,6 +75,8 @@ function App() {
 
   const [recoContents, setRecoContents] = useState(recoTem);
   const [errContents, setErrContents] = useState(errTem);
+
+  const [overlay, setOverlay] = useState({ id: "", state: false });
 
   const handleName = (e) => {
     setName(e.target.value);
@@ -357,7 +361,6 @@ function App() {
         searchKeywords.genre.map((k) => {
           let r = big_result.filter((w) => {
             if (w.genre == k) {
-              console.log(w);
               return w;
             }
           });
@@ -455,10 +458,10 @@ function App() {
 
         setWatas(axios_watas);
         setAllKeywords({
-          category: Array.from(new Set(c)),
-          genre: Array.from(new Set(g)),
-          platform: Array.from(new Set(p)),
-          keyword: Array.from(new Set(k)),
+          category: Array.from(new Set(c)).sort(),
+          genre: Array.from(new Set(g)).sort(),
+          platform: Array.from(new Set(p)).sort(),
+          keyword: Array.from(new Set(k)).sort(),
         });
         setIsLoading(false);
 
@@ -579,6 +582,7 @@ function App() {
 
         <Pagination
           watasPerPage={pageInfo.watasPerPage}
+          searchResultLength={allSearchResultLength}
           pageNumbers={makePageNumbers(allSearchResultLength)}
           paginate={paginate}
           currentPageNumber={pageInfo.currentPage}
@@ -604,7 +608,12 @@ function App() {
         isBookmark={isBookmark}
         search_searchbar={searchSearchbar}
       />
-      <MoMenu isMenu={isMenu} setIsMenu={setIsMenu} open_mail={setMail} />
+      <MoMenu
+        isMenu={isMenu}
+        setIsMenu={setIsMenu}
+        open_mail={setMail}
+        open_bookmark={openBookmark}
+      />
       <Mail
         close_mail={setMail}
         open_mail_flag={isMail}
@@ -679,6 +688,10 @@ function App() {
                   bookmark={bookmark}
                   add_bookmark={addBookmark}
                   delete_bookmark={deleteBookmark}
+                  overlay={
+                    overlayInfo.id == w.wata_id ? overlayInfo.state : false
+                  }
+                  setOverlayInfo={setOverlayInfo}
                 />
               );
             }
@@ -690,6 +703,7 @@ function App() {
         pageNumbers={makePageNumbers(allSearchResultLength)}
         paginate={paginate}
         currentPageNumber={pageInfo.currentPage}
+        searchResultLength={allSearchResultLength}
       />
 
       {isBookmark ? (

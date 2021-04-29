@@ -1,5 +1,5 @@
 import React from "react";
-import "./mMenu.css";
+import "./MoMenu.css";
 
 export default function mMenu(props) {
   let v_style = {
@@ -26,6 +26,16 @@ export default function mMenu(props) {
         </div>
         <div className="mMenu-container__contents">
           <div
+            className="mMenu-container__contents__row bookmark"
+            onClick={() => {
+              props.open_bookmark();
+              props.setIsMenu(false);
+            }}
+          >
+            <i className="fas fa-star"></i>
+            <span className="label">북마크 목록</span>
+          </div>
+          <div
             className="mMenu-container__contents__row mail"
             onClick={props.open_mail}
           >
@@ -49,7 +59,7 @@ export default function mMenu(props) {
           </div>
           <div className="one-bar"></div>
           <div className="mMenu-container__footer__row">
-            <span className="label">추천작 제보, 문의</span>
+            <span className="label">연락처</span>
             <span className="text">team.warchive@gmail.com</span>
           </div>
           <div className="mMenu-container__footer__row">

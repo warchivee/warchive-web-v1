@@ -18,7 +18,8 @@ function Wata({
 }) {
   let thumnail_style = {
     backgroundImage: `url(${thumnail})`,
-    backgroundSize: "100%",
+    backgroundSize: "cover",
+    backgroundPosition: "50%",
   };
 
   return (

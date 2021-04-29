@@ -1,7 +1,7 @@
-import React from "react";
-import "./mWata.css";
+import React, { useState } from "react";
+import "./MoWata.css";
 
-export default function mWata({
+export default function MoWata({
   wata_id,
   title,
   creator,
@@ -14,10 +14,21 @@ export default function mWata({
   bookmark,
   add_bookmark,
   delete_bookmark,
+  overlay,
+  setOverlayInfo,
 }) {
   let thumnail_style = {
     backgroundImage: `url(${thumnail})`,
-    backgroundSize: "100%",
+    backgroundSize: "cover",
+    backgroundPosition: "50%",
+  };
+
+  let overlay_none_style = {
+    opacity: 0,
+  };
+
+  let overlay_style = {
+    opacity: 1,
   };
 
   return (
@@ -65,20 +76,28 @@ export default function mWata({
           ))}
         </ul>
       </div>
-      <div className="mWata-overlay">
-        <ul className="mWata-overlay__platforms">
-          {platforms.map((p, index) => (
-            <li key={index}>
-              {p.name.length > 0 ? (
-                <a href={p.url} target="_blank">
-                  <span>{p.name}</span>
-                </a>
-              ) : (
-                <span></span>
-              )}
-            </li>
-          ))}
-        </ul>
+      <div
+        className="mWata-overlay"
+        onClick={() => setOverlayInfo({ id: wata_id, state: !overlay })}
+        style={overlay ? overlay_style : overlay_none_style}
+      >
+        {overlay ? (
+          <ul className="mWata-overlay__platforms">
+            {platforms.map((p, index) => (
+              <li key={index}>
+                {p.name.length > 0 ? (
+                  <a href={p.url} target="_blank">
+                    <span>{p.name}</span>
+                  </a>
+                ) : (
+                  <span></span>
+                )}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );

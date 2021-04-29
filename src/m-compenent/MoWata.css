@@ -117,10 +117,6 @@
   border-top-right-radius: 10px;
 }
 
-.mWata-overlay:hover {
-  opacity: 0.9;
-}
-
 .mWata-overlay__platforms {
   display: flex;
   flex-wrap: wrap;

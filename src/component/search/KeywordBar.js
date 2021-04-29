@@ -182,7 +182,14 @@ export default function KeywordBar(props) {
           props.setKeywordbarState(!props.keywordbarState);
         }}
       >
-        <span className="button__text">키워드로 찾기</span>
+        <span className="button__text">
+          키워드로 찾기{" "}
+          {props.keywordbarState ? (
+            <i className="fas fa-angle-up"></i>
+          ) : (
+            <i className="fas fa-angle-down"></i>
+          )}
+        </span>
       </div>
     </div>
   );

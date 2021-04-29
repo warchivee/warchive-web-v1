@@ -1,5 +1,5 @@
 import React from "react";
-import "./mKeywordbar.css";
+import "./MoKeywordbar.css";
 
 function SelectedBubble(props) {
   return (
@@ -78,12 +78,12 @@ function SelectedKeywordList(props) {
       </div>
       <div style={props.state ? flex_style : none_style}>
         <div
-          className="init-keyword-button"
+          className="mInit-keyword-button"
           onClick={() => {
             props.init();
           }}
         >
-          키워드 초기화
+          <i class="fas fa-redo"></i>
         </div>
       </div>
     </div>
@@ -138,7 +138,14 @@ export default function KeywordBar(props) {
           props.setKeywordbarState(!props.keywordbarState);
         }}
       >
-        <span>키워드로 찾기</span>
+        <span>
+          키워드로 찾기{"  "}
+          {props.keywordbarState ? (
+            <i className="fas fa-angle-up"></i>
+          ) : (
+            <i className="fas fa-angle-down"></i>
+          )}
+        </span>
       </div>
       <SelectedKeywordList
         selected_keyword={props.selectedKeywords}

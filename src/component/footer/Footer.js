@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="footer-contents">
         <div className="footer-contents__col">
           <div className="footer-contents-col__row">
-            <span className="email-label">추천작 제보, 문의</span>
+            <span className="email-label">연락처</span>
             <span className="email">team.warchive@gmail.com</span>
           </div>
           <div className="footer-contents-col__row">
