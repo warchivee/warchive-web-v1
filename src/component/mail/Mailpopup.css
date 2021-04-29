@@ -181,6 +181,9 @@ textarea {
 }
 
 input[type="submit"] {
+  -webkit-appearance: none;
+}
+input[type="submit"] {
   border-radius: 7px;
   border: 1.5px solid #9023d5;
   background: #9023d5;
