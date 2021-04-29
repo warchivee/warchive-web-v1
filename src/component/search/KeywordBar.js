@@ -16,6 +16,30 @@ function SelectedBubble(props) {
   );
 }
 
+function Category(props) {
+  return (
+    <div className="bubble-list__bubble">
+      <input
+        type="radio"
+        id={props.id}
+        name={props.name}
+        value={props.value}
+        readOnly
+        checked={props.isChecked(props.value)}
+      ></input>
+      <label
+        htmlFor={props.id}
+        onClick={() => {
+          props.setSelectedCategory(props.value);
+          props.select({ name: props.name, value: props.value });
+        }}
+      >
+        {props.value}
+      </label>
+    </div>
+  );
+}
+
 function Bubble(props) {
   return (
     <div className="bubble-list__bubble">
@@ -94,6 +118,31 @@ function SelectedKeywordList(props) {
   );
 }
 
+function CategoryList(props) {
+  let num = 0;
+  return (
+    <div className="keywordbar__keyword-box">
+      <h3 className="keyword-box__header">{props.header}</h3>
+      <div className="keyword-box__bubble-list">
+        {props.value.map((i) => {
+          return (
+            <Category
+              key={props.name + "bubble" + num++}
+              id={props.name + "bubble" + num++}
+              name={props.name}
+              value={i}
+              select={props.select}
+              setSelectedCategory={props.setSelectedCategory}
+              delete={props.delete}
+              isChecked={props.isChecked}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function KeywordList(props) {
   let num = 0;
   return (
@@ -146,12 +195,13 @@ export default function KeywordBar(props) {
         className="keywordbar__container"
         style={props.keywordbarState ? flex_style : none_style}
       >
-        <KeywordList
+        <CategoryList
           name="category"
           header="카테고리"
           value={props.category}
+          setSelectedCategory={props.setSelectedCategory}
           select={props.checkSelectedKeywords}
-          isChecked={props.isIncludeSelectedKeyword}
+          isChecked={props.isIncludeSelectedCategory}
         />
 
         <KeywordList

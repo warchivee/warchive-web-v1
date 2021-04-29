@@ -18,8 +18,8 @@ import MoKeywordbar from "./m-compenent/MoKeywordbar";
 import { init } from "emailjs-com";
 
 function App() {
-  const CURRENT_VERSION_WATAS = "watas3";
-  const PAST_VIRSION_WATAS = "watas2";
+  const CURRENT_VERSION_WATAS = "watas4";
+  const PAST_VIRSION_WATAS = "watas3";
 
   const BOOKMARK_LIST = "bookmarks";
 
@@ -59,7 +59,7 @@ function App() {
   });
 
   const [keywordbarState, setKeywordbarState] = useState(false);
-  const [selectedKeywords, setSelectedKeywords] = useState([]);
+  const [selectedKeywords, setSelectedKeywordsState] = useState([]);
   const [firstStart, setFirstStart] = useState(true);
 
   const [tap, setTap] = useState(true); //t = 추천작제보, f = 문의
@@ -73,10 +73,16 @@ function App() {
 간단소개: `;
   const errTem = ``;
 
+  const [selectedCategory, setSelectedCategory] = useState("전체");
+
   const [recoContents, setRecoContents] = useState(recoTem);
   const [errContents, setErrContents] = useState(errTem);
 
   const [overlay, setOverlay] = useState({ id: "", state: false });
+
+  const setSelectedKeywords = (v) => {
+    setSelectedKeywordsState(v);
+  };
 
   const handleName = (e) => {
     setName(e.target.value);
@@ -101,8 +107,12 @@ function App() {
 
   const addSelectedKeyword = (keyword) => {
     if (!isIncludeSelectedKeyword(keyword.name)) {
-      setSelectedKeywords([...selectedKeywords, keyword]);
-      searchKeywordbar(keyword.name, "add", keyword.value);
+      if (keyword.name == "category") {
+        searchKeywordbar("category", "category", keyword.value);
+      } else {
+        setSelectedKeywords([...selectedKeywords, keyword]);
+        searchKeywordbar(keyword.name, "add", keyword.value);
+      }
     }
   };
 
@@ -122,6 +132,14 @@ function App() {
       deleteSelectedKeyword(keyword);
     } else {
       addSelectedKeyword(keyword);
+    }
+  };
+
+  const isIncludeSelectedCategory = (v) => {
+    if (selectedCategory == v) {
+      return true;
+    } else {
+      return false;
     }
   };
 
@@ -193,7 +211,25 @@ function App() {
       d = [];
     }
 
-    if (action == "add") {
+    if (action == "category") {
+      if (value == "전체") {
+        setsearchKeywords({
+          genre: [],
+          platform: [],
+          keyword: [],
+          [type]: ["게임", "만화", "서적", "영상"],
+        });
+      } else {
+        setsearchKeywords({
+          genre: [],
+          platform: [],
+          keyword: [],
+          [type]: [value],
+        });
+      }
+
+      setSelectedKeywords([]);
+    } else if (action == "add") {
       if (d.includes(value) != true) {
         setsearchKeywords({
           ...searchKeywords,
@@ -207,11 +243,12 @@ function App() {
       });
     } else if (action == "init") {
       setsearchKeywords({
-        category: [],
         genre: [],
         platform: [],
         keyword: [],
+        category: ["게임", "만화", "서적", "영상"],
       });
+      setSelectedCategory("전체");
     }
   };
 
@@ -402,13 +439,58 @@ function App() {
       }
     }
 
-    result = Array.from(new Set(result));
+    result = Array.from(new Set(result)).sort(sortBy("title"));
 
     const indexOfLast = pageInfo.currentPage * pageInfo.watasPerPage;
     const indexOfFirst = indexOfLast - pageInfo.watasPerPage;
 
     setAllSearchResultLength(result.length);
     setSearchResult(currentWatas(result, indexOfFirst, indexOfLast));
+  };
+
+  const categorizing = (allWatas) => {
+    let c = [];
+    let g = [];
+    let p = [];
+    let k = [];
+
+    if (allWatas) {
+      allWatas.map((v) => {
+        if (selectedCategory == "전체") {
+          c.push(v.category);
+          g.push(v.genre);
+          v.platforms.map((e) => {
+            if (e.name != "") p.push(e.name);
+          });
+          v.keywords.map((e) => {
+            if (e != "") k.push(e);
+          });
+        } else {
+          c.push(v.category);
+          if (selectedCategory == v.category) {
+            g.push(v.genre);
+            v.platforms.map((e) => {
+              if (e.name != "") p.push(e.name);
+            });
+            v.keywords.map((e) => {
+              if (e != "") k.push(e);
+            });
+          }
+        }
+
+        return 0;
+      });
+    }
+
+    setAllKeywords({
+      category: [
+        ...["전체"],
+        ...Array.from(new Set(c)).sort(hangulFirstCompare),
+      ],
+      genre: Array.from(new Set(g)).sort(hangulFirstCompare),
+      platform: Array.from(new Set(p)).sort(hangulFirstCompare),
+      keyword: Array.from(new Set(k)).sort(hangulFirstCompare),
+    });
   };
 
   useEffect(() => {
@@ -438,31 +520,7 @@ function App() {
         axios_watas != null &&
         axios_watas.length != 0
       ) {
-        let c = [];
-        let g = [];
-        let p = [];
-        let k = [];
-
-        axios_watas.map((v) => {
-          c.push(v.category);
-          g.push(v.genre);
-          v.platforms.map((e) => {
-            if (e.name != "") p.push(e.name);
-          });
-          v.keywords.map((e) => {
-            if (e != "") k.push(e);
-          });
-
-          return 0;
-        });
-
         setWatas(axios_watas);
-        setAllKeywords({
-          category: Array.from(new Set(c)).sort(),
-          genre: Array.from(new Set(g)).sort(),
-          platform: Array.from(new Set(p)).sort(),
-          keyword: Array.from(new Set(k)).sort(),
-        });
         setIsLoading(false);
 
         if (isLoding == false) {
@@ -481,8 +539,56 @@ function App() {
   }, [isLander]);
 
   useEffect(() => {
+    categorizing(watas);
+  }, [selectedCategory, watas]);
+
+  useEffect(() => {
     dataFiltering();
-  }, [watas, searchKeywords, searchInput, pageInfo, isBookmark, bookmarks]);
+  }, [
+    watas,
+    searchKeywords,
+    searchInput,
+    pageInfo,
+    isBookmark,
+    bookmarks,
+    selectedCategory,
+  ]);
+
+  const sortBy = (field) => {
+    return function (a, b) {
+      return hangulFirstCompare(a[field], b[field]);
+    };
+  };
+
+  function hangulFirstCompare(a, b) {
+    function addOrderPrefix(s) {
+      var code = s.toLowerCase().charCodeAt(0);
+      var prefix;
+
+      // 한글 AC00—D7AF
+      if (0xac00 <= code && code <= 0xd7af) prefix = "1";
+      // 한글 자모 3130—318F
+      else if (0x3130 <= code && code <= 0x318f) prefix = "2";
+      // 영어 소문자 0061-007A
+      else if (0x61 <= code && code <= 0x7a) prefix = "3";
+      // 그외
+      else prefix = "9";
+
+      return prefix + s;
+    }
+
+    a = addOrderPrefix(a);
+    b = addOrderPrefix(b);
+
+    if (a < b) {
+      return -1;
+    }
+    if (a > b) {
+      return 1;
+    }
+
+    return 0;
+  }
 
   return useMediaQuery({ minWidth: 600 }) ? (
     <div className="root_container">
@@ -530,6 +636,8 @@ function App() {
                 keywordbarState={keywordbarState}
                 selectedKeywords={selectedKeywords}
                 firstStart={firstStart}
+                setSelectedCategory={setSelectedCategory}
+                isIncludeSelectedCategory={isIncludeSelectedCategory}
               />
               <SearchBar search_searchbar={searchSearchbar} />
             </div>
@@ -565,9 +673,9 @@ function App() {
                       creator={w.creator}
                       category={w.category}
                       genre={w.genre}
-                      keywords={w.keywords}
+                      keywords={w.keywords.sort(hangulFirstCompare)}
                       cautions={w.cautions}
-                      platforms={w.platforms}
+                      platforms={w.platforms.sort(sortBy("name"))}
                       thumnail={w.thumnail}
                       bookmark={bookmark}
                       add_bookmark={addBookmark}
@@ -647,6 +755,8 @@ function App() {
         keywordbarState={keywordbarState}
         selectedKeywords={selectedKeywords}
         firstStart={firstStart}
+        setSelectedCategory={setSelectedCategory}
+        isIncludeSelectedCategory={isIncludeSelectedCategory}
       />
 
       <section className="mContainer">
