@@ -60,7 +60,7 @@ export default function Mail(props) {
         <div className="email-popup-container__header">
           <div className="header__colomn">
             <i className="fas fa-envelope"></i>
-            <span className="icon__label">추천작 제보 및 문의</span>
+            <span className="icon__label">추천작제보/문의</span>
           </div>
           <div className="header__colomn">
             <div
