@@ -1,103 +1,166 @@
+//라이브러리
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Wata from "./component/wata/Wata";
-import "./App.css";
-import SearchBar from "./component/search/SearchBar";
-import KeywordBar from "./component/search/KeywordBar";
-import Header from "./component/header/Header";
-import Mail from "./component/mail/Mailpopup";
-import Pagination from "./component/pagination/Pagination";
-import Footer from "./component/footer/Footer";
-import Loader from "./component/loader/Loader";
 
 import { useMediaQuery } from "react-responsive";
+
+//pc 컴포넌트
+import Wata from "./component/wata/Wata";
+import Header from "./component/header/Header";
+import Mail from "./component/mail/Mailpopup";
+import Loader from "./component/loader/Loader";
+import SearchBar from "./component/search/SearchBar";
+import KeywordBar from "./component/search/KeywordBar";
+import Pagination from "./component/pagination/Pagination";
+import Footer from "./component/footer/Footer";
+
+//mobile 컴포넌트
 import MoHeader from "./m-compenent/MoHeader";
 import MoMenu from "./m-compenent/MoMenu";
 import MoWata from "./m-compenent/MoWata";
 import MoKeywordbar from "./m-compenent/MoKeywordbar";
-import { init } from "emailjs-com";
+
+//css
+import "./App.css";
 
 function App() {
-  const CURRENT_VERSION_WATAS = "watas4";
-  const PAST_VIRSION_WATAS = "watas3";
+  //==================== variable ====================
 
+  //local storage name
+  const PAST_VIRSION_WATAS = "watas3";
+  const CURRENT_VERSION_WATAS = "watas4";
   const BOOKMARK_LIST = "bookmarks";
 
-  const [overlayInfo, setOverlayInfo] = useState({ id: "", state: false });
-
-  const [isMenu, setIsMenu] = useState(false);
-
-  const [isBookmark, setIsBookmark] = useState(false);
-  const [isMail, setIsMail] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isLander, setIsLander] = useState(false);
-
+  //state - wata
   const [watas, setWatas] = useState([]);
-  const [bookmarks, setBookmarks] = useState([]);
-  const [searchResult, setSearchResult] = useState([]);
-  const [allSearchResultLength, setAllSearchResultLength] = useState([]);
-  const [allKeywords, setAllKeywords] = useState({
-    category: [],
-    genre: [],
-    platform: [],
-    keyword: [],
-  });
 
+  //state - bookmark
+  const [isBookmark, setIsBookmark] = useState(false);
+  const [bookmarks, setBookmarks] = useState([]);
+
+  //state - searchbar
   const [searchInput, setSearchInput] = useState("");
 
+  //state - keywordbar
+  const [keywordbarState, setKeywordbarState] = useState(false);
   const [searchKeywords, setsearchKeywords] = useState({
     category: [],
     genre: [],
     platform: [],
     keyword: [],
   });
+  const [selectedKeywords, setSelectedKeywordsState] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("전체");
 
+  //state - search
+  const [allKeywords, setAllKeywords] = useState({
+    category: [],
+    genre: [],
+    platform: [],
+    keyword: [],
+  });
+  const [searchResult, setSearchResult] = useState([]);
+  const [allSearchResultLength, setAllSearchResultLength] = useState([]);
+
+  //state - ui 조정
+  const [overlayInfo, setOverlayInfo] = useState({ id: "", state: false });
+  const [isMenu, setIsMenu] = useState(false);
+  const [isMail, setIsMail] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isLander, setIsLander] = useState(false);
+  const [firstStart, setFirstStart] = useState(true);
+
+  //state - pagination
   const [pageInfo, setPageInfo] = useState({
     currentPage: 1,
     watasPerPage: 12,
     pageLimit: 2,
   });
 
-  const [keywordbarState, setKeywordbarState] = useState(false);
-  const [selectedKeywords, setSelectedKeywordsState] = useState([]);
-  const [firstStart, setFirstStart] = useState(true);
-
+  //sate - mailform
   const [tap, setTap] = useState(true); //t = 추천작제보, f = 문의
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-
+  const [recoContents, setRecoContents] = useState(recoTem);
+  const [errContents, setErrContents] = useState("");
   const recoTem = `제목:
 키워드: 
 플랫폼: 
 간단소개: `;
-  const errTem = ``;
 
-  const [selectedCategory, setSelectedCategory] = useState("전체");
+  //==================== module ====================
 
-  const [recoContents, setRecoContents] = useState(recoTem);
-  const [errContents, setErrContents] = useState(errTem);
+  const sortBy = (field) => {
+    return function (a, b) {
+      return hangulFirstCompare(a[field], b[field]);
+    };
+  };
 
-  const [overlay, setOverlay] = useState({ id: "", state: false });
+  const hangulFirstCompare = (a, b) => {
+    function addOrderPrefix(s) {
+      var code = s.toLowerCase().charCodeAt(0);
+      var prefix;
 
+      // 한글 AC00—D7AF
+      if (0xac00 <= code && code <= 0xd7af) prefix = "1";
+      // 한글 자모 3130—318F
+      else if (0x3130 <= code && code <= 0x318f) prefix = "2";
+      // 영어 소문자 0061-007A
+      else if (0x61 <= code && code <= 0x7a) prefix = "3";
+      // 그외
+      else prefix = "9";
+
+      return prefix + s;
+    }
+
+    a = addOrderPrefix(a);
+    b = addOrderPrefix(b);
+
+    if (a < b) {
+      return -1;
+    }
+    if (a > b) {
+      return 1;
+    }
+
+    return 0;
+  };
+
+  const loadLocalStorage = (name) => {
+    const loadData = localStorage.getItem(name);
+
+    if (loadData !== null) {
+      return JSON.parse(loadData);
+    } else {
+      return [];
+    }
+  };
+
+  const saveLocalstorage = (name, b) => {
+    localStorage.setItem(name, JSON.stringify(b));
+  };
+
+  const deleteItem = (arr, value) => {
+    return arr.filter((v) => {
+      if (v != value) return v;
+    });
+  };
+
+  //==================== handler method ====================
+
+  //searchbar
+  const searchSearchbar = (e) => {
+    setSearchInput(e.target.value);
+    setPageInfo({
+      ...pageInfo,
+      currentPage: 1,
+      pageLimit: 2,
+    });
+  };
+
+  //keywordbar
   const setSelectedKeywords = (v) => {
     setSelectedKeywordsState(v);
-  };
-
-  const handleName = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handleRecoContents = (e) => {
-    setRecoContents(e.target.value);
-  };
-
-  const handleErrContents = (e) => {
-    setErrContents(e.target.value);
   };
 
   const initSelectedKeyword = () => {
@@ -153,40 +216,6 @@ function App() {
     }
 
     return false;
-  };
-
-  const openBookmark = () => {
-    setIsBookmark(true);
-    setSearchInput("");
-    setsearchKeywords({
-      category: [],
-      genre: [],
-      platform: [],
-      keyword: [],
-    });
-    setPageInfo({
-      ...pageInfo,
-      currentPage: 1,
-    });
-  };
-
-  const setMail = (isOpen) => {
-    setIsMail(isOpen);
-  };
-
-  const searchSearchbar = (e) => {
-    setSearchInput(e.target.value);
-    setPageInfo({
-      ...pageInfo,
-      currentPage: 1,
-      pageLimit: 2,
-    });
-  };
-
-  const deleteItem = (arr, value) => {
-    return arr.filter((v) => {
-      if (v != value) return v;
-    });
   };
 
   const searchKeywordbar = (type, action, value) => {
@@ -252,53 +281,41 @@ function App() {
     }
   };
 
-  const currentWatas = (tmp, first, last) => {
-    let currentWatas = [];
-    currentWatas = tmp.slice(first, last);
-    return currentWatas;
+  //email
+  const setMail = (isOpen) => {
+    setIsMail(isOpen);
   };
 
-  const makePageNumbers = (totalWatas) => {
-    let pageNumbers = [];
-
-    let start = pageInfo.currentPage - pageInfo.pageLimit;
-    let last = pageInfo.currentPage + pageInfo.pageLimit;
-
-    if (last < pageInfo.pageLimit * 2 + 1) {
-      last = pageInfo.pageLimit * 2 + 1;
-      start = 1;
-    }
-
-    if (start < 1) start = 1;
-    let max = Math.ceil(totalWatas / pageInfo.watasPerPage);
-    if (last >= max) last = max;
-
-    for (let i = start; i <= last; i++) {
-      pageNumbers.push(i);
-    }
-
-    return pageNumbers;
+  const handleName = (e) => {
+    setName(e.target.value);
   };
 
-  const paginate = (currentPageNumber) => {
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleRecoContents = (e) => {
+    setRecoContents(e.target.value);
+  };
+
+  const handleErrContents = (e) => {
+    setErrContents(e.target.value);
+  };
+
+  //bookmark
+  const openBookmark = () => {
+    setIsBookmark(true);
+    setSearchInput("");
+    setsearchKeywords({
+      category: [],
+      genre: [],
+      platform: [],
+      keyword: [],
+    });
     setPageInfo({
       ...pageInfo,
-      currentPage: currentPageNumber,
+      currentPage: 1,
     });
-  };
-
-  const loadLocalStorage = (name) => {
-    const loadData = localStorage.getItem(name);
-
-    if (loadData !== null) {
-      return JSON.parse(loadData);
-    } else {
-      return [];
-    }
-  };
-
-  const saveLocalstorage = (name, b) => {
-    localStorage.setItem(name, JSON.stringify(b));
   };
 
   const addBookmark = (id) => {
@@ -325,29 +342,7 @@ function App() {
     alert("북마크에서 삭제했습니다.");
   };
 
-  const shareBookmark = (button) => {
-    var sharename = "여성서사 추천리스트 공유하기";
-    var sharetext = "여성서사 추천리스트";
-    //var shareurl =window.location.host + "/main/sharebookmark" + "?id=" + this.load_bookmarks;
-
-    var shareurl = "temp";
-    var option =
-      "width = 500, height = 500, top = 100, left = 200, location = no";
-    var url = "";
-
-    if (button == "twitter") {
-      url =
-        "https://twitter.com/intent/tweet?text=" +
-        sharetext +
-        "&url=" +
-        shareurl;
-    } else if (button == "facebook") {
-      url = "http://www.facebook.com/sharer/sharer.php?u=" + shareurl;
-    }
-
-    window.open(url, sharename, option);
-  };
-
+  //main
   const dataFiltering = () => {
     //데이터 검색
     let result = [];
@@ -493,6 +488,44 @@ function App() {
     });
   };
 
+  //pagination
+  const currentWatas = (tmp, first, last) => {
+    let currentWatas = [];
+    currentWatas = tmp.slice(first, last);
+    return currentWatas;
+  };
+
+  const makePageNumbers = (totalWatas) => {
+    let pageNumbers = [];
+
+    let start = pageInfo.currentPage - pageInfo.pageLimit;
+    let last = pageInfo.currentPage + pageInfo.pageLimit;
+
+    if (last < pageInfo.pageLimit * 2 + 1) {
+      last = pageInfo.pageLimit * 2 + 1;
+      start = 1;
+    }
+
+    if (start < 1) start = 1;
+    let max = Math.ceil(totalWatas / pageInfo.watasPerPage);
+    if (last >= max) last = max;
+
+    for (let i = start; i <= last; i++) {
+      pageNumbers.push(i);
+    }
+
+    return pageNumbers;
+  };
+
+  const paginate = (currentPageNumber) => {
+    setPageInfo({
+      ...pageInfo,
+      currentPage: currentPageNumber,
+    });
+  };
+
+  //==================== useEffect ====================
+
   useEffect(() => {
     let isLoding = false;
     const current_version_watas = loadLocalStorage(CURRENT_VERSION_WATAS);
@@ -554,41 +587,7 @@ function App() {
     selectedCategory,
   ]);
 
-  const sortBy = (field) => {
-    return function (a, b) {
-      return hangulFirstCompare(a[field], b[field]);
-    };
-  };
-
-  function hangulFirstCompare(a, b) {
-    function addOrderPrefix(s) {
-      var code = s.toLowerCase().charCodeAt(0);
-      var prefix;
-
-      // 한글 AC00—D7AF
-      if (0xac00 <= code && code <= 0xd7af) prefix = "1";
-      // 한글 자모 3130—318F
-      else if (0x3130 <= code && code <= 0x318f) prefix = "2";
-      // 영어 소문자 0061-007A
-      else if (0x61 <= code && code <= 0x7a) prefix = "3";
-      // 그외
-      else prefix = "9";
-
-      return prefix + s;
-    }
-
-    a = addOrderPrefix(a);
-    b = addOrderPrefix(b);
-
-    if (a < b) {
-      return -1;
-    }
-    if (a > b) {
-      return 1;
-    }
-
-    return 0;
-  }
+  //==================== return ====================
 
   return useMediaQuery({ minWidth: 600 }) ? (
     <div className="root_container">
