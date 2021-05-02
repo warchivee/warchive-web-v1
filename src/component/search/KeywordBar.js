@@ -112,7 +112,7 @@ function SelectedKeywordList(props) {
             props.init();
           }}
         >
-          검색 초기화
+          검색초기화
         </div>
       </div>
     </div>
