@@ -32,9 +32,7 @@ export default function Header(props) {
           </span>
         </div>
         <div className="header-contents__col">
-          <span className="header-contents-col__icon">
-            <i className="fas fa-question-circle"></i>
-          </span>
+          <span className="header-contents-col__icon"></span>
         </div>
       </div>
     </div>

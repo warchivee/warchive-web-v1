@@ -42,10 +42,7 @@ export default function mMenu(props) {
             <i className="fas fa-envelope"></i>
             <span className="label">추천작 제보/문의</span>
           </div>
-          <div className="mMenu-container__contents__row">
-            <i className="fas fa-question-circle"></i>
-            <span className="label">도움말</span>
-          </div>
+          <div className="mMenu-container__contents__row"></div>
         </div>
         <div className="mMenu-container__footer">
           <div className="mMenu-sns">

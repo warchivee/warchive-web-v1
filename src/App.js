@@ -398,7 +398,7 @@ function App() {
         //같은 카테고리 검색 시 합집합.
         searchKeywords.category.map((k) => {
           let r = big_result.filter((w) => {
-            if (w.category == k) return w;
+            if (w.category.replace(/\s/g, "") == k.replace(/\s/g, "")) return w;
           });
 
           result[0] = result[0].concat(r);
@@ -406,7 +406,7 @@ function App() {
 
         searchKeywords.genre.map((k) => {
           let r = big_result.filter((w) => {
-            if (w.genre == k) {
+            if (w.genre.replace(/\s/g, "") == k.replace(/\s/g, "")) {
               return w;
             }
           });
@@ -418,7 +418,7 @@ function App() {
           let r = [];
           big_result.filter((w) => {
             w.platforms.map((p) => {
-              if (p.name == k) {
+              if (p.name.replace(/\s/g, "") == k.replace(/\s/g, "")) {
                 r.push(w);
               }
             });
@@ -427,8 +427,13 @@ function App() {
         });
 
         searchKeywords.keyword.map((k) => {
-          let r = big_result.filter((w) => {
-            if (w.keywords.includes(k)) return w;
+          let r = [];
+          big_result.filter((w) => {
+            w.keywords.map((s) => {
+              if (s.replace(/\s/g, "") == k.replace(/\s/g, "")) {
+                r.push(w);
+              }
+            });
           });
 
           result[3] = result[3].concat(r);
@@ -466,23 +471,23 @@ function App() {
     if (allWatas) {
       allWatas.map((v) => {
         if (selectedCategory == "전체") {
-          c.push(v.category.toLowerCase().replace(/\s/g, ""));
-          g.push(v.genre.toLowerCase().replace(/\s/g, ""));
+          c.push(v.category.replace(/\s/g, ""));
+          g.push(v.genre.replace(/\s/g, ""));
           v.platforms.map((e) => {
-            if (e.name != "") p.push(e.name.toLowerCase().replace(/\s/g, ""));
+            if (e.name != "") p.push(e.name.replace(/\s/g, ""));
           });
           v.keywords.map((e) => {
-            if (e != "") k.push(e.toLowerCase().replace(/\s/g, ""));
+            if (e != "") k.push(e.replace(/\s/g, ""));
           });
         } else {
           c.push(v.category);
           if (selectedCategory == v.category) {
-            g.push(v.genre.toLowerCase().replace(/\s/g, ""));
+            g.push(v.genre.replace(/\s/g, ""));
             v.platforms.map((e) => {
-              if (e.name != "") p.push(e.name.toLowerCase().replace(/\s/g, ""));
+              if (e.name != "") p.push(e.name.replace(/\s/g, ""));
             });
             v.keywords.map((e) => {
-              if (e != "") k.push(e.toLowerCase().replace(/\s/g, ""));
+              if (e != "") k.push(e.replace(/\s/g, ""));
             });
           }
         }
