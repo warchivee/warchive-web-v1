@@ -27,8 +27,8 @@ function App() {
   //==================== variable ====================
 
   //local storage name
-  const PAST_VIRSION_WATAS = "watas3";
-  const CURRENT_VERSION_WATAS = "watas4";
+  const PAST_VIRSION_WATAS = "watas0";
+  const CURRENT_VERSION_WATAS = "watas1";
   const BOOKMARK_LIST = "bookmarks";
 
   //state - wata
@@ -78,15 +78,17 @@ function App() {
   });
 
   //sate - mailform
+  const [isDisabled, setIsDisabled] = useState(false);
   const [tap, setTap] = useState(true); //t = 추천작제보, f = 문의
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [recoContents, setRecoContents] = useState(recoTem);
-  const [errContents, setErrContents] = useState("");
+  const errTem = ``;
   const recoTem = `제목:
 키워드: 
 플랫폼: 
 간단소개: `;
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [recoContents, setRecoContents] = useState(recoTem);
+  const [errContents, setErrContents] = useState("");
 
   //==================== module ====================
 
@@ -218,6 +220,13 @@ function App() {
     return false;
   };
 
+  const initMail = () => {
+    setEmail("");
+    setName("");
+    setErrContents(errTem);
+    setRecoContents(recoTem);
+  };
+
   const searchKeywordbar = (type, action, value) => {
     setSearchInput("");
     setPageInfo({
@@ -272,12 +281,11 @@ function App() {
       });
     } else if (action == "init") {
       setsearchKeywords({
+        ...searchKeywords,
         genre: [],
         platform: [],
         keyword: [],
-        category: ["게임", "만화", "서적", "영상"],
       });
-      setSelectedCategory("전체");
     }
   };
 
@@ -364,8 +372,14 @@ function App() {
     if (searchInput !== "") {
       result = big_result.filter((c) => {
         if (
-          c.title.indexOf(searchInput) > -1 ||
-          c.creator.indexOf(searchInput) > -1
+          c.title
+            .toLowerCase()
+            .replace(/\s/g, "")
+            .indexOf(searchInput.toLowerCase().replace(/\s/g, "")) > -1 ||
+          c.creator
+            .toLowerCase()
+            .replace(/\s/g, "")
+            .indexOf(searchInput.toLowerCase().replace(/\s/g, "")) > -1
         ) {
           return c;
         }
@@ -452,23 +466,23 @@ function App() {
     if (allWatas) {
       allWatas.map((v) => {
         if (selectedCategory == "전체") {
-          c.push(v.category);
-          g.push(v.genre);
+          c.push(v.category.toLowerCase().replace(/\s/g, ""));
+          g.push(v.genre.toLowerCase().replace(/\s/g, ""));
           v.platforms.map((e) => {
-            if (e.name != "") p.push(e.name);
+            if (e.name != "") p.push(e.name.toLowerCase().replace(/\s/g, ""));
           });
           v.keywords.map((e) => {
-            if (e != "") k.push(e);
+            if (e != "") k.push(e.toLowerCase().replace(/\s/g, ""));
           });
         } else {
           c.push(v.category);
           if (selectedCategory == v.category) {
-            g.push(v.genre);
+            g.push(v.genre.toLowerCase().replace(/\s/g, ""));
             v.platforms.map((e) => {
-              if (e.name != "") p.push(e.name);
+              if (e.name != "") p.push(e.name.toLowerCase().replace(/\s/g, ""));
             });
             v.keywords.map((e) => {
-              if (e != "") k.push(e);
+              if (e != "") k.push(e.toLowerCase().replace(/\s/g, ""));
             });
           }
         }
@@ -611,6 +625,9 @@ function App() {
         handleRecoContents={handleRecoContents}
         handleErrContents={handleErrContents}
         setTap={setTap}
+        init={initMail}
+        isDisabled={isDisabled}
+        setIsDisabled={setIsDisabled}
       />
       <section className="container">
         {isLoading ? (
@@ -737,7 +754,7 @@ function App() {
         handleErrContents={handleErrContents}
         setTap={setTap}
       />
-      <MoKeywordbar
+      <KeywordBar
         category={allKeywords.category}
         genre={allKeywords.genre}
         platform={allKeywords.platform}

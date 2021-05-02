@@ -36,15 +36,26 @@ export default function Mail(props) {
       alert("빈칸을 기입해주세요.");
     } else {
       if (confirm("보내시겠습니까?")) {
-        emailjs.sendForm("warchive", "warchive_template", e.target).then(
-          (result) => {
-            alert("이메일을 성공적으로 전송하였습니다.");
-          },
-          (error) => {
-            alert("이메일 전송해 실패하였습니다.");
-            console.log(error);
-          }
-        );
+        console.log(props.isDisabled);
+        if (props.isDisabled) {
+          alert("잠시 후에 다시 시도해주세요.");
+          return false;
+        } else {
+          props.setIsDisabled(true);
+
+          emailjs.sendForm("warchive", "warchive_template", e.target).then(
+            (result) => {
+              alert("이메일을 성공적으로 전송하였습니다.");
+              props.init();
+              setTimeout(() => {
+                props.setIsDisabled(false);
+              }, 60000 * 3);
+            },
+            (error) => {
+              alert("이메일 전송해 실패하였습니다. 다시 시도해주세요.");
+            }
+          );
+        }
       } else {
         alert("이메일 전송을 취소하였습니다.");
       }
@@ -73,7 +84,7 @@ export default function Mail(props) {
         </div>
 
         <div className="popup__body">
-          <form id="contact-form" onSubmit={props.sendEmail}>
+          <form id="contact-form" onSubmit={sendEmail}>
             <input type="hidden" name="contact_number" />
             <div className="body__colomn">
               <div className="colomn__header">문의자 정보</div>

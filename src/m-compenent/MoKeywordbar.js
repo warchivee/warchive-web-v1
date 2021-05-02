@@ -222,6 +222,9 @@ export default function KeywordBar(props) {
           select={props.checkSelectedKeywords}
           isChecked={props.isIncludeSelectedKeyword}
         />
+
+        <div className="line"></div>
+
         <KeywordList
           name="platform"
           header="플랫폼"
@@ -229,6 +232,9 @@ export default function KeywordBar(props) {
           select={props.checkSelectedKeywords}
           isChecked={props.isIncludeSelectedKeyword}
         />
+
+        <div className="line"></div>
+
         <KeywordList
           name="keyword"
           header="키워드"
