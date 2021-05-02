@@ -324,6 +324,7 @@ function App() {
       ...pageInfo,
       currentPage: 1,
     });
+    setSelectedCategory("전체");
   };
 
   const addBookmark = (id) => {

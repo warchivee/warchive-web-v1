@@ -52,10 +52,10 @@
   opacity: 0.6;
 }
 
-.header__header-column .open_bookmark {
+.header-contents__col .open_bookmark {
   color: #ffcd27;
 }
 
-.header__header-column .open_bookmark .icon__label {
+.hheader-contents__col .open_bookmark .icon__label {
   opacity: 1;
 }
