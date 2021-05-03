@@ -15,7 +15,7 @@ export default function About(props) {
       <div className="about-box__col">
         <div className="about-box__row item-col-center">
           <img src="https://i.ibb.co/Np7j62b/sh-logo.png"></img>
-          <h4 style={{ marginTop: "40px" }}>여성서사 아카이브 프로젝트</h4>
+          <h4 style={{ marginTop: "10px" }}>여성서사 아카이브 프로젝트</h4>
         </div>
       </div>
       <div className="about-box__col  puple-box">
