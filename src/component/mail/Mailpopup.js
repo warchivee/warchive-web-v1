@@ -100,11 +100,11 @@ export default function Mail(props) {
                 </div>
                 <div className="colomn-body__colomn">
                   <input
-                    type="email"
+                    type="text"
                     name="user_email"
                     value={props.email}
                     onChange={props.handleEmail}
-                    placeholder="이메일"
+                    placeholder="이메일, 트위터계정, 그 밖의 다른 연락처"
                   />
                 </div>
               </div>

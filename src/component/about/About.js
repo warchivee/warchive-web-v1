@@ -14,7 +14,7 @@ export default function About(props) {
     <div className="about-box">
       <div className="about-box__col">
         <div className="about-box__row item-col-center">
-          <img src="https://i.ibb.co/WtWVG8r/logo.png"></img>
+          <img src="https://i.ibb.co/Np7j62b/sh-logo.png"></img>
           <h4 style={{ marginTop: "40px" }}>여성서사 아카이브 프로젝트</h4>
         </div>
       </div>
@@ -35,7 +35,7 @@ export default function About(props) {
         </div>
       </div>
       <div className="about-box__col" style={props.isPc ? pc : mo}>
-        <div className="about-box__row">
+        <div className="about-box__row width-half">
           <h4 className="left-bar">와카이브의 지향점</h4>
           <span className="about-box__p">
             단순한 데이터 취합 혹은 축적에서 멈추는 것이 아닌, 분류와 키워드
@@ -46,7 +46,7 @@ export default function About(props) {
             수 있게 되어 여성서사에 대한 시야를 넓힐 수 있습니다.
           </span>
         </div>
-        <div className="about-box__row">
+        <div className="about-box__row width-half">
           <h4 className="left-bar">와카이브의 목표</h4>
           <span className="about-box__p">
             와카이브는 궁극적으로 '여성서사 컨텐츠'가 주가 될 수 있는 미래를
@@ -58,9 +58,9 @@ export default function About(props) {
         </div>
       </div>
       <div className="about-box__col puple-box" style={props.isPc ? pc : mo}>
-        <div className="about-box__row item-center">
+        <div className="about-box__row width-half item-center">
           <h4 className="left-bar">와카이브에서 제보받는 여성서사의 기준</h4>
-          <span className="about-box__p">
+          <span className="about-box__p ">
             와카이브는 여성서사 계보의 유지를 목표로 하여 수많은 여성의 이야기를
             기록하자는 지향점을 가지고 있으나, 불특정 다수의 제보를 받아
             기록함에 있어서 최소한의 '여성서사' 에 대한 합의 및 가이드라인이
@@ -72,8 +72,11 @@ export default function About(props) {
             사이트의 원활한 운영을 위한 사람들 간의 최소한의 합의라 여겨 주시길
             바랍니다.
           </span>
+          <span className="about-box__p">
+            또한 저작권 문제로 인해 정식 출판, 출시된 컨텐츠만 등록하였습니다.
+          </span>
         </div>
-        <div className="about-box__row anythinglisting4">
+        <div className="about-box__row anythinglisting4  width-half">
           <ul className="about-box__p puble-color">
             <li>여성이 주연일 것</li>
             <li>조연급 여성이 다수 등장할 것</li>

@@ -12,8 +12,12 @@
 }
 
 .about-box__row {
-  width: 90%;
+  width: 70%;
   margin: 50px 30px 50px 30px;
+}
+
+.width-half {
+  width: 30%;
 }
 
 .about-box__row h4 {
@@ -51,10 +55,10 @@
 }
 
 .anythinglisting4 ul {
+  flex-direction: column;
   list-style: none;
   margin: 0;
   padding: 0;
-  counter-reset: number;
   position: relative;
 }
 
