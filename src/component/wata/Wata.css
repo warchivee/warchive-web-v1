@@ -94,13 +94,14 @@
 }
 
 .wata__platforms .platforms__platform {
-  border: 2px solid white;
-  border-radius: 20px;
+  border: 1px solid white;
+  border-radius: 15px;
   padding: 5px 5px;
   margin-left: 5px;
   margin-right: 5px;
   margin-bottom: 5px;
   font-size: 12px;
+  font-weight: 300;
   color: white;
 }
 
