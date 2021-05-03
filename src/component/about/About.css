@@ -17,7 +17,8 @@
 }
 
 .width-half {
-  width: 30%;
+  max-width: 500px;
+  min-width: 150px;
 }
 
 .about-box__row h4 {
@@ -40,6 +41,10 @@
   font-size: 14px;
   display: flex;
   margin: 10px;
+}
+
+.about-box__row img {
+  width: 300px;
 }
 
 .puble-color {
@@ -74,7 +79,7 @@
 
 .anythinglisting4 ul li {
   position: relative;
-  padding: 15px 0 15px 40px;
+  padding: 15px 0px 15px 40px;
 }
 
 .anythinglisting4 ul li::before {
