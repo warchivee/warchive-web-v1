@@ -21,7 +21,10 @@ export default function Header(props) {
                 ? "header-contents-col__icon open_bookmark"
                 : "header-contents-col__icon"
             }
-            onClick={props.open_bookmark}
+            onClick={() => {
+              props.setIsAbout(false);
+              props.open_bookmark(!props.isBookmark);
+            }}
           >
             <i className="fas fa-star"></i>
             <span className="icon__label">즐겨찾기 목록</span>
@@ -32,7 +35,15 @@ export default function Header(props) {
           </span>
         </div>
         <div className="header-contents__col">
-          <span className="header-contents-col__icon"></span>
+          <span
+            className="header-contents-col__icon"
+            onClick={() => {
+              props.open_bookmark(false);
+              props.setIsAbout(!props.isAbout);
+            }}
+          >
+            <i class="fas fa-question-circle"></i>
+          </span>
         </div>
       </div>
     </div>

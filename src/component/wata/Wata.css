@@ -60,7 +60,7 @@
 .header__categorys {
   margin-left: auto;
   margin-bottom: 5px;
-  font-size: 12px;
+  font-size: 14px;
   color: white;
   opacity: 0.6;
 }
@@ -96,10 +96,10 @@
 .wata__platforms .platforms__platform {
   border: 2px solid white;
   border-radius: 20px;
-  padding: 5px 10px;
+  padding: 5px 5px;
   margin-left: 5px;
   margin-right: 5px;
-  margin-bottom: 10px;
+  margin-bottom: 5px;
   font-size: 12px;
   color: white;
 }
@@ -117,7 +117,7 @@
   justify-content: center;
   align-items: center;
 
-  font-size: 12px;
+  font-size: 14px;
   color: white;
   opacity: 0.8;
 }
@@ -140,7 +140,7 @@
 }
 
 .footer__cautions .cautions__caution {
-  font-size: 12px;
+  font-size: 14px;
   color: rgba(255, 255, 255, 1);
 }
 

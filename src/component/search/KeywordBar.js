@@ -32,7 +32,11 @@ function Category(props) {
         onClick={() => {
           props.setSelectedCategory(props.value);
           props.select({ name: props.name, value: props.value });
-          props.setKeywordbarState(!props.keywordbarState);
+          if (props.selectedCategory == props.value) {
+            props.setKeywordbarState(!props.keywordbarState);
+          } else {
+            props.setKeywordbarState(true);
+          }
         }}
       >
         {props.value}
@@ -136,6 +140,8 @@ function CategoryList(props) {
               delete={props.delete}
               isChecked={props.isChecked}
               setKeywordbarState={props.setKeywordbarState}
+              keywordbarState={props.keywordbarState}
+              selectedCategory={props.selectedCategory}
             />
           );
         })}
@@ -210,6 +216,8 @@ export default function KeywordBar(props) {
           select={props.checkSelectedKeywords}
           isChecked={props.isIncludeSelectedCategory}
           setKeywordbarState={props.setKeywordbarState}
+          keywordbarState={props.keywordbarState}
+          selectedCategory={props.selectedCategory}
         />
       </div>
 

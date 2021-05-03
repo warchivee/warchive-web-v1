@@ -13,6 +13,7 @@ import SearchBar from "./component/search/SearchBar";
 import KeywordBar from "./component/search/KeywordBar";
 import Pagination from "./component/pagination/Pagination";
 import Footer from "./component/footer/Footer";
+import About from "./component/about/About";
 
 //mobile 컴포넌트
 import MoHeader from "./m-compenent/MoHeader";
@@ -66,6 +67,7 @@ function App() {
   const [overlayInfo, setOverlayInfo] = useState({ id: "", state: false });
   const [isMenu, setIsMenu] = useState(false);
   const [isMail, setIsMail] = useState(false);
+  const [isAbout, setIsAbout] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isLander, setIsLander] = useState(false);
   const [firstStart, setFirstStart] = useState(true);
@@ -311,8 +313,9 @@ function App() {
   };
 
   //bookmark
-  const openBookmark = () => {
-    setIsBookmark(true);
+  const openBookmark = (value) => {
+    console.log(value);
+    setIsBookmark(value);
     setSearchInput("");
     setsearchKeywords({
       category: [],
@@ -615,6 +618,8 @@ function App() {
         open_bookmark={openBookmark}
         open_mail={setMail}
         isBookmark={isBookmark}
+        isAbout={isAbout}
+        setIsAbout={setIsAbout}
       />
       <Mail
         close_mail={setMail}
@@ -635,97 +640,105 @@ function App() {
         isDisabled={isDisabled}
         setIsDisabled={setIsDisabled}
       />
-      <section className="container">
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <div className="container__box">
-            <div className="serachbar">
-              <KeywordBar
-                category={allKeywords.category}
-                genre={allKeywords.genre}
-                platform={allKeywords.platform}
-                keyword={allKeywords.keyword}
-                isBookmark={isBookmark}
-                initSelectedKeyword={initSelectedKeyword}
-                addSelectedKeyword={addSelectedKeyword}
-                deleteSelectedKeyword={deleteSelectedKeyword}
-                checkSelectedKeywords={checkSelectedKeywords}
-                isIncludeSelectedKeyword={isIncludeSelectedKeyword}
-                setKeywordbarState={setKeywordbarState}
-                setSelectedKeywords={setSelectedKeywords}
-                setFirstStart={setFirstStart}
-                keywordbarState={keywordbarState}
-                selectedKeywords={selectedKeywords}
-                firstStart={firstStart}
-                setSelectedCategory={setSelectedCategory}
-                isIncludeSelectedCategory={isIncludeSelectedCategory}
-              />
-              <SearchBar search_searchbar={searchSearchbar} />
-            </div>
 
-            {searchInput == "" &&
-            searchKeywords.category.length == 0 &&
-            searchKeywords.genre.length == 0 &&
-            searchKeywords.platform.length == 0 &&
-            searchKeywords.keyword.length == 0 ? (
-              <div className="result_title"></div>
+      <section className="container">
+        {isAbout ? (
+          <About isPc={true} />
+        ) : (
+          <>
+            {isLoading ? (
+              <Loader />
             ) : (
-              <div className="result_title">
-                검색 결과는 총 {allSearchResultLength} 개 입니다.
+              <div className="container__box">
+                <div className="serachbar">
+                  <KeywordBar
+                    category={allKeywords.category}
+                    genre={allKeywords.genre}
+                    platform={allKeywords.platform}
+                    keyword={allKeywords.keyword}
+                    isBookmark={isBookmark}
+                    initSelectedKeyword={initSelectedKeyword}
+                    addSelectedKeyword={addSelectedKeyword}
+                    deleteSelectedKeyword={deleteSelectedKeyword}
+                    checkSelectedKeywords={checkSelectedKeywords}
+                    isIncludeSelectedKeyword={isIncludeSelectedKeyword}
+                    setSelectedKeywords={setSelectedKeywords}
+                    setFirstStart={setFirstStart}
+                    setKeywordbarState={setKeywordbarState}
+                    selectedCategory={selectedCategory}
+                    keywordbarState={keywordbarState}
+                    selectedKeywords={selectedKeywords}
+                    firstStart={firstStart}
+                    setSelectedCategory={setSelectedCategory}
+                    isIncludeSelectedCategory={isIncludeSelectedCategory}
+                  />
+                  <SearchBar search_searchbar={searchSearchbar} />
+                </div>
+
+                {searchInput == "" &&
+                searchKeywords.category.length == 0 &&
+                searchKeywords.genre.length == 0 &&
+                searchKeywords.platform.length == 0 &&
+                searchKeywords.keyword.length == 0 ? (
+                  <div className="result_title"></div>
+                ) : (
+                  <div className="result_title">
+                    검색 결과는 총 {allSearchResultLength} 개 입니다.
+                  </div>
+                )}
+
+                <div className="wata_list">
+                  {searchResult.map((w) => {
+                    if (w.isDelete != "Y") {
+                      let bookmark = false;
+                      //북마크인 것 노란 마크 하기 위해...
+                      loadLocalStorage(BOOKMARK_LIST).map((i) => {
+                        if (w.wata_id == i) {
+                          bookmark = true;
+                        }
+                      });
+
+                      return (
+                        <Wata
+                          key={w.wata_id}
+                          wata_id={w.wata_id}
+                          title={w.title}
+                          creator={w.creator}
+                          category={w.category}
+                          genre={w.genre}
+                          keywords={w.keywords.sort(hangulFirstCompare)}
+                          cautions={w.cautions}
+                          platforms={w.platforms.sort(sortBy("name"))}
+                          thumnail={w.thumnail}
+                          bookmark={bookmark}
+                          add_bookmark={addBookmark}
+                          delete_bookmark={deleteBookmark}
+                        />
+                      );
+                    }
+                  })}
+                </div>
               </div>
             )}
 
-            <div className="wata_list">
-              {searchResult.map((w) => {
-                if (w.isDelete != "Y") {
-                  let bookmark = false;
-                  //북마크인 것 노란 마크 하기 위해...
-                  loadLocalStorage(BOOKMARK_LIST).map((i) => {
-                    if (w.wata_id == i) {
-                      bookmark = true;
-                    }
-                  });
+            <Pagination
+              watasPerPage={pageInfo.watasPerPage}
+              searchResultLength={allSearchResultLength}
+              pageNumbers={makePageNumbers(allSearchResultLength)}
+              paginate={paginate}
+              currentPageNumber={pageInfo.currentPage}
+            />
 
-                  return (
-                    <Wata
-                      key={w.wata_id}
-                      wata_id={w.wata_id}
-                      title={w.title}
-                      creator={w.creator}
-                      category={w.category}
-                      genre={w.genre}
-                      keywords={w.keywords.sort(hangulFirstCompare)}
-                      cautions={w.cautions}
-                      platforms={w.platforms.sort(sortBy("name"))}
-                      thumnail={w.thumnail}
-                      bookmark={bookmark}
-                      add_bookmark={addBookmark}
-                      delete_bookmark={deleteBookmark}
-                    />
-                  );
-                }
-              })}
-            </div>
-          </div>
-        )}
-
-        <Pagination
-          watasPerPage={pageInfo.watasPerPage}
-          searchResultLength={allSearchResultLength}
-          pageNumbers={makePageNumbers(allSearchResultLength)}
-          paginate={paginate}
-          currentPageNumber={pageInfo.currentPage}
-        />
-
-        {isBookmark ? (
-          <div className="bookmark-share__container">
-            <span className="bookmark_caution">
-              인터넷 기록,쿠키 등을 삭제하시면 즐겨찾기 목록이 초기화됩니다.
-            </span>
-          </div>
-        ) : (
-          <div></div>
+            {isBookmark ? (
+              <div className="bookmark-share__container">
+                <span className="bookmark_caution">
+                  인터넷 기록,쿠키 등을 삭제하시면 즐겨찾기 목록이 초기화됩니다.
+                </span>
+              </div>
+            ) : (
+              <div></div>
+            )}
+          </>
         )}
       </section>
       <Footer />
@@ -743,6 +756,8 @@ function App() {
         setIsMenu={setIsMenu}
         open_mail={setMail}
         open_bookmark={openBookmark}
+        setIsAbout={setIsAbout}
+        isAbout={isAbout}
       />
       <Mail
         close_mail={setMail}
@@ -760,83 +775,89 @@ function App() {
         handleErrContents={handleErrContents}
         setTap={setTap}
       />
-      <KeywordBar
-        category={allKeywords.category}
-        genre={allKeywords.genre}
-        platform={allKeywords.platform}
-        keyword={allKeywords.keyword}
-        isBookmark={isBookmark}
-        initSelectedKeyword={initSelectedKeyword}
-        addSelectedKeyword={addSelectedKeyword}
-        deleteSelectedKeyword={deleteSelectedKeyword}
-        checkSelectedKeywords={checkSelectedKeywords}
-        isIncludeSelectedKeyword={isIncludeSelectedKeyword}
-        setKeywordbarState={setKeywordbarState}
-        setSelectedKeywords={setSelectedKeywords}
-        setFirstStart={setFirstStart}
-        keywordbarState={keywordbarState}
-        selectedKeywords={selectedKeywords}
-        firstStart={firstStart}
-        setSelectedCategory={setSelectedCategory}
-        isIncludeSelectedCategory={isIncludeSelectedCategory}
-      />
 
       <section className="mContainer">
-        {searchInput == "" &&
-        searchKeywords.category.length == 0 &&
-        searchKeywords.genre.length == 0 &&
-        searchKeywords.platform.length == 0 &&
-        searchKeywords.keyword.length == 0 ? (
-          <div className="result_title"></div>
+        {isAbout ? (
+          <About isPc={false} />
         ) : (
-          <div className="result_title">
-            검색 결과는 총 {allSearchResultLength} 개 입니다.
-          </div>
-        )}
+          <>
+            <KeywordBar
+              category={allKeywords.category}
+              genre={allKeywords.genre}
+              platform={allKeywords.platform}
+              keyword={allKeywords.keyword}
+              isBookmark={isBookmark}
+              initSelectedKeyword={initSelectedKeyword}
+              addSelectedKeyword={addSelectedKeyword}
+              deleteSelectedKeyword={deleteSelectedKeyword}
+              checkSelectedKeywords={checkSelectedKeywords}
+              isIncludeSelectedKeyword={isIncludeSelectedKeyword}
+              setKeywordbarState={setKeywordbarState}
+              setSelectedKeywords={setSelectedKeywords}
+              setFirstStart={setFirstStart}
+              keywordbarState={keywordbarState}
+              selectedKeywords={selectedKeywords}
+              firstStart={firstStart}
+              setSelectedCategory={setSelectedCategory}
+              isIncludeSelectedCategory={isIncludeSelectedCategory}
+            />
+            {searchInput == "" &&
+            searchKeywords.category.length == 0 &&
+            searchKeywords.genre.length == 0 &&
+            searchKeywords.platform.length == 0 &&
+            searchKeywords.keyword.length == 0 ? (
+              <div className="result_title"></div>
+            ) : (
+              <div className="result_title">
+                검색 결과는 총 {allSearchResultLength} 개 입니다.
+              </div>
+            )}
 
-        <div className="mWata_list">
-          {searchResult.map((w) => {
-            if (w.isDelete != "Y") {
-              let bookmark = false;
-              //북마크인 것 노란 마크 하기 위해...
-              loadLocalStorage(BOOKMARK_LIST).map((i) => {
-                if (w.wata_id == i) {
-                  bookmark = true;
+            <div className="mWata_list">
+              {searchResult.map((w) => {
+                if (w.isDelete != "Y") {
+                  let bookmark = false;
+                  //북마크인 것 노란 마크 하기 위해...
+                  loadLocalStorage(BOOKMARK_LIST).map((i) => {
+                    if (w.wata_id == i) {
+                      bookmark = true;
+                    }
+                  });
+
+                  return (
+                    <MoWata
+                      key={w.wata_id}
+                      wata_id={w.wata_id}
+                      title={w.title}
+                      creator={w.creator}
+                      category={w.category}
+                      genre={w.genre}
+                      keywords={w.keywords}
+                      cautions={w.cautions}
+                      platforms={w.platforms}
+                      thumnail={w.thumnail}
+                      bookmark={bookmark}
+                      add_bookmark={addBookmark}
+                      delete_bookmark={deleteBookmark}
+                      overlay={
+                        overlayInfo.id == w.wata_id ? overlayInfo.state : false
+                      }
+                      setOverlayInfo={setOverlayInfo}
+                    />
+                  );
                 }
-              });
-
-              return (
-                <MoWata
-                  key={w.wata_id}
-                  wata_id={w.wata_id}
-                  title={w.title}
-                  creator={w.creator}
-                  category={w.category}
-                  genre={w.genre}
-                  keywords={w.keywords}
-                  cautions={w.cautions}
-                  platforms={w.platforms}
-                  thumnail={w.thumnail}
-                  bookmark={bookmark}
-                  add_bookmark={addBookmark}
-                  delete_bookmark={deleteBookmark}
-                  overlay={
-                    overlayInfo.id == w.wata_id ? overlayInfo.state : false
-                  }
-                  setOverlayInfo={setOverlayInfo}
-                />
-              );
-            }
-          })}
-        </div>
+              })}
+            </div>
+            <Pagination
+              watasPerPage={pageInfo.watasPerPage}
+              pageNumbers={makePageNumbers(allSearchResultLength)}
+              paginate={paginate}
+              currentPageNumber={pageInfo.currentPage}
+              searchResultLength={allSearchResultLength}
+            />
+          </>
+        )}
       </section>
-      <Pagination
-        watasPerPage={pageInfo.watasPerPage}
-        pageNumbers={makePageNumbers(allSearchResultLength)}
-        paginate={paginate}
-        currentPageNumber={pageInfo.currentPage}
-        searchResultLength={allSearchResultLength}
-      />
 
       {isBookmark ? (
         <div className="bookmark-share__container">

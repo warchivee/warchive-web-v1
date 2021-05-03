@@ -28,8 +28,9 @@ export default function mMenu(props) {
           <div
             className="mMenu-container__contents__row bookmark"
             onClick={() => {
-              props.open_bookmark();
+              props.setIsAbout(false);
               props.setIsMenu(false);
+              props.open_bookmark(true);
             }}
           >
             <i className="fas fa-star"></i>
@@ -41,6 +42,17 @@ export default function mMenu(props) {
           >
             <i className="fas fa-envelope"></i>
             <span className="label">추천작 제보/문의</span>
+          </div>
+          <div
+            className="mMenu-container__contents__row about"
+            onClick={() => {
+              props.open_bookmark(false);
+              props.setIsMenu(false);
+              props.setIsAbout(true);
+            }}
+          >
+            <i class="fas fa-question-circle"></i>
+            <span className="label">와카이브 소개</span>
           </div>
           <div className="mMenu-container__contents__row"></div>
         </div>

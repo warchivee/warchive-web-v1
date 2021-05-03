@@ -58,7 +58,7 @@
 }
 
 .mWata-contents__header .header__title {
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
 }
 
@@ -68,7 +68,7 @@
 }
 
 .mWata-contents__creator {
-  font-size: 13px;
+  font-size: 14px;
   opacity: 0.7;
 
   margin-bottom: 5px;
@@ -83,7 +83,7 @@
 
 .mWata-contents__keywords,
 .mWata-thumnail__cautions {
-  font-size: 12px;
+  font-size: 14px;
   opacity: 0.7;
   margin-top: 5px;
 }

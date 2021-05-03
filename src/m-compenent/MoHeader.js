@@ -22,7 +22,9 @@ export default function mHeader(props) {
               className={
                 props.isBookmark ? "bookmark open_bookmark" : "bookmark"
               }
-              onClick={props.open_bookmark}
+              onClick={() => {
+                props.open_bookmark(!props.isBookmark);
+              }}
             >
               <i className="fas fa-star"></i>
             </div>
