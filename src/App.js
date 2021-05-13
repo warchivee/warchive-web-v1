@@ -774,6 +774,9 @@ function App() {
         handleRecoContents={handleRecoContents}
         handleErrContents={handleErrContents}
         setTap={setTap}
+        init={initMail}
+        isDisabled={isDisabled}
+        setIsDisabled={setIsDisabled}
       />
 
       <section className="mContainer">
