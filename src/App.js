@@ -28,8 +28,8 @@ function App() {
   //==================== variable ====================
 
   //local storage name
-  const PAST_VIRSION_WATAS = "watas1";
-  const CURRENT_VERSION_WATAS = "watas2";
+  const PAST_VIRSION_WATAS = "watas2";
+  const CURRENT_VERSION_WATAS = "watas3";
   const BOOKMARK_LIST = "bookmarks";
 
   //state - wata
@@ -795,9 +795,10 @@ function App() {
               deleteSelectedKeyword={deleteSelectedKeyword}
               checkSelectedKeywords={checkSelectedKeywords}
               isIncludeSelectedKeyword={isIncludeSelectedKeyword}
-              setKeywordbarState={setKeywordbarState}
               setSelectedKeywords={setSelectedKeywords}
               setFirstStart={setFirstStart}
+              setKeywordbarState={setKeywordbarState}
+              selectedCategory={selectedCategory}
               keywordbarState={keywordbarState}
               selectedKeywords={selectedKeywords}
               firstStart={firstStart}
