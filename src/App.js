@@ -28,8 +28,8 @@ function App() {
   //==================== variable ====================
 
   //local storage name
-  const PAST_VIRSION_WATAS = "watas2";
-  const CURRENT_VERSION_WATAS = "watas3";
+  const PAST_VIRSION_WATAS = "watas3";
+  const CURRENT_VERSION_WATAS = "watas4";
   const BOOKMARK_LIST = "bookmarks";
 
   //state - wata
