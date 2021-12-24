@@ -364,7 +364,7 @@ function App() {
       let r = [];
       watas.filter((c) => {
         loadLocalStorage(BOOKMARK_LIST).map((b) => {
-          if (c.wata_id == b) {
+          if (c.id == b) {
             r.push(c);
           }
         });
@@ -676,10 +676,10 @@ function App() {
                 </div>
 
                 {searchInput == "" &&
-                searchKeywords.category.length == 0 &&
-                searchKeywords.genre.length == 0 &&
-                searchKeywords.platform.length == 0 &&
-                searchKeywords.keyword.length == 0 ? (
+                  searchKeywords.category.length == 0 &&
+                  searchKeywords.genre.length == 0 &&
+                  searchKeywords.platform.length == 0 &&
+                  searchKeywords.keyword.length == 0 ? (
                   <div className="result_title"></div>
                 ) : (
                   <div className="result_title">
@@ -693,15 +693,15 @@ function App() {
                       let bookmark = false;
                       //북마크인 것 노란 마크 하기 위해...
                       loadLocalStorage(BOOKMARK_LIST).map((i) => {
-                        if (w.wata_id == i) {
+                        if (w.id == i) {
                           bookmark = true;
                         }
                       });
 
                       return (
                         <Wata
-                          key={w.wata_id}
-                          wata_id={w.wata_id}
+                          key={w.id}
+                          wata_id={w.id}
                           title={w.title}
                           creator={w.creator}
                           category={w.category}
@@ -806,10 +806,10 @@ function App() {
               isIncludeSelectedCategory={isIncludeSelectedCategory}
             />
             {searchInput == "" &&
-            searchKeywords.category.length == 0 &&
-            searchKeywords.genre.length == 0 &&
-            searchKeywords.platform.length == 0 &&
-            searchKeywords.keyword.length == 0 ? (
+              searchKeywords.category.length == 0 &&
+              searchKeywords.genre.length == 0 &&
+              searchKeywords.platform.length == 0 &&
+              searchKeywords.keyword.length == 0 ? (
               <div className="result_title"></div>
             ) : (
               <div className="result_title">
@@ -823,15 +823,15 @@ function App() {
                   let bookmark = false;
                   //북마크인 것 노란 마크 하기 위해...
                   loadLocalStorage(BOOKMARK_LIST).map((i) => {
-                    if (w.wata_id == i) {
+                    if (w.id == i) {
                       bookmark = true;
                     }
                   });
 
                   return (
                     <MoWata
-                      key={w.wata_id}
-                      wata_id={w.wata_id}
+                      key={w.id}
+                      wata_id={w.id}
                       title={w.title}
                       creator={w.creator}
                       category={w.category}
@@ -844,7 +844,7 @@ function App() {
                       add_bookmark={addBookmark}
                       delete_bookmark={deleteBookmark}
                       overlay={
-                        overlayInfo.id == w.wata_id ? overlayInfo.state : false
+                        overlayInfo.id == w.id ? overlayInfo.state : false
                       }
                       setOverlayInfo={setOverlayInfo}
                     />
