@@ -30,7 +30,10 @@ function App() {
   //local storage name
   const PAST_VIRSION_WATAS = "watas4";
   const CURRENT_VERSION_WATAS = "watas5";
-  const BOOKMARK_LIST = "bookmarks";
+
+
+  const NEW_BOOKMARK_LIST = "newBookmarks";
+
 
   //state - wata
   const [watas, setWatas] = useState([]);
@@ -331,24 +334,24 @@ function App() {
   };
 
   const addBookmark = (id) => {
-    let lb = loadLocalStorage(BOOKMARK_LIST);
+    let lb = loadLocalStorage(NEW_BOOKMARK_LIST);
 
     if (!lb.includes(id)) {
       let b = [...lb, id];
       alert("북마크에 추가했습니다.");
-      saveLocalstorage(BOOKMARK_LIST, b);
+      saveLocalstorage(NEW_BOOKMARK_LIST, b);
       setBookmarks(b);
     }
   };
 
   const deleteBookmark = (id) => {
-    let lb = loadLocalStorage(BOOKMARK_LIST);
+    let lb = loadLocalStorage(NEW_BOOKMARK_LIST);
     let b = lb.filter((w) => {
       if (w != id) {
         return w;
       }
     });
-    saveLocalstorage(BOOKMARK_LIST, b);
+    saveLocalstorage(NEW_BOOKMARK_LIST, b);
     setBookmarks(b);
 
     alert("북마크에서 삭제했습니다.");
@@ -363,7 +366,7 @@ function App() {
     if (isBookmark) {
       let r = [];
       watas.filter((c) => {
-        loadLocalStorage(BOOKMARK_LIST).map((b) => {
+        loadLocalStorage(NEW_BOOKMARK_LIST).map((b) => {
           if (c.id == b) {
             r.push(c);
           }
@@ -692,7 +695,7 @@ function App() {
                     if (w.isDelete != "Y") {
                       let bookmark = false;
                       //북마크인 것 노란 마크 하기 위해...
-                      loadLocalStorage(BOOKMARK_LIST).map((i) => {
+                      loadLocalStorage(NEW_BOOKMARK_LIST).map((i) => {
                         if (w.id == i) {
                           bookmark = true;
                         }
@@ -822,7 +825,7 @@ function App() {
                 if (w.isDelete != "Y") {
                   let bookmark = false;
                   //북마크인 것 노란 마크 하기 위해...
-                  loadLocalStorage(BOOKMARK_LIST).map((i) => {
+                  loadLocalStorage(NEW_BOOKMARK_LIST).map((i) => {
                     if (w.id == i) {
                       bookmark = true;
                     }
