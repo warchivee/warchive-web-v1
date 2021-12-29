@@ -30,7 +30,7 @@ export default function About(props) {
             많음을 고려,
           </span>
           <span className="about-box__p">
-            여성서사의 계보를 기록하기 위해 발촉한 프로젝트 입니다.
+            여성서사의 계보를 기록하기 위해 발족한 프로젝트 입니다.
           </span>
         </div>
       </div>
