@@ -619,29 +619,15 @@ function App() {
     <div className="root_container">
       <Header
         open_bookmark={openBookmark}
-        open_mail={setMail}
+        open_mail={ () => {
+          window.open(
+            'https://docs.google.com/forms/d/e/1FAIpQLSfvn7m8JTfXCt57EkJLkXo66a6FB2ra0hzN9PE4CyVNZcuzHg/viewform',
+            '_blank',
+          );
+        }}
         isBookmark={isBookmark}
         isAbout={isAbout}
         setIsAbout={setIsAbout}
-      />
-      <Mail
-        close_mail={setMail}
-        open_mail_flag={isMail}
-        tap={tap}
-        name={name}
-        email={email}
-        recoTem={recoTem}
-        errTem={errTem}
-        recoContents={recoContents}
-        errContents={errContents}
-        handleName={handleName}
-        handleEmail={handleEmail}
-        handleRecoContents={handleRecoContents}
-        handleErrContents={handleErrContents}
-        setTap={setTap}
-        init={initMail}
-        isDisabled={isDisabled}
-        setIsDisabled={setIsDisabled}
       />
 
       <section className="container">
