@@ -69,7 +69,6 @@ function App() {
   //state - ui 조정
   const [overlayInfo, setOverlayInfo] = useState({ id: "", state: false });
   const [isMenu, setIsMenu] = useState(false);
-  const [isMail, setIsMail] = useState(false);
   const [isAbout, setIsAbout] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isLander, setIsLander] = useState(false);
@@ -81,19 +80,6 @@ function App() {
     watasPerPage: 12,
     pageLimit: 2,
   });
-
-  //sate - mailform
-  const [isDisabled, setIsDisabled] = useState(false);
-  const [tap, setTap] = useState(true); //t = 추천작제보, f = 문의
-  const errTem = ``;
-  const recoTem = `제목:
-키워드: 
-플랫폼: 
-간단소개: `;
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [recoContents, setRecoContents] = useState(recoTem);
-  const [errContents, setErrContents] = useState("");
 
   //==================== module ====================
 
@@ -151,6 +137,13 @@ function App() {
     return arr.filter((v) => {
       if (v != value) return v;
     });
+  };
+
+  const openEmailForm =  () => {
+    window.open(
+      'https://docs.google.com/forms/d/e/1FAIpQLSfvn7m8JTfXCt57EkJLkXo66a6FB2ra0hzN9PE4CyVNZcuzHg/viewform',
+      '_blank',
+    );
   };
 
   //==================== handler method ====================
@@ -225,13 +218,6 @@ function App() {
     return false;
   };
 
-  const initMail = () => {
-    setEmail("");
-    setName("");
-    setErrContents(errTem);
-    setRecoContents(recoTem);
-  };
-
   const searchKeywordbar = (type, action, value) => {
     setSearchInput("");
     setPageInfo({
@@ -292,27 +278,6 @@ function App() {
         keyword: [],
       });
     }
-  };
-
-  //email
-  const setMail = (isOpen) => {
-    setIsMail(isOpen);
-  };
-
-  const handleName = (e) => {
-    setName(e.target.value);
-  };
-
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const handleRecoContents = (e) => {
-    setRecoContents(e.target.value);
-  };
-
-  const handleErrContents = (e) => {
-    setErrContents(e.target.value);
   };
 
   //bookmark
@@ -619,12 +584,7 @@ function App() {
     <div className="root_container">
       <Header
         open_bookmark={openBookmark}
-        open_mail={ () => {
-          window.open(
-            'https://docs.google.com/forms/d/e/1FAIpQLSfvn7m8JTfXCt57EkJLkXo66a6FB2ra0hzN9PE4CyVNZcuzHg/viewform',
-            '_blank',
-          );
-        }}
+        open_mail={openEmailForm}
         isBookmark={isBookmark}
         isAbout={isAbout}
         setIsAbout={setIsAbout}
@@ -743,29 +703,10 @@ function App() {
       <MoMenu
         isMenu={isMenu}
         setIsMenu={setIsMenu}
-        open_mail={setMail}
+        open_mail={openEmailForm}
         open_bookmark={openBookmark}
         setIsAbout={setIsAbout}
         isAbout={isAbout}
-      />
-      <Mail
-        close_mail={setMail}
-        open_mail_flag={isMail}
-        tap={tap}
-        name={name}
-        email={email}
-        recoTem={recoTem}
-        errTem={errTem}
-        recoContents={recoContents}
-        errContents={errContents}
-        handleName={handleName}
-        handleEmail={handleEmail}
-        handleRecoContents={handleRecoContents}
-        handleErrContents={handleErrContents}
-        setTap={setTap}
-        init={initMail}
-        isDisabled={isDisabled}
-        setIsDisabled={setIsDisabled}
       />
 
       <section className="mContainer">
