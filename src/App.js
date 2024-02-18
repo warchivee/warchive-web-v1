@@ -7,7 +7,6 @@ import { useMediaQuery } from "react-responsive";
 //pc 컴포넌트
 import Wata from "./component/wata/Wata";
 import Header from "./component/header/Header";
-import Mail from "./component/mail/Mailpopup";
 import Loader from "./component/loader/Loader";
 import SearchBar from "./component/search/SearchBar";
 import KeywordBar from "./component/search/KeywordBar";
