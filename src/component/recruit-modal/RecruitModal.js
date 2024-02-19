@@ -40,9 +40,10 @@ const RecruitModal = ({isOpen, setIsOpen}) => {
       {isOpen && (
         <div className="recruit__overlay">
           <div className="recruit__modal">
-            <span className="recruit__close_top" onClick={toggleModal}>
-              &times;
-            </span>
+            <div className="recruit__close_top">
+              <div>*이미지를 클릭하면 확대됩니다.</div>
+              <i class="fa-solid fa-x"  onClick={toggleModal}></i>
+            </div>
 
             <a href={"/recruit.png"} target="_blank" rel="noreferrer">
               <img src={"/recruit.png"} alt='모집공고' />

@@ -13,6 +13,7 @@ import KeywordBar from "./component/search/KeywordBar";
 import Pagination from "./component/pagination/Pagination";
 import Footer from "./component/footer/Footer";
 import About from "./component/about/About";
+import RecruitModal from "./component/recruit-modal/RecruitModal";
 
 //mobile 컴포넌트
 import MoHeader from "./m-compenent/MoHeader";
@@ -22,6 +23,7 @@ import MoKeywordbar from "./m-compenent/MoKeywordbar";
 
 //css
 import "./App.css";
+import todayModalHandler from "./util/modal.util";
 
 function App() {
   //==================== variable ====================
@@ -72,6 +74,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLander, setIsLander] = useState(false);
   const [firstStart, setFirstStart] = useState(true);
+  const [isOpenRecruitModal, setIsOpenRecruitModal] = useState(todayModalHandler.get());
 
   //state - pagination
   const [pageInfo, setPageInfo] = useState({
@@ -589,6 +592,8 @@ function App() {
         setIsAbout={setIsAbout}
       />
 
+      <RecruitModal isOpen={isOpenRecruitModal} setIsOpen={setIsOpenRecruitModal} />
+
       <section className="container">
         {isAbout ? (
           <About isPc={true} />
@@ -699,6 +704,9 @@ function App() {
         isBookmark={isBookmark}
         search_searchbar={searchSearchbar}
       />
+
+      <RecruitModal isOpen={isOpenRecruitModal} setIsOpen={setIsOpenRecruitModal} />
+
       <MoMenu
         isMenu={isMenu}
         setIsMenu={setIsMenu}
