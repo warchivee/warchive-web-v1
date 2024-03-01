@@ -62,8 +62,18 @@ export default function mMenu(props) {
               className="footer-contents-col__row sns-logo"
               href="https://twitter.com/Womynarchive"
               target="_blank"
+              rel="noreferrer"
             >
-              <i className="fab fa-twitter-square"></i>
+              <i class="fa-brands fa-twitter"></i>
+            </a>
+
+            <a
+              className="footer-contents-col__row sns-logo"
+              href="https://www.instagram.com/womynarchive"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <i class="fa-brands fa-instagram"></i>
             </a>
           </div>
           <div className="one-bar"></div>
