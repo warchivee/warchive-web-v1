@@ -64,7 +64,7 @@ export default function mMenu(props) {
               target="_blank"
               rel="noreferrer"
             >
-              <i class="fa-brands fa-twitter"></i>
+              <i class="fa-brands fa-x-twitter"></i>
             </a>
 
             <a
