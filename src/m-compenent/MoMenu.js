@@ -83,7 +83,7 @@ export default function mMenu(props) {
           </div>
           <div className="mMenu-container__footer__row">
             <span className="label">후원계좌</span>
-            <span className="text">우리 1002 343 024735 ㅇㅈㅇ</span>
+            <span className="text">신한은행 110-428-228720 ㅇㅈㅇ</span>
           </div>
         </div>
       </div>

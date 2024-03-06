@@ -12,7 +12,7 @@ export default function Footer() {
           </div>
           <div className="footer-contents-col__row">
             <span className="account-label">후원계좌</span>
-            <span className="account">우리 1002 343 024735 ㅇㅈㅇ</span>
+            <span className="account">신한은행 110-428-228720 ㅇㅈㅇ</span>
           </div>
         </div>
         <div className="footer-contents__col sns">
