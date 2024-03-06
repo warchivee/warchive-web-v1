@@ -29,12 +29,10 @@ function App() {
   //==================== variable ====================
 
   //local storage name
-  const PAST_VIRSION_WATAS = "watas5";
-  const CURRENT_VERSION_WATAS = "watas6";
-
+  const PAST_VIRSION_WATAS = "watas6";
+  const CURRENT_VERSION_WATAS = "watas7";
 
   const NEW_BOOKMARK_LIST = "newBookmarks";
-
 
   //state - wata
   const [watas, setWatas] = useState([]);
@@ -74,7 +72,9 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [isLander, setIsLander] = useState(false);
   const [firstStart, setFirstStart] = useState(true);
-  const [isOpenRecruitModal, setIsOpenRecruitModal] = useState(todayModalHandler.get());
+  const [isOpenRecruitModal, setIsOpenRecruitModal] = useState(
+    todayModalHandler.get()
+  );
 
   //state - pagination
   const [pageInfo, setPageInfo] = useState({
@@ -141,10 +141,10 @@ function App() {
     });
   };
 
-  const openEmailForm =  () => {
+  const openEmailForm = () => {
     window.open(
-      'https://docs.google.com/forms/d/e/1FAIpQLSfvn7m8JTfXCt57EkJLkXo66a6FB2ra0hzN9PE4CyVNZcuzHg/viewform',
-      '_blank',
+      "https://docs.google.com/forms/d/e/1FAIpQLSfvn7m8JTfXCt57EkJLkXo66a6FB2ra0hzN9PE4CyVNZcuzHg/viewform",
+      "_blank"
     );
   };
 
@@ -592,7 +592,10 @@ function App() {
         setIsAbout={setIsAbout}
       />
 
-      <RecruitModal isOpen={isOpenRecruitModal} setIsOpen={setIsOpenRecruitModal} />
+      <RecruitModal
+        isOpen={isOpenRecruitModal}
+        setIsOpen={setIsOpenRecruitModal}
+      />
 
       <section className="container">
         {isAbout ? (
@@ -629,10 +632,10 @@ function App() {
                 </div>
 
                 {searchInput == "" &&
-                  searchKeywords.category.length == 0 &&
-                  searchKeywords.genre.length == 0 &&
-                  searchKeywords.platform.length == 0 &&
-                  searchKeywords.keyword.length == 0 ? (
+                searchKeywords.category.length == 0 &&
+                searchKeywords.genre.length == 0 &&
+                searchKeywords.platform.length == 0 &&
+                searchKeywords.keyword.length == 0 ? (
                   <div className="result_title"></div>
                 ) : (
                   <div className="result_title">
@@ -705,7 +708,10 @@ function App() {
         search_searchbar={searchSearchbar}
       />
 
-      <RecruitModal isOpen={isOpenRecruitModal} setIsOpen={setIsOpenRecruitModal} />
+      <RecruitModal
+        isOpen={isOpenRecruitModal}
+        setIsOpen={setIsOpenRecruitModal}
+      />
 
       <MoMenu
         isMenu={isMenu}
@@ -743,10 +749,10 @@ function App() {
               isIncludeSelectedCategory={isIncludeSelectedCategory}
             />
             {searchInput == "" &&
-              searchKeywords.category.length == 0 &&
-              searchKeywords.genre.length == 0 &&
-              searchKeywords.platform.length == 0 &&
-              searchKeywords.keyword.length == 0 ? (
+            searchKeywords.category.length == 0 &&
+            searchKeywords.genre.length == 0 &&
+            searchKeywords.platform.length == 0 &&
+            searchKeywords.keyword.length == 0 ? (
               <div className="result_title"></div>
             ) : (
               <div className="result_title">
