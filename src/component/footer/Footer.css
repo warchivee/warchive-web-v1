@@ -45,6 +45,6 @@
 
 .footer-contents__col .sns-logo {
   font-size: 20px;
-  color: #ebdbf3;
+  color: rgba(255, 255, 255, 0.8);
   margin: 10px;
 }
