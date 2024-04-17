@@ -29,8 +29,7 @@ function App() {
   //==================== variable ====================
 
   //local storage name
-  const PAST_VIRSION_WATAS = "watas7";
-  const CURRENT_VERSION_WATAS = "watas8";
+  const CURRENT_VERSION_WATAS = "9";
 
   const NEW_BOOKMARK_LIST = "newBookmarks";
 
@@ -521,7 +520,9 @@ function App() {
 
   useEffect(() => {
     let isLoding = false;
-    const current_version_watas = loadLocalStorage(CURRENT_VERSION_WATAS);
+    const current_version_watas = loadLocalStorage(
+      `wata${CURRENT_VERSION_WATAS}`
+    );
 
     async function get() {
       let axios_watas = [];
@@ -531,7 +532,8 @@ function App() {
         current_version_watas == null ||
         current_version_watas.length == 0
       ) {
-        localStorage.removeItem(PAST_VIRSION_WATAS);
+        localStorage.clear();
+
         const { data: result } = await axios.get(
           "http://warchive.pythonanywhere.com/api/?type=data"
         );
